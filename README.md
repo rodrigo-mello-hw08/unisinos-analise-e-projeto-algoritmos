@@ -7,4 +7,4 @@
 **Professora**: Maria Adelina Raupp Sganzerla
 
 ## Exercicios
-- [Aula 1](https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/aula1)
+- [Aula 1](https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/blob/main/Aula01/main.cpp)
