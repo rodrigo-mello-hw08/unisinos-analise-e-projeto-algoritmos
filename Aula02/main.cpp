@@ -134,44 +134,49 @@ int main()
 
     Timing geral, gerar, ordenar, primos, ordenar_ordenado, primos_ordenado;
     int qtd_primos = 0, qtd_primos_ordenado = 0;
+    int qtd_comp = 0, qtd_comp_ordenado = 0;
 
     geral.start();
     gerar.start();
     vec = CreateRandomWithDuplicates(MAX_N,MAX_I);
     gerar.stop();
-
+    
     primos.start();
     calc_primes(vec,ans1);
     primos.stop();
-
-    qtd_primos = ans1.size();
     
+    qtd_primos = ans1.size();
     COMP_QTD = 0;
-
+    
     ordenar.start();
     sort(vec);
     ordenar.stop();
+    qtd_comp = COMP_QTD;
     
     primos_ordenado.start();
     calc_primes(vec,ans2);
     primos_ordenado.stop();
-
+    
     qtd_primos_ordenado = ans2.size();
-
+    
+    COMP_QTD = 0;
     ordenar_ordenado.start();
     sort(vec);
     ordenar_ordenado.stop();
+    qtd_comp_ordenado = COMP_QTD;
     
     geral.stop();
 
-    std::cout << "Tempo geral               : " << geral.getTime() << " ms\n";
-    std::cout << "Tempo gerar               : " << gerar.getTime() << " ms\n";
-    std::cout << "Tempo ordenar             : " << ordenar.getTime() << " ms\n";
-    std::cout << "Tempo primos              : " << primos.getTime() << " ms\n";
-    std::cout << "Tempo ordenar_ordenado    : " << ordenar_ordenado.getTime() << " ms\n";
-    std::cout << "Tempo primos_ordenado     : " << primos_ordenado.getTime() << " ms\n";
-    std::cout << "Quantidade primos         : " << qtd_primos << "\n";
-    std::cout << "Quantidade primos ordenado: " << qtd_primos_ordenado << "\n";
+    std::cout << "Tempo geral                    : " << geral.getTime() << " ms\n";
+    std::cout << "Tempo gerar                    : " << gerar.getTime() << " ms\n";
+    std::cout << "Tempo ordenar                  : " << ordenar.getTime() << " ms\n";
+    std::cout << "Tempo primos                   : " << primos.getTime() << " ms\n";
+    std::cout << "Tempo ordenar_ordenado         : " << ordenar_ordenado.getTime() << " ms\n";
+    std::cout << "Tempo primos_ordenado          : " << primos_ordenado.getTime() << " ms\n";
+    std::cout << "Quantidade comparacoes         : " << qtd_comp << "\n";
+    std::cout << "Quantidade comparacoes ordenado: " << qtd_comp_ordenado << "\n";
+    std::cout << "Quantidade primos              : " << qtd_primos << "\n";
+    std::cout << "Quantidade primos ordenado     : " << qtd_primos_ordenado << "\n";
     
     
     return 0;
