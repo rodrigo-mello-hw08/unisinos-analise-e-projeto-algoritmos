@@ -2,6 +2,7 @@
 #include <vector>
 #include <random>
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 
@@ -24,23 +25,43 @@ std::vector<int> CreateRandomWithDuplicates(int size, int maxValue) {
 }
 
 
-void conquer(std::vector<int> &a, std::vector<int> &aux, int low, int middle, int high) {
-    for (int k = low; k <= high; k++) aux[k] = a[k];
+int COMP_QTD = 0;
 
+void conquer(std::vector<int> &a, std::vector<int> &aux, int low, int middle, int high) {
+    
+    COMP_QTD++;
+    for (int k = low; k <= high; k++) {
+        COMP_QTD++;
+        aux[k] = a[k];
+    }
+    
     int i = low;
     int j = middle + 1;
-
+    
+    COMP_QTD++;
     for (int k = low; k <= high; k++) {
-        if      (i > middle)       a[k] = aux[j++];
-        else if (j > high)         a[k] = aux[i++];
-        else if (aux[j] < aux[i])  a[k] = aux[j++];
-        else                       a[k] = aux[i++];
+        COMP_QTD++;
+        if (i > middle) {
+            COMP_QTD++;
+            a[k] = aux[j++];
+        } else if (j > high) {
+            COMP_QTD++;
+            a[k] = aux[i++];
+        } else if (aux[j] < aux[i]) {
+            COMP_QTD++;
+            a[k] = aux[j++];
+        } else {
+            a[k] = aux[i++];
+        }
     }
     
 }
 
 void divide(std::vector<int> &a, std::vector<int> &aux, int low, int high) {
-    if (low >= high) return;
+    if (low >= high) { 
+        COMP_QTD++;
+        return;
+    }
 
     int middle = (low + high) / 2;
     divide(a, aux, low, middle);
@@ -71,57 +92,87 @@ vector<bool> sieve(int n) {
 }
 
 
-constexpr MAX_N = 10000;
-constexpr MAX_I = 15000;
+constexpr int MAX_N = 100000;
+constexpr int MAX_I = 15000;
+vector<bool> is_prime;
 
-void print_primes(vector<int>& vec){
-    static vector<bool> is_prime = sieve(MAX_I);   
-    
+void calc_primes(vector<int>& vec, vector<int>& ans){
+
     for(int i : vec){
-        if(is_prime[i]) cout << i << "\n";
+        if(is_prime[i]) ans.push_back(i);
     }
-    
 }
 
 void print_vec(vector<int>& vec){
     for(int i : vec) cout << i << "\n";
 }
 
+struct Timing
+{
+    std::chrono::steady_clock::time_point inicio, fim;
+
+    void start() {
+        inicio = std::chrono::steady_clock::now();
+    }
+    
+    void stop() {
+        fim = std::chrono::steady_clock::now();
+    }
+
+    double getTime(){
+        std::chrono::duration<double, std::milli> duracao = fim - inicio;
+        return duracao.count();
+    }
+};
+
 int main()
 {
-    vector<int> vec = CreateRandomWithDuplicates(MAX_N,MAX_I);
-    
-    int running = true;
-    while(running){
+    is_prime = sieve(MAX_I);
+    vector<int> vec;
+    vector<int> ans1; ans1.reserve(MAX_N);
+    vector<int> ans2; ans2.reserve(MAX_N);
 
-        cout << "\nSelecione uma opção:" << endl;   
-        cout << "1 - Gerar um Vetor novo" << endl;   
-        cout << "2 - Exibir o Vetor Atual" << endl;   
-        cout << "3 - Ordenar o Vetor Atual" << endl;   
-        cout << "4 - Exibir primos do Vetor Atual" << endl;   
-        cout << "0 - Sair" << endl;
-        cout << "> ";
-        
-        int choice;
-        cin >> choice;
-        
-        switch(choice){
-            case 0:
-                running = false;
-                break;
-            case 1:
-                vec = CreateRandomWithDuplicates(MAX_N,MAX_I);
-                break;
-            case 2:
-                print_vec(vec);
-                break;
-            case 3:
-                sort(vec);
-                break;
-            case 4:
-                print_primes(vec);
-                break;
-        }
-    }
+    Timing geral, gerar, ordenar, primos, ordenar_ordenado, primos_ordenado;
+    int qtd_primos = 0, qtd_primos_ordenado = 0;
+
+    geral.start();
+    gerar.start();
+    vec = CreateRandomWithDuplicates(MAX_N,MAX_I);
+    gerar.stop();
+
+    primos.start();
+    calc_primes(vec,ans1);
+    primos.stop();
+
+    qtd_primos = ans1.size();
+    
+    COMP_QTD = 0;
+
+    ordenar.start();
+    sort(vec);
+    ordenar.stop();
+    
+    primos_ordenado.start();
+    calc_primes(vec,ans2);
+    primos_ordenado.stop();
+
+    qtd_primos_ordenado = ans2.size();
+
+    ordenar_ordenado.start();
+    sort(vec);
+    ordenar_ordenado.stop();
+    
+    geral.stop();
+
+    std::cout << "Tempo geral               : " << geral.getTime() << " ms\n";
+    std::cout << "Tempo gerar               : " << gerar.getTime() << " ms\n";
+    std::cout << "Tempo ordenar             : " << ordenar.getTime() << " ms\n";
+    std::cout << "Tempo primos              : " << primos.getTime() << " ms\n";
+    std::cout << "Tempo ordenar_ordenado    : " << ordenar_ordenado.getTime() << " ms\n";
+    std::cout << "Tempo primos_ordenado     : " << primos_ordenado.getTime() << " ms\n";
+    std::cout << "Quantidade primos         : " << qtd_primos << "\n";
+    std::cout << "Quantidade primos ordenado: " << qtd_primos_ordenado << "\n";
+    
+    
     return 0;
 }
