@@ -1,13 +1,15 @@
 import ordenacao.BubbleSort;
+import ordenacao.Generator;
 import ordenacao.InsertSort;
 
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        BubbleSort.sort(new int[]{2, 3, 10, 1});
-        System.out.println("---- Insertion ----");
-        int[] sorted = InsertSort.sort(new int[]{2, 3, 10, 1});
-        System.out.println(Arrays.toString(sorted));
+        int[] arr1000 = Generator.generateArray(1000);
+
+        System.out.println("Array antes da ordenacao: " + Arrays.toString(arr1000));
+
+        System.out.println("Array depois da ordenacao: " + Arrays.toString(BubbleSort.sort(arr1000)));
     }
 }
