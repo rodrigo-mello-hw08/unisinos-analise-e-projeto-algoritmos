@@ -1,8 +1,8 @@
 package ordenacao;
 
 public class Generator {
-    public static final int MINIMO = -10000;
-    public static final int MAXIMO = 10000;
+    public static final int MINIMO = 0;
+    public static final int MAXIMO = 10500;
 
     public static int[] generateArray(int size) {
         int[] arr = new int[size];
