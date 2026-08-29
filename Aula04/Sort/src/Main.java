@@ -3,7 +3,6 @@ import infra.Generator;
 
 
 import java.util.*;
-import java.util.function.Supplier;
 
 public class Main {
 
@@ -12,64 +11,58 @@ public class Main {
     public static final long STACK_SIZE_FOR_REAL = 512L * 1024 * 1024;
 
     public static final List<Integer> ENTRADAS = Arrays.asList(1000, 5000, 10000, 50000, 100000);
-    public static final List<SortAlg> algs = getAlgs();
-
-    private static List<SortAlg> getAlgs() {
-        return Arrays.asList(
-            new BubbleSort(),
-            new InsertSort(),
-            new ShellSort(),
-            new QuickSort(),
-            new MergeSort()
-        );
-    }
-
+    public static final List<SortAlg> ALGS = List.of(new BubbleSort(), new InsertSort(), new ShellSort(), new QuickSort(), new MergeSort());
 
     static void main(String[] args) throws Exception{
         // Tem que criar uma thread pro Windows não sacanear e capar o tamanho da Stack
-        Thread t = new Thread(null, () -> {
-            ENTRADAS.forEach(Main::comparacaoAlgoritimos);
-        }, "worker", STACK_SIZE_FOR_REAL);
+        Thread t = new Thread(null, Main::executarBenchmark, "worker", STACK_SIZE_FOR_REAL);
         t.start();
         t.join();
     }
 
-    private static void comparacaoAlgoritimos(Integer tamanhoEntrada) {
-        System.out.println("Gerando relatorio para entrada [" + tamanhoEntrada + "]");
+    private static void executarBenchmark() {
+        for (SortAlg alg : ALGS) {
+            benchmarkAlgoritmo(alg);
+        }
+    }
 
-        int[] arrayNaoOrdenado = medirTempo(
-                () -> Generator.generateArray(tamanhoEntrada),
-                "Geracao"
+    private static void benchmarkAlgoritmo(SortAlg alg) {
+        System.out.println();
+        System.out.println(alg.getNome());
+
+        System.out.println("Entrada\t"
+                + alg.getNome() + "\t"
+                + alg.getNome() + " Ordenado"
         );
 
-        algs.forEach( a -> extrairTempo(a, arrayNaoOrdenado));
+        for (Integer tamanhoEntrada : ENTRADAS) {
+            int[] arrayNaoOrdenado = Generator.generateArray(tamanhoEntrada);
+            medirTempos(alg, arrayNaoOrdenado, tamanhoEntrada);
+        }
 
         System.out.println(SEPARADOR);
     }
 
-    private static void extrairTempo(SortAlg alg, int[] arrayNaoOrdenado) {
+    private static void medirTempos(SortAlg alg, int[] arrayNaoOrdenado, int tamanhoEntrada) {
         int[] copiaArray = Arrays.copyOf(arrayNaoOrdenado, arrayNaoOrdenado.length);
 
-        int[] arrayOrdenado = medirTempo(
-                () -> alg.sort(copiaArray),
-                "Ordenação " + alg.getNome()
-        );
+        long inicio = System.nanoTime();
+        int[] arrayOrdenado = alg.sort(copiaArray);
+        double tempoNaoOrdenado = medirTempoDecorrido(inicio);
 
-        medirTempo(
-                () -> alg.sort(arrayOrdenado),
-                "Ordenação " + alg.getNome() + " ordenado"
+        inicio = System.nanoTime();
+        alg.sort(arrayOrdenado);
+        double tempoOrdenado = medirTempoDecorrido(inicio);
+
+        System.out.printf(LOCALE_PTBR,
+                "%d\t%.3f\t%.3f%n",
+                tamanhoEntrada,
+                tempoNaoOrdenado,
+                tempoOrdenado
         );
     }
 
-
-    private static <T> T medirTempo(Supplier<T> operacao, String nomeOperacao) {
-        long inicio = System.nanoTime();
-        T resultado = operacao.get();
-        long fim = System.nanoTime();
-        double tempoMs = (fim - inicio) / 1_000_000.0;
-
-        String mensagem = String.format(LOCALE_PTBR, "Tempo de %s: %.3f ms", nomeOperacao, tempoMs);
-        System.out.println(mensagem);
-        return resultado;
+    private static double medirTempoDecorrido(long inicio) {
+        return (System.nanoTime() - inicio) / 1_000_000.0;
     }
 }
