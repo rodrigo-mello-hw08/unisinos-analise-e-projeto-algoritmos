@@ -1,7 +1,7 @@
 package algorithms;
 
-public class MergeSort {
-    static void conquer(int[] a, int[] aux, int low, int middle, int high) {
+public class MergeSort implements SortAlg {
+    void conquer(int[] a, int[] aux, int low, int middle, int high) {
         for (int k = low; k <= high; k++) aux[k] = a[k];
 
         int i = low;
@@ -14,7 +14,7 @@ public class MergeSort {
         }
 
     }
-    static void divide(int[] a, int[] aux, int low, int high) {
+    void divide(int[] a, int[] aux, int low, int high) {
         if (low >= high) return;
 
         int middle = (low + high) / 2;
@@ -23,10 +23,16 @@ public class MergeSort {
         conquer(a, aux, low, middle, high);
     }
 
-    public static int[] sort(int[] arr){
+    @Override
+    public int[] sort(int[] arr){
         int n = arr.length;
         int[] aux = new int[n];
         divide(arr, aux, 0, n - 1);
         return arr;
+    }
+
+    @Override
+    public String getNome() {
+        return "Merge";
     }
 }

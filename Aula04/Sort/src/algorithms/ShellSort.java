@@ -1,7 +1,9 @@
 package algorithms;
 
-public class ShellSort {
-    public static int[] sort(int[] arr){
+public class ShellSort implements SortAlg {
+
+    @Override
+    public int[] sort(int[] arr){
         int n = arr.length;
         int[] gaps = {701, 301, 132, 57, 23, 10, 4, 1};
 
@@ -18,5 +20,10 @@ public class ShellSort {
             }
         }
         return arr;
+    }
+
+    @Override
+    public String getNome() {
+        return "Shell";
     }
 }

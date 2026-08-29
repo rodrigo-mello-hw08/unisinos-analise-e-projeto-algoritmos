@@ -1,7 +1,8 @@
 package algorithms;
 
-public class InsertSort {
-    public static int[] sort(int[] arr){
+public class InsertSort implements SortAlg {
+    @Override
+    public int[] sort(int[] arr){
         int n = arr.length;
         for(int i = 1; i< n; i++){
             int key = arr[i];
@@ -13,5 +14,10 @@ public class InsertSort {
             arr[j+1]=key;
         }
         return arr;
+    }
+
+    @Override
+    public String getNome() {
+        return "Insertion";
     }
 }

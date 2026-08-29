@@ -1,7 +1,9 @@
 package algorithms;
 
-public class BubbleSort {
-    public static int[] sort(int[] arr) {
+public class BubbleSort implements SortAlg {
+
+    @Override
+    public int[] sort(int[] arr) {
         int n = arr.length;
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
@@ -13,5 +15,10 @@ public class BubbleSort {
             }
         }
         return arr;
+    }
+
+    @Override
+    public String getNome() {
+        return "Bubble";
     }
 }
