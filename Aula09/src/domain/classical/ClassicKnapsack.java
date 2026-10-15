@@ -16,7 +16,7 @@ public class ClassicKnapsack extends Knapsack {
 
     public void fill(List<KnapsackItem> items) {
         usedCapacity = 0;
-        items.sort(Comparator.comparing(KnapsackItem::getValue).reversed());
+        items.sort(Comparator.<KnapsackItem>comparingDouble(item -> item.getValue() / item.getWeight()).reversed());
         while (usedCapacity <= maxCapacity) {
             double remainingCapacity =  maxCapacity - usedCapacity;
             KnapsackItem nextItem = findNextItem(items, remainingCapacity);
