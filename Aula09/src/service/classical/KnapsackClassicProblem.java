@@ -35,7 +35,10 @@ public class KnapsackClassicProblem implements KnapsackProblem {
         Knapsack result = measurement.getResult();
 
         List<KnapsackItem> orderedItems = new ArrayList<>(items);
-        orderedItems.sort(Comparator.comparingDouble(KnapsackItem::getValue).reversed());
+        orderedItems.sort(
+                Comparator.<KnapsackItem>comparingDouble(
+                        item -> item.getValue() / item.getWeight()).reversed()
+        );
 
         double usedWeight = 0;
         double totalValue = 0;
