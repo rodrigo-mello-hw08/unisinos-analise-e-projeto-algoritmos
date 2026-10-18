@@ -13,7 +13,7 @@ import java.util.List;
 
 public class KnapsackClassicProblem implements KnapsackProblem {
 
-    private static final int MAX_DECISIONS_TO_PRINT = 30;
+    private static final int MAX_DECISIONS_TO_PRINT = 10;
 
     private final double maxCapacity;
 
@@ -29,7 +29,7 @@ public class KnapsackClassicProblem implements KnapsackProblem {
     }
 
     public Knapsack evaluateAndPrint(String testName, List<KnapsackItem> items) {
-        System.out.println("\n--- " + testName + ": mochila classica (0/1) ---");
+        System.out.println("\n--- " + testName + ": mochila clássica (0/1) ---");
 
         ExecutionMeasurement<Knapsack> measurement = ExecutionTimer.measure(() -> resolve(items));
         Knapsack result = measurement.getResult();
@@ -58,11 +58,8 @@ public class KnapsackClassicProblem implements KnapsackProblem {
         }
 
         printOmittedDecisionCount(items.size(), decisionsPrinted);
-        System.out.println("Tipo de resultado retornado: " + result.getClass().getSimpleName());
-        System.out.printf("Itens selecionados: %d%n", selectedCount);
-        System.out.printf("Peso utilizado: %.2f / %.2f%n", usedWeight, maxCapacity);
-        System.out.printf("Valor total: %.2f%n", totalValue);
-        System.out.printf("Tempo de execucao: %.3f ms%n", measurement.getElapsedMilliseconds());
+        printSummary(result, "Itens selecionados", selectedCount, usedWeight,
+                maxCapacity, totalValue, measurement.getElapsedMilliseconds());
         return result;
     }
 
@@ -75,7 +72,7 @@ public class KnapsackClassicProblem implements KnapsackProblem {
                 );
             } else {
                 System.out.printf(
-                        "Ignorado: %s (nao cabe; peso=%.2f, capacidade restante=%.2f)%n",
+                        "Ignorado: %s (não cabe; peso=%.2f, capacidade restante=%.2f)%n",
                         item.getName(), item.getWeight(), maxCapacity - usedWeight
                 );
             }
@@ -91,7 +88,7 @@ public class KnapsackClassicProblem implements KnapsackProblem {
     private void printOmittedDecisionCount(int itemCount, int decisionsPrinted) {
         if (itemCount > MAX_DECISIONS_TO_PRINT
                 && decisionsPrinted >= MAX_DECISIONS_TO_PRINT) {
-            System.out.println("Demais decisoes omitidas para manter a saida legivel.");
+            System.out.println("As demais decisões foram omitidas para manter a saída legível.");
         }
     }
 }
