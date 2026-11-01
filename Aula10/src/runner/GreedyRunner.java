@@ -5,6 +5,7 @@ import domain.classical.greedy.KnapsackItem;
 import service.classical.greedy.KnapsackClassicProblem;
 import service.classical.greedy.KnapsackOptimalSolver;
 import service.fractional.KnapsackFractionalProblem;
+import util.CommonPrints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,9 @@ public class GreedyRunner {
         Locale.setDefault(Locale.US);
 
         runGreedyVersusOptimalDemonstration();
-        runTest("Teste 1 — Instância pequena", 10, createSmallInstance());
-        runTest("Teste 2 — Instância média", 100, createMediumInstance());
-        runTest("Teste 3 — Instância grande", 500, createLargeInstance(2_000));
+        runTest("Teste 1 — Instância pequena", 10, KnapsackInstances.createSmallInstance());
+        runTest("Teste 2 — Instância média", 100, KnapsackInstances.createMediumInstance());
+        runTest("Teste 3 — Instância grande", 500, KnapsackInstances.createLargeInstance());
     }
 
     private static void runGreedyVersusOptimalDemonstration() {
@@ -30,7 +31,7 @@ public class GreedyRunner {
         items.add(new KnapsackItem("B", 2, 3));
         items.add(new KnapsackItem("C", 2, 3));
 
-        printHeadlineMessage("Demonstração: solução gulosa e solução ótima (mochila clássica 0/1)");
+        CommonPrints.printHeadline("Demonstração: solução gulosa e solução ótima (mochila clássica 0/1)");
         System.out.printf("Capacidade da mochila: %.2f%n", capacity);
         System.out.println("Dados de entrada:");
         for (KnapsackItem item : items) {
@@ -60,7 +61,7 @@ public class GreedyRunner {
     }
 
     private static void runTest(String testName, double capacity, List<KnapsackItem> items) {
-        printHeadlineMessage(testName);
+        CommonPrints.printHeadline(testName);
         System.out.printf("Capacidade da mochila: %.2f%n", capacity);
         System.out.println("Quantidade de itens: " + items.size());
         printInput(items);
@@ -83,40 +84,5 @@ public class GreedyRunner {
         }
     }
 
-    private static List<KnapsackItem> createMediumInstance() {
-        return createGeneratedInstance(100, 20, 5, 17, 100);
-    }
 
-    private static List<KnapsackItem> createLargeInstance(int itemCount) {
-        return createGeneratedInstance(itemCount, 50, 10, 37, 500);
-    }
-
-    private static List<KnapsackItem> createGeneratedInstance(int itemCount, int weightModulo,
-                                                              int valueOffset, int valueMultiplier, int valueModulo) {
-        List<KnapsackItem> items = new ArrayList<>();
-
-        for (int i = 1; i <= itemCount; i++) {
-            double weight = 1 + (i % weightModulo);
-            double value = valueOffset + ((i * valueMultiplier) % valueModulo);
-            items.add(new KnapsackItem("Item-" + i, weight, value));
-        }
-
-        return items;
-    }
-
-    private static List<KnapsackItem> createSmallInstance() {
-        List<KnapsackItem> items = new ArrayList<>();
-        items.add(new KnapsackItem("A", 2, 10));
-        items.add(new KnapsackItem("B", 3, 14));
-        items.add(new KnapsackItem("C", 5, 25));
-        items.add(new KnapsackItem("D", 4, 16));
-        items.add(new KnapsackItem("E", 1, 3));
-        return items;
-    }
-
-    private static void printHeadlineMessage(String headline) {
-        System.out.println("\n==========================================================================");
-        System.out.println(headline);
-        System.out.println("==========================================================================");
-    }
 }
