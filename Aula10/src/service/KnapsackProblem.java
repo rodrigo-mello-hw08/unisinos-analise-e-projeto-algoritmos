@@ -1,7 +1,7 @@
 package service;
 
 import domain.Knapsack;
-import domain.classical.KnapsackItem;
+import domain.classical.greedy.KnapsackItem;
 
 import java.util.List;
 

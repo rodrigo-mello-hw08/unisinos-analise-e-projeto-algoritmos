@@ -1,8 +1,8 @@
-package service.classical;
+package service.classical.greedy;
 
 import domain.Knapsack;
-import domain.classical.ClassicKnapsack;
-import domain.classical.KnapsackItem;
+import domain.classical.greedy.ClassicKnapsack;
+import domain.classical.greedy.KnapsackItem;
 import service.KnapsackProblem;
 import util.ExecutionMeasurement;
 import util.ExecutionTimer;

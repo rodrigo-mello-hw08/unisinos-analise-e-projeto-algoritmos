@@ -1,7 +1,7 @@
 package service.fractional;
 
 import domain.Knapsack;
-import domain.classical.KnapsackItem;
+import domain.classical.greedy.KnapsackItem;
 import domain.fractional.FractionalKnapsack;
 import service.KnapsackProblem;
 import util.ExecutionMeasurement;

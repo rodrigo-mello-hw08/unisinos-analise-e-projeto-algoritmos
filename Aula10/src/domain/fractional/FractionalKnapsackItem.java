@@ -1,6 +1,6 @@
 package domain.fractional;
 
-import domain.classical.KnapsackItem;
+import domain.classical.greedy.KnapsackItem;
 
 public class FractionalKnapsackItem extends KnapsackItem {
 

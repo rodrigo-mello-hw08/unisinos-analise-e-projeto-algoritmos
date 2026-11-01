@@ -1,4 +1,4 @@
-package domain.classical;
+package domain.classical.greedy;
 
 import domain.Knapsack;
 

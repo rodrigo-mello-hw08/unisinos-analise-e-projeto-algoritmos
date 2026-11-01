@@ -1,6 +1,6 @@
-package service.classical;
+package service.classical.greedy;
 
-import domain.classical.KnapsackItem;
+import domain.classical.greedy.KnapsackItem;
 
 import java.util.ArrayList;
 import java.util.List;
