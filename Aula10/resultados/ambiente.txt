@@ -1,0 +1,8 @@
+﻿Data: 2026-11-06 17:02:57
+SO: Microsoft Windows 11 Home (versao 10.0.26300, build 26300)
+CPU: AMD Ryzen 7 5700X 8-Core Processor (8 nucleos / 16 threads)
+RAM: 23,9 GB
+--- java -version ---
+openjdk version "21.0.12.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Corretto-21.0.12.9.1 (build 21.0.12.1+9-LTS)
+OpenJDK 64-Bit Server VM Corretto-21.0.12.9.1 (build 21.0.12.1+9-LTS, mixed mode, sharing)

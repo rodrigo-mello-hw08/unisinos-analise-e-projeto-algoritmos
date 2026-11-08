@@ -12,3 +12,4 @@
 - [Aula 3](https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/blob/main/Aula03/Sort/src/Main.java)
 - [Aula 4](https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/blob/main/Aula04/Sort/src/Main.java)
 - [Aula 9](https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/blob/main/Aula09/src/Main.java)
+- [Aula 10](https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/tree/main/Aula10) — Programação Dinâmica × Guloso (mochila); ver `Aula10/README.md`
