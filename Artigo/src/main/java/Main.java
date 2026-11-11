@@ -22,7 +22,7 @@ public class Main {
         runNQueens(report, new int[]{4, 5, 6, 7});
         runTsp(report, new int[]{1, 2, 4, 6, 8, 10});
 
-        Path output = Path.of("resources", "resultados-busca.csv");
+        Path output = Path.of("target", "results", "resultados-busca.csv");
         Files.createDirectories(output.getParent());
         report.writeTo(output);
         System.out.println("CSV: " + output.toAbsolutePath());

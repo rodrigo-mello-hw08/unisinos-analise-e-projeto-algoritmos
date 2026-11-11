@@ -1,246 +1,82 @@
-# Planos de Execução — Análise do Impacto das Estratégias de Poda
+﻿# Plano 3 — Testes experimentais: N-Queens e caixeiro viajante
 
-**Projeto:** Análise do Impacto das Estratégias de Poda no Desempenho de Algoritmos de Busca: Um Estudo sobre os Problemas da Mochila e das N Rainhas
+**Projeto:** Análise do impacto das estratégias de poda em algoritmos de busca, aplicada exclusivamente ao problema das N rainhas (N-Queens) e ao problema do caixeiro viajante (TSP).
 
-**Tecnologias:** Java 21, Maven, JUnit 5 (JUnit Jupiter) e exportação de resultados em CSV.
+**Tecnologias:** Java 21, Maven, JUnit 5 e exportação dos resultados em CSV.
 
-## Plano 3 — Testes automatizados com JUnit 5 e baterias experimentais
+## 1. Objetivo
 
-### 1. Objetivo
+Validar a correção dos algoritmos de força bruta, backtracking e Branch and Bound para N-Queens e TSP e coletar dados reprodutíveis sobre nós explorados, tentativas, podas e tempo. O escopo deste plano contém somente esses dois problemas.
 
-Implementar testes automatizados para validar a correção dos algoritmos, garantir a consistência das métricas e coletar dados experimentais sobre o impacto das estratégias de poda nos problemas das N rainhas e da mochila 0/1.
+O `Main.java` atual já executa as três variantes para N-Queens (`N = 4, 5, 6, 7`) e TSP (`1, 2, 4, 6, 8, 10` cidades), compara custos ótimos do TSP, valida o formato das rotas e gera `resources/resultados-busca.csv`. As baterias abaixo ampliam e organizam essa execução, preservando conjuntos comparáveis entre algoritmos.
 
-Os testes serão desenvolvidos utilizando JUnit Jupiter, compatível com Java 21.
+## 2. Organização e medição
 
-### 2. Separação entre testes de correção e experimentos
+Separar testes de correção das baterias de desempenho. Testes de correção verificam resultados conhecidos, validade das soluções/rotas, igualdade entre variantes e consistência de métricas. Experimentos registram dados; não devem falhar por variação de tempo.
 
-Organizar os testes em duas categorias.
+Medir com `System.nanoTime()`, aquecer a JVM antes das medições e manter geração de instâncias e escrita do CSV fora da região cronometrada. Usar a mesma instância TSP para todos os algoritmos comparados. Repetir execuções determinísticas e reportar resultados brutos e mediana por configuração. Se houver geração aleatória, fixar e registrar a semente; confirmar se o gerador atual aceita semente ou tornar explícita a matriz de distâncias usada.
 
-**Testes de correção:**
+## 3. Baterias N-Queens
 
-- Validar resultados esperados em instâncias conhecidas.
-- Comparar as soluções retornadas pelos diferentes algoritmos.
-- Verificar a validade das soluções.
-- Confirmar que os contadores são consistentes e não apresentam valores negativos.
+Executar força bruta, backtracking e Branch and Bound nos mesmos valores de N sempre que couber no orçamento. A força bruta enumera atribuições de colunas por linha e pode crescer rapidamente; definir limite operacional antes da bateria e registrar omissões como `SKIPPED_BY_BUDGET`, sem tempos ou contagens fictícias.
 
-**Testes experimentais de desempenho:**
+- **Pequena:** `N = 4, 5, 6`. Comparar contagem de soluções, nós, tentativas, podas por coluna/diagonal/limite e tempo.
+- **Média:** `N = 7, 8`. Executar as três variantes sob o orçamento; se força bruta exceder o limite, registrar a omissão e manter as variantes com poda.
+- **Grande:** `N = 9, 10, 11, 12`. Priorizar backtracking e Branch and Bound; força bruta somente se couber no orçamento.
 
-- Executar baterias de instâncias de diferentes tamanhos.
-- Coletar tempo de execução, nós explorados, tentativas e podas.
-- Repetir as medições com dados reprodutíveis.
-- Exportar os resultados para CSV.
+Referências para contagem total de soluções: `N=1:1`, `2:0`, `3:0`, `4:2`, `5:10`, `6:4`, `7:40`, `8:92`, `9:352`, `10:724`, `11:2680`, `12:14200`. Conferir esses valores para os tamanhos executados.
 
-Os testes experimentais não deverão falhar simplesmente porque uma execução foi mais lenta que outra. O tempo de execução será registrado e analisado, e não utilizado como uma asserção rígida de desempenho.
+## 4. Baterias TSP
 
-Utilizar `System.nanoTime()` para medir o tempo e executar um aquecimento prévio da JVM. A geração das instâncias e a gravação do CSV deverão ficar fora da região cronometrada.
+Uma instância TSP deve definir número de cidades e matriz de custos/distâncias. Fixar a instância por tamanho e fornecê-la, sem alterações, às três variantes. Registrar origem fixa da rota e se custos são simétricos ou direcionados. Os tamanhos atuais do `Main.java` (`1, 2, 4, 6, 8, 10`) podem ser mantidos como baseline; incluir tamanhos intermediários conforme orçamento e capacidade do gerador.
 
-### 3. Baterias de testes para N rainhas
+- **Pequena:** `2, 4, 6` cidades. Comparar força bruta, backtracking e Branch and Bound, validando custo ótimo e rota.
+- **Média:** `8, 10` cidades. Executar as três variantes para a mesma instância, com orçamento explícito para força bruta.
+- **Grande:** testar tamanhos acima de 10 somente conforme viabilidade do gerador e limite de execução; priorizar backtracking e Branch and Bound. Marcar variantes omitidas pelo orçamento.
 
-#### 3.1. Bateria pequena
+O caso de uma cidade pode ser mantido como teste de borda, separado da bateria comparativa. Para cada resultado, validar que a rota começa e termina na cidade 0, visita cada cidade exatamente uma vez e tem custo igual ao custo ótimo informado. As três variantes devem retornar o mesmo custo ótimo em cada instância comparável.
 
-**Instâncias:** `N = 4, 5 e 6`.
+## 5. Métricas e CSV
 
-**Algoritmos:** força bruta, backtracking e Branch and Bound.
+Usar `SearchMetrics` compartilhado e `SearchMetricsCsv` existente, ampliando-os apenas se necessário para preservar as métricas específicas de cada problema. Cada linha deve identificar problema, tamanho, algoritmo, ID/seed da instância, repetição, tempo, nós, tentativas, podas aplicáveis e estado da execução. Incluir resultado principal: contagem de soluções em N-Queens; custo ótimo e, quando útil, rota em TSP.
 
-**Objetivos:**
+Campos sem aplicação devem ficar vazios ou ser marcados explicitamente como não aplicáveis, nunca confundidos com zero podas. Preservar execuções brutas e produzir resumo com mediana dos tempos. Registrar execução omitida com estado explícito.
 
-- Validar a correção dos três algoritmos.
-- Comparar os nós explorados.
-- Registrar as tentativas de posicionamento.
-- Medir as podas por coluna, diagonal e limite superior.
-- Medir o tempo de execução.
-
-Essa bateria servirá como referência inicial, pois o tamanho do espaço de busca permite executar as três variantes sem custo excessivo.
-
-#### 3.2. Bateria média
-
-**Instâncias:** `N = 7 e 8`.
-
-**Algoritmos:** força bruta, backtracking e Branch and Bound, condicionados ao orçamento de execução previamente definido.
-
-**Objetivos:**
-
-- Avaliar o crescimento do número de configurações examinadas.
-- Comparar a redução de nós obtida com as podas.
-- Medir o custo adicional da avaliação dos limites.
-- Verificar se a diminuição dos nós explorados também se traduz em menor tempo de execução.
-
-Como a força bruta explora até \(N^N\) configurações, a execução para `N = 8` poderá ser mais demorada. Por isso, executar essa variante uma única vez por instância ou omiti-la caso ultrapasse o limite operacional estabelecido.
-
-#### 3.3. Bateria grande
-
-**Instâncias:** `N = 9, 10, 11 e 12`.
-
-**Algoritmos:** backtracking e Branch and Bound.
-
-**Objetivos:**
-
-- Avaliar o desempenho das variantes com poda em instâncias maiores.
-- Comparar o número de estados explorados e as tentativas de posicionamento.
-- Identificar o custo de calcular limites superiores.
-- Examinar o crescimento do tempo de execução.
-- Registrar quando a força bruta não for executada por exceder o orçamento experimental.
-
-A força bruta não será contabilizada como uma execução de tempo zero quando for omitida. O CSV deverá registrar o estado como `SKIPPED_BY_BUDGET` ou equivalente.
-
-#### 3.4. Validação dos resultados
-
-Utilizar quantidades conhecidas de soluções como referência:
-
-| N | Quantidade de soluções |
-|---:|---:|
-| 1 | 1 |
-| 2 | 0 |
-| 3 | 0 |
-| 4 | 2 |
-| 5 | 10 |
-| 6 | 4 |
-| 7 | 40 |
-| 8 | 92 |
-| 9 | 352 |
-| 10 | 724 |
-| 11 | 2.680 |
-| 12 | 14.200 |
-
-Para todos os tamanhos executados pelas três variantes, verificar se a contagem de soluções é igual.
-
-### 4. Baterias de testes para a mochila 0/1
-
-#### 4.1. Bateria pequena
-
-**Número de itens:** `8, 10 e 12`.
-
-**Algoritmos:** força bruta, backtracking e Branch and Bound.
-
-**Objetivos:**
-
-- Validar o valor ótimo encontrado.
-- Confirmar que o peso da solução não ultrapassa a capacidade.
-- Comparar o número de nós explorados.
-- Registrar as tentativas de inclusão e exclusão.
-- Medir o tempo e as podas por capacidade e por limite superior.
-
-#### 4.2. Bateria média
-
-**Número de itens:** `14, 16 e 18`.
-
-**Algoritmos:** força bruta, backtracking e Branch and Bound.
-
-**Objetivos:**
-
-- Analisar o crescimento do esforço computacional.
-- Comparar o efeito da poda por capacidade com o efeito adicional do limite superior.
-- Medir a quantidade de limites calculados e o tempo necessário para calculá-los.
-- Identificar se a redução de nós compensa o custo do Branch and Bound.
-
-#### 4.3. Bateria grande
-
-**Número de itens:** `20, 22 e 24`.
-
-**Algoritmos:** força bruta, backtracking e Branch and Bound, dentro do orçamento de execução definido.
-
-**Objetivos:**
-
-- Observar a escalabilidade das três variantes.
-- Comparar os nós explorados e o tempo de execução.
-- Avaliar o número de podas por capacidade e por limite superior.
-- Identificar os tamanhos em que a força bruta deixa de ser prática.
-- Registrar todas as execuções omitidas, sem atribuir resultados fictícios.
-
-Para garantir a comparação correta, utilizar exatamente os mesmos itens, valores, pesos e capacidades nas três variantes de cada instância.
-
-### 5. Métricas e formato de saída
-
-Criar uma estrutura comum de métricas, como `SearchMetrics`, que armazene os contadores e o tempo de execução.
-
-Os resultados devem ser exportados para um arquivo CSV contendo, no mínimo:
-
-```text
-problem,battery,algorithm,instance_id,seed,size,capacity,
-elapsed_nanos,nodes_explored,attempts,
-pruned_by_column,pruned_by_diagonal,
-pruned_by_capacity,pruned_by_bound,
-bound_evaluations,invalid_complete_candidates,
-solution_count,best_value,best_weight,status
-```
-
-Os campos que não se aplicam a determinado problema poderão ficar vazios ou receber um valor explicitamente definido como não aplicável. Não devem ser confundidos com uma contagem real de zero podas.
-
-Cada registro deverá corresponder a uma execução de um algoritmo sobre uma instância específica. Para cada configuração, calcular a mediana dos tempos medidos e manter os resultados brutos para análise.
-
-### 6. Estrutura sugerida dos testes
+## 6. Estrutura sugerida
 
 ```text
 src/test/java/
 ├── nqueens/
 │   ├── NQueensCorrectnessTest.java
-│   ├── NQueensSmallBenchmarkTest.java
-│   ├── NQueensMediumBenchmarkTest.java
-│   └── NQueensLargeBenchmarkTest.java
-├── knapsack/
-│   ├── KnapsackCorrectnessTest.java
-│   ├── KnapsackSmallBenchmarkTest.java
-│   ├── KnapsackMediumBenchmarkTest.java
-│   └── KnapsackLargeBenchmarkTest.java
+│   └── NQueensBenchmarkTest.java
+├── tsp/
+│   ├── TspCorrectnessTest.java
+│   └── TspBenchmarkTest.java
 └── support/
     ├── TestInstances.java
     ├── BenchmarkRunner.java
     └── CsvExporter.java
 ```
 
-Utilizar `@ParameterizedTest` e `@MethodSource` para executar os algoritmos com diferentes tamanhos de instância. Os testes experimentais podem ser identificados com `@Tag("benchmark")`, facilitando sua execução separada dos testes de correção.
+Usar `@ParameterizedTest` e `@MethodSource` para combinar tamanhos e algoritmos. Marcar experimentos com `@Tag("benchmark")` para execução separada dos testes de correção.
 
-### 7. Testes de correção obrigatórios
+## 7. Testes obrigatórios
 
-**N rainhas:**
+**N-Queens:** contagens de referência; validade de soluções retornadas; igualdade das contagens entre algoritmos; contadores não negativos e coerentes.
 
-- Verificar as contagens conhecidas de soluções.
-- Verificar que não existem conflitos em uma solução retornada.
-- Comparar os resultados de todos os algoritmos nas instâncias comuns.
-- Validar os contadores de nós, tentativas e podas.
+**TSP:** custo ótimo conhecido em instâncias pequenas e fixas; igualdade dos custos entre variantes; rota fechada, origem correta e visita única; testes de borda para instância mínima e custos; contadores não negativos.
 
-**Mochila 0/1:**
+**Relatório:** cabeçalho e registros CSV válidos; tempo não negativo; podas separadas por causa quando disponíveis; campos não aplicáveis explícitos; execuções omitidas identificadas.
 
-- Verificar uma instância pequena com valor ótimo conhecido.
-- Comparar o valor ótimo das três variantes.
-- Verificar que o peso total não ultrapassa a capacidade.
-- Testar casos-limite, como capacidade zero, lista vazia e itens mais pesados que a capacidade.
-- Verificar a consistência dos contadores.
+## 8. Critérios de conclusão
 
-**Métricas e exportação:**
+1. As variantes passam pelos testes de correção nos dois problemas.
+2. N-Queens coincide com as contagens de referência para os tamanhos cobertos.
+3. As variantes TSP retornam o mesmo custo ótimo nas mesmas instâncias e rotas válidas.
+4. As baterias dos dois problemas geram CSV válido, com dados brutos e omissões explícitas.
+5. As métricas de tempo, nós, tentativas e podas disponíveis são registradas sem usar tempo como asserção rígida.
+6. As instâncias e sementes (quando aplicável) permitem reproduzir as comparações.
 
-- Confirmar que o tempo medido não é negativo.
-- Confirmar que contadores não são negativos.
-- Verificar que as podas por restrição e limite são contabilizadas separadamente.
-- Validar o cabeçalho do CSV e a presença dos resultados das execuções.
-- Verificar se execuções omitidas estão identificadas explicitamente.
+## 9. Entregável e perguntas experimentais
 
-### 8. Critérios de conclusão
-
-O plano será considerado concluído quando:
-
-1. Todas as implementações passarem pelos testes de correção.
-2. As contagens de soluções das N rainhas coincidirem com os valores de referência.
-3. As variantes da mochila retornarem o mesmo valor ótimo em todas as instâncias comparáveis.
-4. As três baterias de cada problema produzirem arquivos CSV válidos.
-5. O experimento registrar tempo, nós explorados, tentativas e podas por causa.
-6. As execuções forem reprodutíveis por meio de sementes fixas.
-7. O tempo de execução não for utilizado como um critério de aprovação rígido dos testes de unidade.
-
-### 9. Entregável
-
-Uma suíte automatizada em JUnit 5, com testes de correção e seis baterias experimentais — três para N rainhas e três para a mochila 0/1 —, capaz de gerar dados para análise estatística e construção dos gráficos do artigo.
-
----
-
-## Resultado esperado dos três planos
-
-Ao concluir os três planos, o projeto deverá permitir responder experimentalmente:
-
-- Quanto as estratégias de poda reduzem o número de nós explorados?
-- Quais restrições eliminam mais ramos em cada problema?
-- O custo de calcular limites superiores compensa a redução do espaço de busca?
-- Como os resultados mudam conforme o tamanho da instância?
-- A redução do número de nós explorados sempre resulta em menor tempo de execução?
-
-As conclusões deverão ser sustentadas pelos dados coletados e limitadas às instâncias e configurações efetivamente avaliadas.
+Entregar testes JUnit 5 de correção e baterias experimentais de N-Queens e TSP, compatíveis com a geração do relatório CSV usado pelo `Main.java`. Os dados devem permitir avaliar quanto as podas reduzem nós, quais restrições eliminam mais ramos, se o custo de calcular limites compensa e como os resultados variam com o tamanho da instância. Conclusões devem se restringir às instâncias e configurações medidas.
