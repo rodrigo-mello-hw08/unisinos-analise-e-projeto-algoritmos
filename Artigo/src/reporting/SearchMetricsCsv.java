@@ -9,12 +9,16 @@ import java.nio.file.Path;
 /** Gera relatórios CSV para execuções que usam métricas de busca compartilhadas. */
 public final class SearchMetricsCsv {
 
-    private static final String HEADER = "problema,n,algoritmo,tempo_decorrido_ns,nos_explorados,tentativas_de_posicionamento,podas_por_coluna,podas_por_diagonal,podas_por_limite,configuracoes_completas_invalidas,avaliacoes_de_limite,quantidade_de_solucoes\n";
+    private static final String HEADER = "problema,n,algoritmo,tempo_decorrido_ns,nos_explorados,tentativas_de_posicionamento,podas_por_coluna,podas_por_diagonal,podas_por_limite,configuracoes_completas_invalidas,avaliacoes_de_limite,quantidade_de_solucoes,podas_por_cidade_visitada,solucoes_completas_avaliadas,resultado_principal\n";
     public static final char SEPARATOR = ',';
 
     private final StringBuilder content = new StringBuilder(HEADER);
 
     public void addExecution(String problem, int size, String algorithm, long solutionCount, SearchMetrics metrics) {
+        addExecution(problem, size, algorithm, solutionCount, Long.toString(solutionCount), metrics);
+    }
+
+    public void addExecution(String problem, int size, String algorithm, long solutionCount, String primaryResult, SearchMetrics metrics) {
         content.append(escape(problem)).append(SEPARATOR)
                 .append(size).append(SEPARATOR)
                 .append(escape(algorithm)).append(SEPARATOR)
@@ -26,7 +30,10 @@ public final class SearchMetricsCsv {
                 .append(metrics.getPrunedByBound()).append(SEPARATOR)
                 .append(metrics.getInvalidCompleteConfigurations()).append(SEPARATOR)
                 .append(metrics.getBoundEvaluations()).append(SEPARATOR)
-                .append(solutionCount).append('\n');
+                .append(solutionCount).append(SEPARATOR)
+                .append(metrics.getPrunedByVisitedCity()).append(SEPARATOR)
+                .append(metrics.getCompleteSolutionsEvaluated()).append(SEPARATOR)
+                .append(escape(primaryResult)).append('\n');
     }
 
     public void writeTo(Path output) throws IOException {
