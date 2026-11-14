@@ -34,6 +34,22 @@
 >
 > - [ ] **P13 — Título e objetivos ajustados para N rainhas + TSP.** Isso é texto do grupo. Uma base possível é o título do próprio plano 2b, sem a mochila. Também é preciso ajustar o objetivo geral do rascunho do Rodrigo, que cita a mochila.
 > - [ ] **P3 — Referências científicas.** O enunciado pede "fontes científicas efetivamente utilizadas". Até agora a disciplina usou só o CPH (Laaksonen, 2018), que cobre backtracking/poda (busca completa) mas é fraco em B&B e limite por MST. Precisa de você (e do Rodrigo) escolher 2–4 fontes (livro-texto da disciplina, slides da professora, artigos). Eu só busco/cito o que for aprovado.
+>   **Candidatas (14/11, dados bibliográficos conferidos na web; o conteúdo ainda não foi lido, só o resumo/índice):**
+>
+>   | # | Fonte | Sustenta | Acesso |
+>   |---|---|---|---|
+>   | C1 | Golomb, S. W.; Baumert, L. D. Backtrack programming. *J. ACM* 12(4):516–524, 1965. DOI 10.1145/321296.321300 | §2.2: definição clássica de backtracking | ACM (pago) |
+>   | C2 | Haralick, R. M.; Elliott, G. L. Increasing tree search efficiency for constraint satisfaction problems. *Artificial Intelligence* 14(3):263–313, 1980. DOI 10.1016/0004-3702(80)90051-X | §2.2 e §6: *forward checking*, que é o que o "B&B" das rainhas faz na prática. Inclui experimentos com N rainhas | PDF no site do autor (haralick.org) |
+>   | C3 | Bell, J.; Stevens, B. A survey of known results and research areas for n-queens. *Discrete Mathematics* 309(1):1–31, 2009. DOI 10.1016/j.disc.2007.12.043 | §2.4: o problema e o nº de soluções por N | Elsevier (pago) |
+>   | C4 | Land, A. H.; Doig, A. G. An automatic method of solving discrete programming problems. *Econometrica* 28(3):497–520, 1960 | §2.3: origem do B&B | JSTOR |
+>   | C5 | Little, J. D. C.; Murty, K. G.; Sweeney, D. W.; Karel, C. An algorithm for the traveling salesman problem. *Operations Research* 11(6):972–989, 1963. DOI 10.1287/opre.11.6.972 | §2.3/§2.4: primeiro B&B para o TSP (nome "branch and bound") | INFORMS (pago) |
+>   | C6 | Held, M.; Karp, R. M. The traveling-salesman problem and minimum spanning trees. *Operations Research* 18(6):1138–1162, 1970. DOI 10.1287/opre.18.6.1138 | §2.3/§4.2: limite inferior por árvore geradora (1-trees), base do LB por MST do código | INFORMS (pago) |
+>   | C7 | Karp, R. M. Reducibility among combinatorial problems. In: Miller; Thatcher (eds.) *Complexity of Computer Computations*, Plenum, 1972, p. 85–103. DOI 10.1007/978-1-4684-2001-2_9 | §1/§2.4: TSP (ciclo hamiltoniano) é NP-completo | Springer |
+>   | C8 | Knuth, D. E. Estimating the efficiency of backtrack programs. *Mathematics of Computation* 29(129):121–136, 1975 | §4/§6: tamanho da árvore de backtracking, nós explorados como métrica | AMS (aberto) |
+>   | C9 | Morrison, D. R. et al. Branch-and-bound algorithms: a survey of recent advances in searching, branching, and pruning. *Discrete Optimization* 19:79–102, 2016 | §2.3: visão moderna de B&B (estratégias de busca, ramificação e poda) | Elsevier (pago) |
+>   | C10 | Levitin, A. *Introduction to the Design and Analysis of Algorithms*, 3. ed., Pearson, 2012, cap. 12 (12.1 Backtracking: n-Queens; 12.2 Branch-and-Bound: TSP) | §2 inteira e §4: livro-texto que cobre exatamente os dois problemas | biblioteca |
+>
+>   Também servem: o CPH (já usado, para backtracking/busca completa) e o Ziviani, *Projeto de Algoritmos* (Cengage, 2012, ed. Java/C++; está no Minha Biblioteca, mas não confirmei se o capítulo cobre B&B). Sugestão mínima: C10 + C1 + C6 + C2 + C7 (+ CPH). Cobre tudo e são 5–6 fontes, o que cabe em 15 laudas.
 > - [ ] **P12 — Backtracking do TSP = força bruta.** As duas variantes exploram a mesma árvore (n=10: 986.410 nós e 181.440 rotas nas duas), porque a força bruta já não repete cidades. Mudam só o contador e o tempo. Opções:
 >   - (a) Redefinir a força bruta como enumeração com repetição (n^(n−1) sequências, validadas na folha), igual à das rainhas. Assim o BT passa a ter poda real por restrição. Exige mudança de código.
 >   - (b) Manter o código e assumir no artigo que, no TSP, só o B&B poda. A comparação fica FB/BT × B&B.
