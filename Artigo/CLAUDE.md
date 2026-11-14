@@ -77,7 +77,7 @@ Compilar e rodar (em `Artigo/`): `javac -encoding UTF-8 -d out src/Main.java src
 
 1. `git clone https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos.git` e abrir a pasta `Artigo/`.
 2. (sem passo extra)
-3. Requisitos: JDK 21; Python 3 (conversões); LibreOffice (conferir PDF); LaTeX/Overleaf se P2 = LaTeX.
+3. Requisitos: JDK 21; Python 3 (conversões); LibreOffice (conferir PDF); LaTeX/Overleaf.
 4. IDs do Drive (rebaixar com `curl -L -o x.docx "https://docs.google.com/document/d/<ID>/export?format=docx"`): enunciado `1GNFWAAwV5FrFjvpafwgLllY4GyHKJ5d1dwSgO-t-krI`; rascunho do Rodrigo `1E1benBOowwc-Cb33BEUcrcd0N34mS_IMY4acxinvTiQ` (pasta `artigo_cientifico` `1YJnefJ5vwjVKL314G72x20M4Bd7RmEqB`); pasta do template SBC da professora `1oKXMfdAKy0_p6HEil9mVq8mN3AMMNwnV` (subpasta `template-latex` `1KhCRXtngBuD7EDClr6d4jwPY_SkGOVVE`; arquivos: `https://drive.google.com/uc?export=download&id=<ID>`).
 
 ## Armadilhas conhecidas

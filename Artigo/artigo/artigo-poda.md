@@ -11,7 +11,7 @@
 >
 > **REGRA DA PROFESSORA:** texto gerado por IA = plágio (nota zero). Por isso a prosa é **toda do grupo**: cada seção tem um `{{texto do grupo}}` e um bloco **DEV · material** com tópicos (fatos, números, código, fontes). O Claude só estrutura, confere números, gera tabelas/gráficos a partir dos dados, busca fontes e revisa.
 >
-> **Antes de exportar:** o PDF final sai no template SBC (ver P2). §0 e Apêndices são 100% DEV.
+> **Antes de exportar:** o PDF final é escrito pelo grupo em LaTeX/Overleaf (template SBC); este arquivo é o roteiro. §0 e Apêndices são 100% DEV.
 >
 > **Estado:** ESQUELETO v1 — 2026-11-14. Entrega **23/11/2026 19:30** (PDF, Moodle, "Aula 7 - Artigo Científico"). Limite: **10–15 laudas** SBC.
 
