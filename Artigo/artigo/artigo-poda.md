@@ -33,7 +33,7 @@
 > ### Decisões em aberto
 >
 > - [ ] **P13 — Título e objetivos ajustados para N rainhas + TSP.** Isso é texto do grupo. Uma base possível é o título do próprio plano 2b, sem a mochila. Também é preciso ajustar o objetivo geral do rascunho do Rodrigo, que cita a mochila.
-> - [ ] **P3 — Referências científicas.** O enunciado pede "fontes científicas efetivamente utilizadas". Até agora a disciplina usou só o CPH (Laaksonen, 2018), que cobre backtracking/poda (busca completa) mas é fraco em B&B e limite por MST. Precisa de você (e do Rodrigo) escolher 2–4 fontes (livro-texto da disciplina, slides da professora, artigos). Eu só busco/cito o que for aprovado.
+> - [x] **P3 — Referências científicas. FECHADA (14/11): ver ✅ Fechadas. O histórico da busca segue abaixo.** O enunciado pede "fontes científicas efetivamente utilizadas". Até agora a disciplina usou só o CPH (Laaksonen, 2018), que cobre backtracking/poda (busca completa) mas é fraco em B&B e limite por MST. Precisa de você (e do Rodrigo) escolher 2–4 fontes (livro-texto da disciplina, slides da professora, artigos). Eu só busco/cito o que for aprovado.
 >   **Candidatas (14/11, dados bibliográficos conferidos na web; o conteúdo ainda não foi lido, só o resumo/índice):**
 >
 >   | # | Fonte | Sustenta | Acesso |
@@ -75,6 +75,7 @@
 > - ~~P1~~ Problemas: **N rainhas + TSP**; mochila fora (Vini, 14/11).
 > - ~~P2~~ PDF em **LaTeX/Overleaf**, template SBC da professora; este `.md` é roteiro, dados e material (Vini, 14/11).
 > - ~~P10~~ Sem repositório próprio: o trabalho fica em `Artigo/` no repositório do Rodrigo (Vini, 14/11).
+> - ~~P3~~ Referências: **CPH** (busca completa/backtracking em geral), **Haralick & Elliott 1980** (N rainhas, *forward checking*) e **Held & Karp 1970** (TSP, limite por árvore geradora). Nenhuma outra fonte (Vini, 14/11). Falta obter o PDF de Held & Karp (pago; tentar a biblioteca da Unisinos).
 > - ~~P8~~ Regra anti-IA: Claude não redige prosa do artigo (enunciado, 14/11).
 > - ~~P9~~ Cabeçalho do enunciado com "Simulação e Modelagem de Sistemas" é erro de cópia; entrega é em APA (14/11).
 
@@ -124,7 +125,7 @@
 
 {{texto do grupo: N rainhas; Problema do Caixeiro-Viajante}}
 
-> **DEV 🟡 · material** §2 (cada item precisa de fonte aprovada — P3)
+> **DEV 🟡 · material** §2. Fontes aprovadas: CPH para 2.1 e 2.2; Haralick & Elliott para 2.2 e para as N rainhas; Held & Karp para 2.3 e para o TSP. Citar com página impressa.
 > - Árvore de estados; força bruta enumera todas as folhas; backtracking abandona prefixos que violam restrição; B&B usa um limite (superior em maximização, inferior em minimização) comparado à melhor solução conhecida.
 > - N rainhas: problema de **satisfação** de restrições (contar todas as soluções). Não tem função objetivo — por isso o "B&B" das rainhas usa um limite de viabilidade (rainhas posicionáveis), ponto metodológico já destacado no plano 1 (§3.3, "nota metodológica"). Vale discutir isso honestamente no artigo.
 > - TSP: otimização (minimização), NP-difícil; rotas `(n−1)!/2` no caso simétrico fixando a origem e uma orientação. Limite inferior por **árvore geradora mínima** dos não visitados + duas conexões mínimas (plano 2b §3.3).
@@ -216,9 +217,16 @@
 
 ## Referências
 
-{{referências aprovadas — P3, no formato SBC}}
+Haralick, R. M. and Elliott, G. L. (1980). Increasing tree search efficiency for constraint satisfaction problems. *Artificial Intelligence*, 14(3):263–313.
 
-> **DEV 🔴** Referências: só fontes aprovadas pelo grupo (P3). Use o agente `buscador-citacoes` para achar a página impressa de cada afirmação da §2.
+Held, M. and Karp, R. M. (1970). The traveling-salesman problem and minimum spanning trees. *Operations Research*, 18(6):1138–1162.
+
+Laaksonen, A. (2018). *Competitive Programmer's Handbook*. Disponível em: <https://cses.fi/book/book.pdf>.
+
+> **DEV 🟡** Referências: aprovadas pelo Vini em 14/11 (P3). Estão no estilo SBC de autor-data, em ordem alfabética.
+> - No Overleaf, usar o `.bib` do template. DOIs: Haralick e Elliott `10.1016/0004-3702(80)90051-X`; Held e Karp `10.1287/opre.18.6.1138`.
+> - O link do CPH é o PDF público do autor; confira se é a mesma edição do PDF local (`C:\Users\Vini\Downloads\CPH.pdf`).
+> - Use o agente `buscador-citacoes` para achar a página impressa de cada afirmação, o que exige ter os PDFs. Haralick e Elliott: PDF aberto (escaneado). Held e Karp: pago.
 
 > ## Apêndices (DEV)
 >

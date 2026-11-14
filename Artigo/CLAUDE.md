@@ -49,6 +49,7 @@ Pedidos em aberto: `handoff-*.md`.
 - (14/11/2026, Vini) Problemas: **N rainhas + Caixeiro-Viajante (TSP)**. Mochila fora: o título e os objetivos do rascunho precisam ser ajustados.
 - (14/11/2026, Vini) PDF em **LaTeX/Overleaf**, com o template SBC da professora (subpasta `template-latex` no Drive).
 - (14/11/2026, Vini) Trabalhar dentro de `Artigo/` no repositório do Rodrigo, sem repositório próprio.
+- (14/11/2026, Vini) Referências: só **CPH** (Laaksonen, 2018), **Haralick & Elliott 1980** (N rainhas, forward checking) e **Held & Karp 1970** (TSP, limite por árvore geradora). Não acrescentar outras sem pedido.
 - (14/11/2026) Cabeçalho do enunciado diz "Simulação e Modelagem de Sistemas": erro de cópia; o link de entrega é de APA.
 
 ## Resultados-chave já verificados (para não rodar de novo)
