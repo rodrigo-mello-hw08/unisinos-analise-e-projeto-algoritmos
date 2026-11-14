@@ -50,6 +50,19 @@
 >   | C10 | Levitin, A. *Introduction to the Design and Analysis of Algorithms*, 3. ed., Pearson, 2012, cap. 12 (12.1 Backtracking: n-Queens; 12.2 Branch-and-Bound: TSP) | §2 inteira e §4: livro-texto que cobre exatamente os dois problemas | biblioteca |
 >
 >   Também servem: o CPH (já usado, para backtracking/busca completa) e o Ziviani, *Projeto de Algoritmos* (Cengage, 2012, ed. Java/C++; está no Minha Biblioteca, mas não confirmei se o capítulo cobre B&B). Sugestão mínima: C10 + C1 + C6 + C2 + C7 (+ CPH). Cobre tudo e são 5–6 fontes, o que cabe em 15 laudas.
+>
+>   **Vini pediu só 2 fontes + CPH (14/11). Recomendação do subagente, feita a partir dos resumos (falta o OK final):**
+>   - **N rainhas → C2 (Haralick & Elliott 1980).**
+>     - É a fonte que define o *forward checking*, que é o que o "B&B" das rainhas faz na prática.
+>     - Usa as N rainhas como problema de teste e mede o custo contando operações.
+>     - Sustenta §2, §4 e §6 e dá o nome correto à variante.
+>     - Acesso aberto: PDF digitalizado em haralick.org, longo; ler só as definições e os resultados das rainhas.
+>   - **TSP → C6 (Held & Karp 1970).**
+>     - É a origem do limite inferior por árvore geradora (1-árvore) no TSP simétrico. O limite do código é uma versão simplificada dele, sem os pesos π.
+>     - Sustenta §2 (B&B com limite por MST), §4 (MST ≤ tour ótimo; Prim O(n²) por avaliação) e §6 (o limite do código é mais fraco que o de Held–Karp, o que serve de trabalho futuro).
+>     - Pago (INFORMS) e matematicamente denso; ver se a biblioteca da Unisinos dá acesso.
+>     - Alternativa aberta: C5 (Little et al. 1963, working paper em http://hdl.handle.net/1721.1/46828). Porém o limite de C5 é por redução de matriz, não por MST.
+>   - Ressalva: o resumo de C2 só foi confirmado por fontes secundárias, porque o PDF não tem texto selecionável. Os resumos de C3, C9 e C1 estão ocultos pelas editoras.
 > - [ ] **P12 — Backtracking do TSP = força bruta.** As duas variantes exploram a mesma árvore (n=10: 986.410 nós e 181.440 rotas nas duas), porque a força bruta já não repete cidades. Mudam só o contador e o tempo. Opções:
 >   - (a) Redefinir a força bruta como enumeração com repetição (n^(n−1) sequências, validadas na folha), igual à das rainhas. Assim o BT passa a ter poda real por restrição. Exige mudança de código.
 >   - (b) Manter o código e assumir no artigo que, no TSP, só o B&B poda. A comparação fica FB/BT × B&B.
