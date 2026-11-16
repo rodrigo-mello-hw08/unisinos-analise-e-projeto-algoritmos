@@ -38,11 +38,6 @@
 > ### Decisões em aberto
 >
 > - [ ] **P13 — Título e objetivos ajustados para N rainhas + TSP.** Isso é texto do grupo. Uma base possível é o título do próprio plano 2b, sem a mochila. Também é preciso ajustar o objetivo geral do rascunho do Rodrigo, que cita a mochila.
-> - [ ] **P15 — Fonte para branch and bound (§2.3).** O CPH não usa o termo e não tem poda por limite de custo (buscador, 16/11). O Cormen também não cobre o assunto. Opções:
->   - (a) acrescentar uma fonte: Levitin 2012, §12.2 (B&B com exemplo do TSP; biblioteca) ou Little et al. 1963 (artigo que deu nome ao "branch and bound"; aberto no MIT DSpace);
->   - (b) escrever a §2.3 sem citação, descrevendo só o que o código faz.
->
->   Arriscado num artigo científico. A escolha é do Vini.
 > - [x] **P3 — Referências científicas. FECHADA (14/11): ver ✅ Fechadas. O histórico da busca segue abaixo.** O enunciado pede "fontes científicas efetivamente utilizadas". Até agora a disciplina usou só o CPH (Laaksonen, 2018), que cobre backtracking/poda (busca completa) mas é fraco em B&B e limite por MST. Precisa de você (e do Rodrigo) escolher 2–4 fontes (livro-texto da disciplina, slides da professora, artigos). Eu só busco/cito o que for aprovado.
 >   **Candidatas (14/11, dados bibliográficos conferidos na web; o conteúdo ainda não foi lido, só o resumo/índice):**
 >
@@ -87,6 +82,9 @@
 > - ~~P10~~ Sem repositório próprio: o trabalho fica em `Artigo/` no repositório do Rodrigo (Vini, 14/11).
 > - ~~P3~~ Referências: **CPH** (busca completa/backtracking em geral), **Haralick & Elliott 1980** (N rainhas, *forward checking*) e **Held & Karp 1970** (TSP, limite por árvore geradora). Nenhuma outra fonte (Vini, 14/11).
 > - ~~P14~~ Held & Karp não está na biblioteca da Unisinos. Foi substituído por **Cormen et al., *Algoritmos: teoria e prática*, 3. ed.**, que cobre a árvore geradora mínima, o algoritmo de Prim, o TSP como NP-completo e o argumento "árvore mínima ≤ circuito ótimo" (Vini, 16/11). A tabela de candidatas acima (C6) e a recomendação do subagente ficam só como histórico.
+> - ~~P15~~ Fonte para branch and bound: entra **Little et al. 1963** (C5 da tabela acima), porque nem o CPH nem o Cormen cobrem o assunto (Vini, 16/11).
+>   - Sustenta a §2.3 (origem do nome "branch and bound", ramificar e limitar para o TSP) e a §2.4 (TSP).
+>   - O limite do artigo é por **redução da matriz de custos**, não por árvore geradora. O limite do código não vem dele.
 > - ~~P8~~ Regra anti-IA: Claude não redige prosa do artigo (enunciado, 14/11).
 > - ~~P11~~ Testes JUnit: não serão feitos. O Rodrigo marca como ignorada no próximo commit (Vini, 16/11). A §5 cita como verificação de correção apenas "mesma contagem/custo nas 3 variantes", que é checada pelo `Main`.
 > - ~~P9~~ Cabeçalho do enunciado com "Simulação e Modelagem de Sistemas" é erro de cópia; entrega é em APA (14/11).
@@ -160,7 +158,7 @@
 >   | n!; O(n!) só é viável para n ≤ 10 (tabela de 1 s) | ✅ sustenta | 14, 20, 21 | 1, 3 |
 >
 >   - A contagem (n−1)!/2 de rotas não está no CPH. Ela sai do raciocínio, ou do Cormen se ele trouxer.
->   - **§2.3 sem fonte para branch and bound:** nem o CPH nem o Cormen cobrem. Ver P15.
+>   - **§2.3 (branch and bound):** usar Little et al. 1963 (P15). Páginas ainda não buscadas.
 > - Árvore de estados; força bruta enumera todas as folhas; backtracking abandona prefixos que violam restrição; B&B usa um limite (superior em maximização, inferior em minimização) comparado à melhor solução conhecida.
 > - N rainhas: problema de **satisfação** de restrições (contar todas as soluções). Não tem função objetivo — por isso o "B&B" das rainhas usa um limite de viabilidade (rainhas posicionáveis), ponto metodológico já destacado no plano 1 (§3.3, "nota metodológica"). Vale discutir isso honestamente no artigo.
 > - TSP: otimização (minimização), NP-difícil; rotas `(n−1)!/2` no caso simétrico fixando a origem e uma orientação. Limite inferior por **árvore geradora mínima** dos não visitados + duas conexões mínimas (plano 2b §3.3).
@@ -263,8 +261,14 @@ Haralick, R. M. and Elliott, G. L. (1980). Increasing tree search efficiency for
 
 Laaksonen, A. (2018). *Competitive Programmer's Handbook*. Disponível em: <https://cses.fi/book/book.pdf>.
 
+Little, J. D. C., Murty, K. G., Sweeney, D. W., and Karel, C. (1963). An algorithm for the traveling salesman problem. *Operations Research*, 11(6):972–989.
+
 > **DEV 🟡** Referências: aprovadas pelo Vini em 14/11 (P3). O Cormen substituiu Held & Karp em 16/11 (P14). Estão no estilo SBC de autor-data, em ordem alfabética.
 > - No Overleaf, usar o `.bib` do template. DOI: Haralick e Elliott `10.1016/0004-3702(80)90051-X`.
+> - Little et al. (P15, 16/11): DOI `10.1287/opre.11.6.972`.
+>   - A versão aberta é o *working paper* do MIT, em <http://hdl.handle.net/1721.1/46828>. A paginação dele **não** é a da revista.
+>   - Se só o *working paper* for lido, cite o *working paper* (MIT Sloan School of Management, 1963, com o número que aparece na capa) **ou** confira as páginas na versão da revista.
+>   - Não misturar páginas do *working paper* com a referência da revista.
 > - Cormen: confira na ficha catalográfica do exemplar da biblioteca o ano, a editora e a cidade. A edição traduzida pode ter saído pela Elsevier ou, em reimpressões mais novas, pela GEN/LTC. Ajuste a referência ao exemplar que for de fato consultado.
 > - O link do CPH é o PDF público do autor; confira se é a mesma edição do PDF local (`C:\Users\Vini\Downloads\CPH.pdf`).
 > - Use o agente `buscador-citacoes` para achar a página impressa de cada afirmação, o que exige ter os PDFs. Haralick e Elliott: PDF aberto (escaneado). Cormen: PDF da Minha Biblioteca ou fotos das páginas.

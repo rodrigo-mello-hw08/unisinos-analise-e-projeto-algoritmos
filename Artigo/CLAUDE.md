@@ -50,7 +50,8 @@ Pedidos em aberto: `handoff-*.md`.
 - (14/11/2026, Vini) PDF em **LaTeX/Overleaf**, com o template SBC da professora (subpasta `template-latex` no Drive).
 - (14/11/2026, Vini) Trabalhar dentro de `Artigo/` no repositório do Rodrigo, sem repositório próprio.
 - (14/11/2026, Vini) Referências: só **CPH** (Laaksonen, 2018), **Haralick & Elliott 1980** (N rainhas, forward checking) e **Cormen et al., *Algoritmos: teoria e prática*, 3. ed.** (TSP, árvore geradora mínima/Prim, "árvore mínima ≤ circuito ótimo"). Não acrescentar outras sem pedido.
-- (16/11/2026, Vini) Held & Karp 1970 saiu: não está na biblioteca da Unisinos. Foi substituído pelo Cormen. O Cormen não cobre branch and bound; a ideia geral de B&B fica com o CPH.
+- (16/11/2026, Vini) Held & Karp 1970 saiu: não está na biblioteca da Unisinos. Foi substituído pelo Cormen. O Cormen não cobre branch and bound.
+- (16/11/2026, Vini) O CPH também não cobre branch and bound. Entrou **Little, Murty, Sweeney & Karel 1963** (*Operations Research* 11(6):972–989; *working paper* aberto em hdl.handle.net/1721.1/46828) para B&B no TSP. Referências agora: CPH, Haralick & Elliott, Cormen, Little et al.
 - (16/11/2026, Vini) A §3 relata a medição **sem e com aquecimento** e a diferença entre elas. A medição com aquecimento fica com o Rodrigo; o Claude não monta ferramenta própria.
 - (16/11/2026) P11 (testes JUnit) não será feita; o Rodrigo marca como ignorada.
 - (14/11/2026) Cabeçalho do enunciado diz "Simulação e Modelagem de Sistemas": erro de cópia; o link de entrega é de APA.
