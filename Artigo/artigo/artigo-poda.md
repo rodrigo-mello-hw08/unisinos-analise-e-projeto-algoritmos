@@ -24,6 +24,7 @@
 > ### ⏳ Aguardando terceiros
 >
 > - [ ] **P6 — Máquina oficial dos tempos** (CPU, RAM, SO, JDK). Nos relatórios anteriores foi o Ryzen 7 5700X do Rodrigo. Perguntar ao Rodrigo em qual máquina gerou os CSVs do commit `6041c18` (16/11, com aquecimento), que são os usados nas Tabelas 4–6 e nas Figuras 7–9. Se ele regerar em outra máquina, refazer tabelas e figuras. **Último bloqueio dos tempos** (a P4 fechou).
+>   **⏳ (16/11)** Script `coletar-ambiente.ps1` criado: o Rodrigo faz pull, roda na máquina dos CSVs e faz push de `resources/ambiente.txt` (pedido em `handoff-rodrigo.md`). Quando chegar: preencher o **Ambiente** da §3 e tirar o 🟡 das Tabelas 4–6 e das Figuras 7–9.
 > - [ ] **P7 — Integrantes.** Dupla Vini + Rodrigo, como nos relatórios? (enunciado: individual ou dupla). E-mails institucionais para o cabeçalho SBC.
 >
 > ### ⏸ Adiadas
@@ -214,9 +215,8 @@
 >   - Para cada tamanho e cada solver, na ordem FB → BT → B&B: 1 execução de aquecimento (`WARMUP_RUNS = 1`, `src/experiment/ExperimentRunner.java`), cronometrada por fora do `solve` → coluna `warmup_elapsed_ns` = **sem aquecimento**; depois 5 execuções (`MEASURED_RUNS = 5`), cronometradas pelo `SearchMetrics` → mediana em `tempo_decorrido_ns` = **com aquecimento**.
 >   - As 5 repetições também conferem o resultado (mesmo nº de soluções / mesmo custo; no TSP, rota válida).
 >   - Ressalva para o texto: o "sem aquecimento" só é realmente a frio no **primeiro tamanho** de cada solver (N=4; n=2). Nos seguintes, o JIT já compilou o código nos tamanhos anteriores. Por isso a razão sem/com aquecimento cai para ~1× nos tamanhos grandes (Tabelas 5 e 6).
->   - Fatos a explicar: a JVM começa interpretando o bytecode e depois compila os trechos mais executados (JIT). Por isso a primeira execução inclui carga de classes e compilação.
+>   - **Decisão (Vini, 16/11): sem fonte nova.** O texto diz só o que foi **observado**: a primeira execução de cada solver foi muito mais lenta que as seguintes, e por isso a medição passou a usar aquecimento e mediana, para ter tempos mais confiáveis. Não explicar o mecanismo da JVM (JIT, carga de classes) como teoria, porque nenhuma das 4 referências cobre isso.
 >   - Exemplos no CSV: TSP n=2 com força bruta, 1,84 ms sem aquecimento contra 0,001 ms com aquecimento (~1.800×) para um problema de 2 nós; rainhas N=4 com força bruta, 3,25 ms contra 0,102 ms (~32×).
->   - Precisa de fonte se for afirmado como teoria (nenhuma das 4 referências aprovadas cobre a JVM/JIT). Ou se descreve só o que foi observado, ou se pede uma fonte nova ao Vini.
 >   - Onde mostrar: Tabelas 5 e 6 + Figura 9 ficaram na §5, depois da Tabela 4. Podem ir para a §3 se o grupo preferir.
 > - Tamanhos: N rainhas N=4..8; TSP n=2,4,6,8,10 (n=1 saiu no `6041c18`; P5 pode ampliar).
 

@@ -54,6 +54,8 @@ Pedidos em aberto: `handoff-*.md`.
 - (16/11/2026, Vini) O CPH também não cobre branch and bound. Entrou **Little, Murty, Sweeney & Karel 1963** (*Operations Research* 11(6):972–989; *working paper* aberto em hdl.handle.net/1721.1/46828) para B&B no TSP. Referências agora: CPH, Haralick & Elliott, Cormen, Little et al.
 - (16/11/2026, Vini) A §3 relata a medição **sem e com aquecimento** e a diferença entre elas. A medição com aquecimento fica com o Rodrigo; o Claude não monta ferramenta própria.
 - (16/11/2026) P11 (testes JUnit) não será feita; o Rodrigo marca como ignorada.
+- (16/11/2026, Vini) Aquecimento da JVM: sem fonte nova. A §3 só relata o que foi observado (primeira execução bem mais lenta) e que por isso a medição passou a usar aquecimento + mediana.
+- (16/11/2026, Vini) Tempos: usar só os CSVs do Rodrigo. A máquina dele é registrada por `coletar-ambiente.ps1` (P6).
 - (14/11/2026) Cabeçalho do enunciado diz "Simulação e Modelagem de Sistemas": erro de cópia; o link de entrega é de APA.
 
 ## Resultados-chave já verificados (para não rodar de novo)
