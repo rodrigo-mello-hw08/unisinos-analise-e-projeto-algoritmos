@@ -21,7 +21,8 @@
 >
 > - [ ] **P4 — Medição de tempo confiável.** Os CSVs atuais vêm de **uma execução, sem aquecimento** (ex.: TSP n=1 força bruta = 1,76 ms, artefato de JIT). O próprio plano 3 pede aquecimento + repetições + mediana. Destrava a §5 (tempos) e a §6. Feito por quem mexe no código (Rodrigo) ou via skill `reproducao` (ferramentas em `Artigo/src/analysis`, sem alterar o código existente).
 > - [ ] **P5 — Ampliar tamanhos.** N rainhas só vai até N=7 (plano: BT/B&B até 12, FB até 8 com orçamento e `SKIPPED_BY_BUDGET`); TSP até n=10. Com poucos pontos, as curvas de crescimento da §5 ficam pobres.
-> - [ ] **P11 — Testes de correção (JUnit) do plano 3** não existem no código. Opcional; a §5 pode citar a verificação "mesma contagem/custo nas 3 variantes" a partir dos CSVs.
+> - [X] **P11 — Testes de correção (JUnit) do plano 3** não existem no código. Opcional; a §5 pode citar a verificação "mesma contagem/custo nas 3 variantes" a partir dos CSVs.
+>> A parte de testes unitários com JUNIT foi desconsiderada
 >
 > ### ⏳ Aguardando terceiros
 >
