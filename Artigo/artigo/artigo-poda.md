@@ -25,7 +25,7 @@
 >   - gerar uma medição "com aquecimento" (rodadas descartadas + repetições + mediana);
 >   - fazer as duas na mesma máquina (P6), com os mesmos tamanhos e as mesmas instâncias.
 >
->   Ainda não existem dados com aquecimento.
+>   Ainda não existem dados com aquecimento. **⏳ Aguardando o Rodrigo (Vini, 16/11): ele faz a medição com aquecimento, então o Claude não monta ferramenta própria.**
 > - [ ] **P5 — Ampliar tamanhos.** N rainhas só vai até N=7 (plano: BT/B&B até 12, FB até 8 com orçamento e `SKIPPED_BY_BUDGET`); TSP até n=10. Com poucos pontos, as curvas de crescimento da §5 ficam pobres.
 >
 > ### ⏳ Aguardando terceiros
