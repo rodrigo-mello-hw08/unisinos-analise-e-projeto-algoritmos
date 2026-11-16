@@ -4,16 +4,17 @@ import metrics.SearchMetrics;
 
 public final class TspMetricsCsv extends SearchMetricsCsv {
     public TspMetricsCsv() {
-        super("problema,quantidade_de_cidades,algoritmo,tempo_decorrido_ns,nos_explorados,podas_por_cidade_visitada,solucoes_completas_avaliadas,custo_otimo");
+        super("problema,quantidade_de_cidades,algoritmo,warmup_elapsed_ns,tempo_decorrido_ns,nos_explorados,podas_por_cidade_visitada,solucoes_completas_avaliadas,custo_otimo");
     }
 
     public void addExecution(String problem, int cityCount,
                              String algorithm, long optimalCost,
-                             SearchMetrics metrics, long elapsedNanos) {
+                             SearchMetrics metrics, long elapsedNanos, long warmupElapsedNanos) {
         appendRow(
             problem,
             Integer.toString(cityCount),
             algorithm,
+            Long.toString(warmupElapsedNanos),
             Long.toString(elapsedNanos),
             Long.toString(metrics.getNodesExplored()),
             Long.toString(metrics.getPrunedByVisitedCity()),

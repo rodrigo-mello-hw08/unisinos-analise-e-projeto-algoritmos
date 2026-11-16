@@ -15,17 +15,19 @@ import java.util.List;
 public final class NQueensExperimentRunner implements ExperimentRunner<NQueensSolver, Integer> {
 
     @Override
-    public void warmup(NQueensSolver solver, Integer size) {
+    public long warmup(NQueensSolver solver, Integer size) {
+        long startNanos = System.nanoTime();
         for (int warmup = 0; warmup < WARMUP_RUNS; warmup++) {
             solver.solve(size);
         }
+        return System.nanoTime() - startNanos;
     }
 
     public void run(NQueensMetricsCsv report, int[] sizes) {
         List<NQueensSolver> solvers = getSolvers();
         for (int size : sizes) {
             for (NQueensSolver solver : solvers) {
-                warmup(solver, size);
+                long warmupElapsedNanos = warmup(solver, size);
                 long[] elapsedNanos = new long[MEASURED_RUNS];
                 var result = solver.solve(size);
                 elapsedNanos[0] = result.metrics().getElapsedNanos();
@@ -37,7 +39,8 @@ public final class NQueensExperimentRunner implements ExperimentRunner<NQueensSo
                 Arrays.sort(elapsedNanos);
                 long medianElapsedNanos = elapsedNanos[MEASURED_RUNS / 2];
                 var metrics = result.metrics();
-                report.addExecution("n_queens", size, result.algorithm(), result.solutionCount(), metrics, medianElapsedNanos);
+                report.addExecution("n_queens", size, result.algorithm(), result.solutionCount(), metrics,
+                    medianElapsedNanos, warmupElapsedNanos);
                 printNQueens(size, result, metrics, medianElapsedNanos);
             }
         }

@@ -17,10 +17,12 @@ import java.util.List;
 public final class TspExperimentRunner implements ExperimentRunner<TspSolver, TspInstance> {
 
     @Override
-    public void warmup(TspSolver solver, TspInstance instance) {
+    public long warmup(TspSolver solver, TspInstance instance) {
+        long startNanos = System.nanoTime();
         for (int warmup = 0; warmup < WARMUP_RUNS; warmup++) {
             solver.solve(instance);
         }
+        return System.nanoTime() - startNanos;
     }
 
     public void run(TspMetricsCsv report, int[] cityCounts) {
@@ -34,7 +36,7 @@ public final class TspExperimentRunner implements ExperimentRunner<TspSolver, Ts
 
     private void iterateSolvers(TspMetricsCsv report, int cityCount, List<TspSolver> solvers, TspInstance instance, long expectedCost) {
         for (TspSolver solver : solvers) {
-            warmup(solver, instance);
+            long warmupElapsedNanos = warmup(solver, instance);
             long[] elapsedNanos = new long[MEASURED_RUNS];
             TspResult result = solver.solve(instance);
             elapsedNanos[0] = result.metrics().getElapsedNanos();
@@ -53,7 +55,8 @@ public final class TspExperimentRunner implements ExperimentRunner<TspSolver, Ts
             Arrays.sort(elapsedNanos);
             long medianElapsedNanos = elapsedNanos[MEASURED_RUNS / 2];
             var metrics = result.metrics();
-            report.addExecution("tsp", cityCount, result.algorithm(), result.optimalCost(), metrics, medianElapsedNanos);
+            report.addExecution("tsp", cityCount, result.algorithm(), result.optimalCost(), metrics,
+                medianElapsedNanos, warmupElapsedNanos);
             printTSP(cityCount, result, metrics, medianElapsedNanos);
         }
     }
