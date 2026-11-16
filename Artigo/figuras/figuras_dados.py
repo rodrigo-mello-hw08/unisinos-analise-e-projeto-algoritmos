@@ -4,15 +4,17 @@ Rodar de novo sempre que os CSVs forem regerados. Gera PDF (Overleaf) + PNG (pr�
   nos-rainhas       nós explorados × N (escala log), 3 variantes
   nos-tsp           nós explorados × n (escala log), 3 variantes
   podas-rainhas     composição das podas por causa (coluna/diagonal/limite), BT e B&B
-  tempo-rainhas     tempo de execução × N (escala log)
-  tempo-tsp         tempo de execução × n (escala log)
-  frio-aquecido     (só com --aquecido-*) tempo sem aquecimento × com aquecimento
+  tempo-rainhas     tempo com aquecimento (mediana) × N (escala log)
+  tempo-tsp         tempo com aquecimento (mediana) × n (escala log)
+  frio-aquecido     tempo sem aquecimento × com aquecimento, rainhas e TSP lado a lado
 
 Uso (em Artigo/):
   py -3.12 figuras/figuras_dados.py
   py -3.12 figuras/figuras_dados.py --nqueens resources/resultados-nqueens.csv --tsp resources/resultados-tsp.csv
-  py -3.12 figuras/figuras_dados.py --aquecido-nqueens X.csv --aquecido-tsp Y.csv
-Os CSVs "aquecidos" devem ter as mesmas colunas dos atuais; tempo_decorrido_ns = mediana.
+Colunas de tempo (desde o commit 6041c18 do Rodrigo):
+  warmup_elapsed_ns   = sem aquecimento (1 execução, a primeira daquele solver naquele tamanho)
+  tempo_decorrido_ns  = com aquecimento (mediana de 5 execuções feitas logo depois)
+Sem a coluna warmup_elapsed_ns (CSVs antigos), frio-aquecido é pulado.
 """
 import argparse
 import csv
@@ -166,7 +168,7 @@ def fig_tempo(dados, saida, nome, rotulo_x, tam_min):
     tams = linhas_por_variante(ax, dados, "tempo_decorrido_ns", escala=1e-6, tam_min=tam_min)
     ax.set_xlim(min(tams) - 0.3, max(tams) + 0.9)
     ax.set_xlabel(rotulo_x)
-    ax.set_ylabel("tempo (ms, escala log)")
+    ax.set_ylabel("tempo com aquecimento (ms, escala log)")
     ax.legend(frameon=False, fontsize=8, loc="upper left")
     salvar(fig, saida, nome)
 
@@ -208,16 +210,23 @@ def fig_podas(dados, saida):
     salvar(fig, saida, "podas-rainhas")
 
 
+FRIO, AQUECIDO = "warmup_elapsed_ns", "tempo_decorrido_ns"
+
+
+def tem_coluna(dados, coluna):
+    return any(coluna in r for linhas in dados.values() for r in linhas)
+
+
 def fig_frio_aquecido(paineis, saida):
     """Painéis lado a lado (um por problema, eixos independentes): tracejado = sem aquecimento.
 
-    paineis: lista de (título, dados_frio, dados_aquecido, rótulo_x, tamanho_mínimo).
+    paineis: lista de (título, dados, rótulo_x, tamanho_mínimo); as duas medições vêm do mesmo CSV.
     """
     fig, axs = plt.subplots(1, len(paineis), figsize=(3.4 * len(paineis), 3.2), squeeze=False)
-    for ax, (titulo, f, q, rx, tm) in zip(axs[0], paineis):
+    for ax, (titulo, d, rx, tm) in zip(axs[0], paineis):
         eixo_log(ax)
-        linhas_por_variante(ax, f, "tempo_decorrido_ns", 1e-6, tm, estilo="--", rotular=False, alfa=0.55)
-        linhas_por_variante(ax, q, "tempo_decorrido_ns", 1e-6, tm, estilo="-", rotular=False)
+        linhas_por_variante(ax, d, FRIO, 1e-6, tm, estilo="--", rotular=False, alfa=0.55)
+        linhas_por_variante(ax, d, AQUECIDO, 1e-6, tm, estilo="-", rotular=False)
         ax.set_title(titulo, fontsize=9, color=TINTA)
         ax.set_xlabel(rx)
     axs[0][0].set_ylabel("tempo (ms, escala log)")
@@ -236,8 +245,6 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--nqueens", default=os.path.join(RAIZ, "resources", "resultados-nqueens.csv"))
     p.add_argument("--tsp", default=os.path.join(RAIZ, "resources", "resultados-tsp.csv"))
-    p.add_argument("--aquecido-nqueens", help="CSV das rainhas medido com aquecimento")
-    p.add_argument("--aquecido-tsp", help="CSV do TSP medido com aquecimento")
     p.add_argument("--tsp-min-n", type=int, default=4,
                    help="menor n do TSP nos gráficos (padrão 4: n=1 e 2 são triviais)")
     p.add_argument("--saida", default=os.path.join(RAIZ, "artigo", "images"))
@@ -252,14 +259,14 @@ def main():
     fig_tempo(tsp, a.saida, "tempo-tsp", "n (número de cidades)", a.tsp_min_n)
 
     paineis = []
-    if a.aquecido_nqueens:
-        paineis.append(("N rainhas", rainhas, ler(a.aquecido_nqueens), "N", 1))
-    if a.aquecido_tsp:
-        paineis.append(("Caixeiro-viajante", tsp, ler(a.aquecido_tsp), "n", a.tsp_min_n))
+    if tem_coluna(rainhas, FRIO):
+        paineis.append(("N rainhas", rainhas, "N", 1))
+    if tem_coluna(tsp, FRIO):
+        paineis.append(("Caixeiro-viajante", tsp, "n", a.tsp_min_n))
     if paineis:
         fig_frio_aquecido(paineis, a.saida)
     else:
-        print("frio-aquecido: pulado (passe --aquecido-nqueens e/ou --aquecido-tsp)")
+        print(f"frio-aquecido: pulado (os CSVs não têm a coluna {FRIO})")
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@
 >
 > ### ⏳ Aguardando terceiros
 >
-> - [ ] **P6 — Máquina oficial dos tempos** (CPU, RAM, SO, JDK). Nos relatórios anteriores foi o Ryzen 7 5700X do Rodrigo. Perguntar ao Rodrigo em qual máquina gerou os CSVs de 12/11 e se re-medirá lá.
+> - [ ] **P6 — Máquina oficial dos tempos** (CPU, RAM, SO, JDK). Nos relatórios anteriores foi o Ryzen 7 5700X do Rodrigo. Perguntar ao Rodrigo em qual máquina gerou os CSVs do commit `6041c18` (16/11, com aquecimento), que são os usados nas Tabelas 4–6 e nas Figuras 7–9. Se ele regerar em outra máquina, refazer tabelas e figuras. **Último bloqueio dos tempos** (a P4 fechou).
 > - [ ] **P7 — Integrantes.** Dupla Vini + Rodrigo, como nos relatórios? (enunciado: individual ou dupla). E-mails institucionais para o cabeçalho SBC.
 >
 > ### ⏸ Adiadas
@@ -103,7 +103,7 @@
 
 {{texto do grupo: versão em inglês do resumo}}
 
-> **DEV 🔴 · material** Resumo/Abstract: escrever por último. Depende de P13 e dos números finais (P4). Pergunta de pesquisa do rascunho do Rodrigo: "como diferentes estratégias de poda influenciam o desempenho computacional de algoritmos de busca aplicados a problemas combinatórios?".
+> **DEV 🔴 · material** Resumo/Abstract: escrever por último. Depende de P13 e da máquina dos tempos (P6). Pergunta de pesquisa do rascunho do Rodrigo: "como diferentes estratégias de poda influenciam o desempenho computacional de algoritmos de busca aplicados a problemas combinatórios?".
 
 ## 1. Introdução
 
@@ -131,6 +131,14 @@
 ### 2.4 Problemas estudados
 
 {{texto do grupo: N rainhas; Problema do Caixeiro-Viajante}}
+
+![As 2 soluções das N rainhas para N=4](images/solucoes-rainhas-4.png)
+
+**Figura 1.** {{legenda — texto do grupo}}
+
+![Árvore de estados do backtracking, N=4](images/arvore-rainhas-4.png)
+
+**Figura 2.** {{legenda — texto do grupo}}
 
 > **DEV 🟡 · material** §2. Fontes aprovadas: CPH para 2.1 e 2.2; Haralick & Elliott para 2.2 e para as N rainhas; Cormen para o TSP e o limite por árvore geradora. Citar com página impressa.
 > - No Cormen (3. ed.), o que interessa ao TSP está em três lugares:
@@ -180,6 +188,11 @@
 > - Sem pseudocódigo; descrever por texto, fórmula ou referência a classe/método.
 
 > **DEV 🟢 · figuras da §2** (geradas por `figuras/figuras_fixas.py`, não dependem dos CSVs; arquivos em `images/`, PDF para o Overleaf e PNG para conferir). Legendas: {{texto do grupo}}.
+> - **Posição proposta (16/11)** — mudar se o texto pedir outra ordem:
+>   - (16/11, Vini) As duas figuras das rainhas ficam na **§2.4**, no parágrafo das N rainhas, para não repetir a definição do problema na §2.2. Ordem: Fig. 1 `solucoes-rainhas-4` (o que é uma solução), depois Fig. 2 `arvore-rainhas-4` (como o backtracking chega a ela; os `c`/`d` de cada nó são as podas por restrição). Figuras separadas, não lado a lado: a árvore é larga e ficaria ilegível em meia coluna.
+>   - A §2.2 (e a §2.1, força bruta = mesma árvore sem cortes, 341 nós) pode remeter à Fig. 2 ("ver Figura 2") sem repetir o desenho; a §4.1 também.
+>   - `tsp-instancia-6` foi para a **§3** (Fig. 3), porque é uma instância do gerador do `Main` (semente, pesos), ou seja, material de metodologia. Alternativa: §2.4, como exemplo do TSP.
+> - No Overleaf: usar o `.pdf` (vetorial), largura `\linewidth` (Fig. 2 e 3) e ~0,6`\linewidth` (Fig. 1). No SBC, legenda de figura vai **abaixo** da figura.
 > - `arvore-rainhas-4`: árvore de estados do backtracking para N=4, com um mini-tabuleiro por nó. Mostra 17 nós, 2 soluções (borda verde) e 4 nós sem continuação (borda laranja); `c`/`d` = tentativas podadas por coluna/diagonal no nó. Totais conferidos com o CSV: 17 nós, 28 podas por coluna e 16 por diagonal. Para contrastar: a força bruta gera 341 nós em N=4 (Tabela 1).
 > - `solucoes-rainhas-4`: as 2 soluções de N=4, com as colunas (2, 4, 1, 3) e (3, 1, 4, 2).
 > - `tsp-instancia-6`: a instância com n=6 do gerador do `Main` (semente 20261110 + n), desenhada como grafo completo, com a rota ótima no contorno e a matriz de distâncias ao lado. Rota 0→1→4→2→3→5→0, custo 138 (igual ao CSV). Para outro n: `--tsp-n 8`.
@@ -190,16 +203,22 @@
 
 **Ambiente:** Java SDK 21 (JDK 21); {{CPU, RAM, SO da máquina oficial — P6}}. Código-fonte: <https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/tree/main/Artigo>.
 
+![Instância do TSP com n=6 e rota ótima](images/tsp-instancia-6.png)
+
+**Figura 3.** {{legenda — texto do grupo}}
+
 > **DEV 🟡 · material** §3 — o mapeamento detalhado do código (classes, métricas, instâncias, como rodar) está no Apêndice A.
 > - Três variantes por problema, mesma interface (`NQueensSolver`, `TspSolver`), mesmas instâncias.
 > - Métricas registradas: tempo (ns, `System.nanoTime()`), nós explorados, tentativas, podas por causa (coluna, diagonal, limite, cidade visitada), avaliações do limite, soluções/rotas completas avaliadas.
-> - Procedimento de medição (decisão de 16/11, ver P4): descrever as **duas** medições, **sem aquecimento** (execução única, a frio, que é o que os CSVs de 12/11 têm) e **com aquecimento** (rodadas descartadas + mediana de repetições), e a **diferença** entre elas.
+> - Procedimento de medição (decisão de 16/11; implementado pelo Rodrigo em `84478e2`/`6041c18`): as **duas** medições saem da mesma execução do `Main`.
+>   - Para cada tamanho e cada solver, na ordem FB → BT → B&B: 1 execução de aquecimento (`WARMUP_RUNS = 1`, `src/experiment/ExperimentRunner.java`), cronometrada por fora do `solve` → coluna `warmup_elapsed_ns` = **sem aquecimento**; depois 5 execuções (`MEASURED_RUNS = 5`), cronometradas pelo `SearchMetrics` → mediana em `tempo_decorrido_ns` = **com aquecimento**.
+>   - As 5 repetições também conferem o resultado (mesmo nº de soluções / mesmo custo; no TSP, rota válida).
+>   - Ressalva para o texto: o "sem aquecimento" só é realmente a frio no **primeiro tamanho** de cada solver (N=4; n=2). Nos seguintes, o JIT já compilou o código nos tamanhos anteriores. Por isso a razão sem/com aquecimento cai para ~1× nos tamanhos grandes (Tabelas 5 e 6).
 >   - Fatos a explicar: a JVM começa interpretando o bytecode e depois compila os trechos mais executados (JIT). Por isso a primeira execução inclui carga de classes e compilação.
->   - Exemplo já visível no CSV atual: TSP n=1 com força bruta leva 1,76 ms, um tempo absurdo para um único nó.
->   - Precisa de fonte se for afirmado como teoria (nenhuma das 3 referências aprovadas cobre a JVM/JIT). Ou se descreve só o que foi observado, ou se pede uma fonte nova ao Vini.
->   - Números da comparação: 🔴 aguardam a medição com aquecimento (P4/P6).
->   - Onde mostrar: uma tabela pequena (algoritmo × tamanho, tempo frio × tempo aquecido, razão) na §3 ou junto da Tabela 4 na §5. A escolha é do grupo.
-> - Tamanhos: N rainhas N=4..7; TSP n=1,2,4,6,8,10 (P5 pode ampliar).
+>   - Exemplos no CSV: TSP n=2 com força bruta, 1,84 ms sem aquecimento contra 0,001 ms com aquecimento (~1.800×) para um problema de 2 nós; rainhas N=4 com força bruta, 3,25 ms contra 0,102 ms (~32×).
+>   - Precisa de fonte se for afirmado como teoria (nenhuma das 4 referências aprovadas cobre a JVM/JIT). Ou se descreve só o que foi observado, ou se pede uma fonte nova ao Vini.
+>   - Onde mostrar: Tabelas 5 e 6 + Figura 9 ficaram na §5, depois da Tabela 4. Podem ir para a §3 se o grupo preferir.
+> - Tamanhos: N rainhas N=4..8; TSP n=2,4,6,8,10 (n=1 saiu no `6041c18`; P5 pode ampliar).
 
 ## 4. Análise Teórica dos Algoritmos
 
@@ -212,7 +231,7 @@
 {{texto do grupo}}
 
 > **DEV 🟡 · material** §4 (enunciado: contagem de operações, somatórios, recorrências). Conferir com o Apêndice A (complexidade da implementação real).
-> - N rainhas, força bruta: nós = Σ_{k=0..N} N^k = (N^{N+1} − 1)/(N − 1). Confere com o CSV: N=4 → 341, N=5 → 3906, N=6 → 55987, N=7 → 960800. Folhas = N^N, cada uma validada em O(N²) por `isValid` (confirmado) → O(N^N · N²).
+> - N rainhas, força bruta: nós = Σ_{k=0..N} N^k = (N^{N+1} − 1)/(N − 1). Confere com o CSV: N=4 → 341, N=5 → 3906, N=6 → 55987, N=7 → 960800, N=8 → 19173961. Folhas = N^N, cada uma validada em O(N²) por `isValid` (confirmado) → O(N^N · N²).
 > - N rainhas, B&B: mesma árvore do BT, podada; o limite custa O((N−row)·N) por nó → O(N!·N²) no pior caso.
 > - N rainhas, backtracking: limitado por N! folhas (uma rainha por coluna) → O(N!) no pior caso, muito menor na prática pelas diagonais.
 > - TSP, força bruta/backtracking: (n−1)! folhas, das quais (n−1)!/2 são canônicas e avaliadas (n=8 → 2520, n=10 → 181440, confere com o CSV). Nós = Σ_{k} (n−1)!/(n−1−k)! ≈ e·(n−1)!. Custo total O((n−1)!·n).
@@ -231,6 +250,11 @@
 | 5 | 10 | 3.906 | 54 | 54 |
 | 6 | 4 | 55.987 | 153 | 131 |
 | 7 | 40 | 960.800 | 552 | 464 |
+| 8 | 92 | 19.173.961 | 2.057 | 1.725 |
+
+![Nós explorados nas N rainhas](images/nos-rainhas.png)
+
+**Figura 4.** {{legenda — texto do grupo}}
 
 **Tabela 2. N rainhas: podas por causa.**
 
@@ -240,6 +264,11 @@
 | 5 | 119 | 48 | 105 | 42 | 4 | 44 |
 | 6 | 538 | 204 | 242 | 126 | 44 | 127 |
 | 7 | 2.239 | 794 | 1.151 | 444 | 130 | 424 |
+| 8 | 10.212 | 3.452 | 4.996 | 1.864 | 560 | 1.633 |
+
+![Podas por causa nas N rainhas](images/podas-rainhas.png)
+
+**Figura 5.** {{legenda — texto do grupo}}
 
 **Tabela 3. Caixeiro-Viajante: custo ótimo, nós explorados e rotas completas avaliadas.**
 
@@ -250,26 +279,79 @@
 | 8 | 265 | 13.700 | 13.700 | 436 | 2.520 | 2.520 | 13 |
 | 10 | 233 | 986.410 | 986.410 | 855 | 181.440 | 181.440 | 11 |
 
-**Tabela 4. Tempo de execução (mediana de {{repetições}} execuções, ms).**
+![Nós explorados no TSP](images/nos-tsp.png)
 
-{{tabela de tempos — depende de P4 e P6}}
+**Figura 6.** {{legenda — texto do grupo}}
 
-> **DEV 🟡** §5: Tabelas 1–3 copiadas de `../resources/resultados-{nqueens,tsp}.csv` (commit `03096d0`); contagens são determinísticas, mas re-conferir se o código mudar. Tabela 3 omite n=1 e n=2 (triviais). As 3 variantes concordam em todas as linhas (mesmo nº de soluções / mesmo custo ótimo) — isso é a verificação de correção.
-> - Tempos dos CSVs atuais (provisórios, execução única): N=7 FB 29,7 ms, BT 0,28 ms, B&B 0,62 ms; TSP n=10 FB 113,5 ms, BT 46,7 ms, B&B 2,8 ms. **Não usar** até P4.
+**Tabela 4. Tempo de execução com aquecimento (mediana de 5 execuções, após 1 de aquecimento), em ms.**
+
+| Problema | Tamanho | Força bruta | Backtracking | Branch and bound |
+|---|---:|---:|---:|---:|
+| N rainhas | 4 | 0,102 | 0,010 | 0,018 |
+| N rainhas | 5 | 0,201 | 0,031 | 0,057 |
+| N rainhas | 6 | 2,14 | 0,106 | 0,051 |
+| N rainhas | 7 | 8,91 | 0,060 | 0,144 |
+| N rainhas | 8 | 180,1 | 0,168 | 0,158 |
+| TSP | 4 | 0,004 | 0,004 | 0,011 |
+| TSP | 6 | 0,084 | 0,093 | 0,075 |
+| TSP | 8 | 1,29 | 1,48 | 0,425 |
+| TSP | 10 | 18,2 | 14,5 | 0,390 |
+
+![Tempo de execução com aquecimento nas N rainhas](images/tempo-rainhas.png)
+
+**Figura 7.** {{legenda — texto do grupo}}
+
+![Tempo de execução com aquecimento no TSP](images/tempo-tsp.png)
+
+**Figura 8.** {{legenda — texto do grupo}}
+
+**Tabela 5. N rainhas: tempo sem aquecimento (1 execução) e com aquecimento (mediana de 5), em ms, e a razão entre eles.**
+
+| N | FB sem | FB com | FB razão | BT sem | BT com | BT razão | B&B sem | B&B com | B&B razão |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 4 | 3,25 | 0,102 | 31,9× | 0,057 | 0,010 | 5,6× | 0,060 | 0,018 | 3,4× |
+| 5 | 0,233 | 0,201 | 1,2× | 0,042 | 0,031 | 1,3× | 0,065 | 0,057 | 1,1× |
+| 6 | 5,29 | 2,14 | 2,5× | 0,191 | 0,106 | 1,8× | 0,125 | 0,051 | 2,5× |
+| 7 | 8,84 | 8,91 | 1,0× | 0,103 | 0,060 | 1,7× | 0,196 | 0,144 | 1,4× |
+| 8 | 202,0 | 180,1 | 1,1× | 0,197 | 0,168 | 1,2× | 0,233 | 0,158 | 1,5× |
+
+**Tabela 6. Caixeiro-Viajante: tempo sem aquecimento (1 execução) e com aquecimento (mediana de 5), em ms, e a razão entre eles.**
+
+| n | FB sem | FB com | FB razão | BT sem | BT com | BT razão | B&B sem | B&B com | B&B razão |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 4 | 0,008 | 0,004 | 2,3× | 0,018 | 0,004 | 4,6× | 0,029 | 0,011 | 2,7× |
+| 6 | 0,157 | 0,084 | 1,9× | 0,146 | 0,093 | 1,6× | 0,107 | 0,075 | 1,4× |
+| 8 | 1,23 | 1,29 | 1,0× | 1,59 | 1,48 | 1,1× | 0,529 | 0,425 | 1,2× |
+| 10 | 20,0 | 18,2 | 1,1× | 18,1 | 14,5 | 1,2× | 0,479 | 0,390 | 1,2× |
+
+![Tempo sem e com aquecimento, N rainhas e Caixeiro-Viajante](images/frio-aquecido.png)
+
+**Figura 9.** {{legenda — texto do grupo}}
+
+> **DEV 🟡** §5: Tabelas 1–6 copiadas de `../resources/resultados-{nqueens,tsp}.csv` (commit `6041c18` do Rodrigo, 16/11); contagens são determinísticas (as de N=4..7 e do TSP batem com as de `03096d0`), mas re-conferir se o código mudar. Tabelas 3, 4 e 6 omitem n=2 (trivial; o CSV traz). As 3 variantes concordam em todas as linhas (mesmo nº de soluções / mesmo custo ótimo) — isso é a verificação de correção.
+> - Tempos (Tabelas 4–6) 🟡: máquina do CSV ainda não registrada (P6). Se o Rodrigo regerar os CSVs, refazer as tabelas e rodar `figuras_dados.py` de novo.
+> - Tempos abaixo de ~0,1 ms são ruidosos com 5 repetições: ex. BT das rainhas com aquecimento cai de 0,106 ms (N=6) para 0,060 ms (N=7), embora a árvore cresça (153 → 552 nós). Vale dizer no texto que a comparação de tempo só é informativa nos tamanhos maiores.
+> - Os tempos antigos (`03096d0`, execução única) eram outros (ex.: TSP n=10 FB 113,5 ms, BT 46,7 ms, B&B 2,8 ms). Não usar.
 > - Achados nos dados (confirmar com o Apêndice A):
 >   - TSP: nós de FB = nós de BT. A força bruta já percorre só permutações (não repete cidade), então o "backtracking" sem limite não poda nada que a força bruta explore; a coluna `podas_por_cidade_visitada` do BT conta candidatos rejeitados que a FB nem gera. Precisa ser explicado na §3/§6, ou a FB redefinida (ex.: gerar n^(n−1) sequências com repetição, como nas rainhas).
->   - N rainhas: B&B poda poucos ramos por limite (130 em N=7) e gasta 424 avaliações; em N=7 foi ~2× mais lento que o BT na medição única — material para a §6 ("o custo do limite compensa?").
+>   - N rainhas: B&B poda poucos ramos por limite (130 em N=7, 560 em N=8) e gasta 424 / 1.633 avaliações. Com aquecimento, o B&B foi ~2,4× mais lento que o BT em N=7 (0,144 contra 0,060 ms) e praticamente empatou em N=8 (0,158 contra 0,168 ms) — material para a §6 ("o custo do limite compensa?").
+>   - TSP: com aquecimento, FB e BT ficam próximos (n=8: 1,29 contra 1,48 ms; n=10: 18,2 contra 14,5 ms), coerente com a mesma árvore (P12). O B&B é ~47× mais rápido que a FB em n=10 (0,390 contra 18,2 ms).
 > - **Figuras da §5** (geradas por `figuras/figuras_dados.py` a partir dos CSVs; **rodar de novo quando os CSVs forem regerados**: `py -3.12 figuras/figuras_dados.py`). Legendas: {{texto do grupo}}.
 >   - `nos-rainhas` e `nos-tsp`: nós explorados × tamanho, em escala log, 3 variantes, com o valor do maior tamanho rotulado. No TSP as linhas da força bruta e do backtracking coincidem (a da força bruta aparece como contorno), porque os nós são iguais.
 >   - `podas-rainhas`: % das tentativas podadas por causa (coluna, diagonal, limite) no BT e no B&B, com o total de podas acima de cada barra.
->   - `tempo-rainhas` e `tempo-tsp`: tempo (ms) × tamanho, em escala log. 🔴 Com os CSVs atuais (execução única, a frio) os tempos são provisórios: regerar depois da P4.
->   - `frio-aquecido` 🔴: sai só quando houver os CSVs da medição com aquecimento (`--aquecido-nqueens X.csv --aquecido-tsp Y.csv`, mesmas colunas, `tempo_decorrido_ns` = mediana). Tracejado = sem aquecimento; contínuo = com aquecimento.
+>   - `tempo-rainhas` e `tempo-tsp`: tempo com aquecimento (mediana, ms) × tamanho, em escala log. 🟡 Regeradas em 16/11 com os CSVs do `6041c18`; dependem da P6 (máquina).
+>   - `frio-aquecido` 🟡 (gerada em 16/11): dois painéis (rainhas, TSP), sem aquecimento tracejado e com aquecimento contínuo, a partir das colunas `warmup_elapsed_ns` e `tempo_decorrido_ns` do mesmo CSV (o script não usa mais `--aquecido-*`). O efeito aparece no primeiro tamanho (N=4, força bruta) e some nos maiores.
+> - **Posição proposta das figuras da §5 (16/11)**: cada gráfico logo depois da tabela que ele resume — Fig. 4 `nos-rainhas` após a Tabela 1, Fig. 5 `podas-rainhas` após a Tabela 2, Fig. 6 `nos-tsp` após a Tabela 3, Fig. 7–8 `tempo-*` após a Tabela 4, Fig. 9 `frio-aquecido` após as Tabelas 5–6. Ordem: rainhas primeiro, depois TSP, depois tempo (mesma ordem das perguntas da §6).
+>   - (16/11, Vini) **Meta: ocupar o máximo das 10–15 laudas com figuras e formatação.** Manter tabela **e** gráfico de cada conjunto de números, cada figura separada (sem juntar painéis), em largura cheia.
+>   - Fig. 7–9 🟡: já usam a medição com aquecimento; regerar só se os CSVs mudarem (P6).
+>   - No Overleaf (SBC é coluna única): todas as figuras com `width=\linewidth`, exceto `solucoes-rainhas-4` (~0,6`\linewidth`, senão os tabuleiros ficam enormes). Cada figura num `figure` próprio com `[htbp]`; tabelas em `table` com legenda acima (padrão SBC).
+>   - Figuras extras que ainda dá para gerar com os dados que existem, se precisar de mais espaço: árvore do B&B para N=4 ao lado da do BT; razão FB/BT/B&B de nós por tamanho; a mesma instância do TSP com a árvore do B&B. Só gero se o grupo pedir.
 
 ## 6. Discussão
 
 {{texto do grupo: comparar teoria (§4) e experimentos (§5); responder as perguntas do plano: quanto a poda reduz nós, que restrição poda mais, se o custo do limite compensa, se menos nós sempre significa menos tempo}}
 
-> **DEV 🔴 · material** §6: depende de P4 (tempos confiáveis). Pontos que os dados já sustentam: redução de nós de várias ordens de grandeza (rainhas N=7: 960.800 → 552; TSP n=10: 986.410 → 855); no TSP o ganho vem quase todo do limite (BT = FB em nós); nas rainhas o limite agrega pouco sobre a poda por restrição (552 → 464 nós) com custo extra de avaliação.
+> **DEV 🟡 · material** §6: tempos com aquecimento já existem (Tabelas 4–6); falta registrar a máquina (P6). Pontos que os dados já sustentam: redução de nós de várias ordens de grandeza (rainhas N=8: 19.173.961 → 2.057; TSP n=10: 986.410 → 855); menos nós nem sempre é menos tempo (rainhas N=7: B&B tem menos nós que o BT, 464 contra 552, mas levou mais tempo, 0,144 contra 0,060 ms); no TSP o ganho vem quase todo do limite (BT = FB em nós); nas rainhas o limite agrega pouco sobre a poda por restrição (552 → 464 nós) com custo extra de avaliação.
 
 ## 7. Conclusão
 
@@ -301,9 +383,9 @@ Little, J. D. C., Murty, K. G., Sweeney, D. W., and Karel, C. (1963). An algorit
 > ### A. Mapa do código (mapeador-codigo, 14/11/2026, commit `03096d0`)
 >
 > **Compilar e rodar** (em `Artigo/`, ~segundos; grava `resources/*.csv` no diretório corrente):
-> `javac -encoding UTF-8 -d out src/Main.java src/metrics/*.java src/nqueens/*/*.java src/reporting/*.java src/tsp/*/*.java` e `java -Dfile.encoding=UTF-8 -cp out Main`. Sem Maven nem testes, apesar do que dizem os planos.
+> `javac -encoding UTF-8 -d out src/Main.java src/experiment/*.java src/metrics/*.java src/nqueens/*/*.java src/reporting/*.java src/tsp/*/*.java` e `java -Dfile.encoding=UTF-8 -cp out Main`. Sem Maven nem testes, apesar do que dizem os planos.
 >
-> **Classes:** `Main.java:11` (N rainhas `{4,5,6,7}` na linha 14; TSP `{1,2,4,6,8,10}` na linha 15) · `metrics/SearchMetrics` (contadores; `finish` na linha 73) · `nqueens/solver/{NQueensBruteForce, NQueensBacktracking, NQueensBranchAndBound, NQueensSupport}` · `tsp/solver/{TspBruteForce, TspBacktracking, TspBranchAndBound, TspSupport}` · `tsp/domain/TspInstanceGenerator` · `*/experiment/*ExperimentRunner` · `reporting/*Csv`.
+> **Classes:** `Main.java:11` (desde `6041c18`: N rainhas `{4,5,6,7,8}` na linha 14; TSP `{2,4,6,8,10}` na linha 15) · `experiment/ExperimentRunner` (`WARMUP_RUNS = 1`, `MEASURED_RUNS = 5`) · `metrics/SearchMetrics` (contadores; `finish` na linha 73) · `nqueens/solver/{NQueensBruteForce, NQueensBacktracking, NQueensBranchAndBound, NQueensSupport}` · `tsp/solver/{TspBruteForce, TspBacktracking, TspBranchAndBound, TspSupport}` · `tsp/domain/TspInstanceGenerator` · `*/experiment/*ExperimentRunner` · `reporting/*Csv`.
 >
 > **N rainhas:** uma rainha por linha.
 > - A força bruta (`NQueensBruteForce.java:23-39`) gera N^N folhas e valida cada uma com `isValid`, que custa O(N²).
@@ -321,8 +403,7 @@ Little, J. D. C., Murty, K. G., Sweeney, D. W., and Karel, C. (1963). An algorit
 > - `nodesExplored` conta cada chamada recursiva, incluindo a raiz e as folhas.
 > - `placementAttempts` conta cada iteração do laço; não é exportado no CSV do TSP.
 > - `boundEvaluations` não inclui as folhas.
-> - O tempo vem de `System.nanoTime()` em torno de `solve`: uma execução por solver, sem aquecimento e na ordem fixa FB → BT → B&B.
-> - Reexecutando, o BT do TSP com n=10 levou 13,5 ms, contra 46,7 ms no CSV.
+> - O tempo vem de `System.nanoTime()` em torno de `solve`, na ordem fixa FB → BT → B&B. Desde `84478e2`/`6041c18`: 1 execução de aquecimento (tempo em `warmup_elapsed_ns`) + mediana de 5 (`tempo_decorrido_ns`). Ver §3.
 >
 > **Complexidade real (pior caso):**
 >
@@ -337,5 +418,5 @@ Little, J. D. C., Murty, K. G., Sweeney, D. W., and Karel, C. (1963). An algorit
 > Espaço: O(N) ou O(n) em todos os casos (no B&B do TSP, O(n²) somando as alocações transitórias ao longo da pilha).
 >
 > **Divergências em relação aos planos:**
-> - Não há mochila, Maven, JUnit, baterias, `SKIPPED_BY_BUDGET`, mediana nem colunas `battery`/`seed`/`instance_id`.
-> - As N rainhas não têm checagem cruzada no código. O runner do TSP aborta se os custos divergirem (`TspExperimentRunner.java:28-32`).
+> - Não há mochila, Maven, JUnit, baterias, `SKIPPED_BY_BUDGET` nem colunas `battery`/`seed`/`instance_id`. A mediana entrou em `6041c18`.
+> - As N rainhas não têm checagem cruzada entre variantes, só entre as 5 repetições do mesmo solver. O runner do TSP aborta se os custos divergirem entre variantes ou repetições, ou se a rota for inválida (`TspExperimentRunner.java`).

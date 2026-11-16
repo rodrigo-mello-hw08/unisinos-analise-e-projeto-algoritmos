@@ -58,9 +58,10 @@ Pedidos em aberto: `handoff-*.md`.
 
 ## Resultados-chave já verificados (para não rodar de novo)
 
-- Origem: `resources/resultados-*.csv`, commit `03096d0` (Rodrigo, 12/11/2026). **Execução única, sem aquecimento, máquina não registrada** → tempos provisórios; contagens são determinísticas.
-- N rainhas (N=4..7): soluções 2, 10, 4, 40 (iguais nas 3 variantes). Nós: FB 341/3906/55987/960800; BT 17/54/153/552; B&B 17/54/131/464.
-- TSP (n=1,2,4,6,8,10): custo ótimo igual nas 3 variantes (n=10: 233). Rotas completas avaliadas FB = BT = (n−1)!/2 (n=10: 181440); B&B 11. Nós FB = BT (n=10: 986410); B&B 855.
+- Origem: `resources/resultados-*.csv`, commit `6041c18` (Rodrigo, 16/11/2026). Cada linha tem `warmup_elapsed_ns` (**sem aquecimento**, 1 execução) e `tempo_decorrido_ns` (**com aquecimento**, mediana de 5). Máquina ainda não registrada (P6); contagens são determinísticas. Usar só os CSVs do Rodrigo (Vini, 16/11): não medir tempos em outra máquina.
+- N rainhas (N=4..8): soluções 2, 10, 4, 40, 92 (iguais nas 3 variantes). Nós: FB 341/3906/55987/960800/19173961; BT 17/54/153/552/2057; B&B 17/54/131/464/1725.
+- Tempos com aquecimento (ms): rainhas N=8 FB 180,1, BT 0,168, B&B 0,158; TSP n=10 FB 18,2, BT 14,5, B&B 0,390.
+- TSP (n=2,4,6,8,10): custo ótimo igual nas 3 variantes (n=10: 233). Rotas completas avaliadas FB = BT = (n−1)!/2 (n=10: 181440); B&B 11. Nós FB = BT (n=10: 986410); B&B 855.
 
 ## Estrutura do repositório
 
