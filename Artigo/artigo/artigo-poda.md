@@ -164,6 +164,11 @@
 > - TSP: otimização (minimização), NP-difícil; rotas `(n−1)!/2` no caso simétrico fixando a origem e uma orientação. Limite inferior por **árvore geradora mínima** dos não visitados + duas conexões mínimas (plano 2b §3.3).
 > - Sem pseudocódigo; descrever por texto, fórmula ou referência a classe/método.
 
+> **DEV 🟢 · figuras da §2** (geradas por `figuras/figuras_fixas.py`, não dependem dos CSVs; arquivos em `images/`, PDF para o Overleaf e PNG para conferir). Legendas: {{texto do grupo}}.
+> - `arvore-rainhas-4`: árvore de estados do backtracking para N=4, com um mini-tabuleiro por nó. Mostra 17 nós, 2 soluções (borda verde) e 4 nós sem continuação (borda laranja); `c`/`d` = tentativas podadas por coluna/diagonal no nó. Totais conferidos com o CSV: 17 nós, 28 podas por coluna e 16 por diagonal. Para contrastar: a força bruta gera 341 nós em N=4 (Tabela 1).
+> - `solucoes-rainhas-4`: as 2 soluções de N=4, com as colunas (2, 4, 1, 3) e (3, 1, 4, 2).
+> - `tsp-instancia-6`: a instância com n=6 do gerador do `Main` (semente 20261110 + n), desenhada como grafo completo, com a rota ótima no contorno e a matriz de distâncias ao lado. Rota 0→1→4→2→3→5→0, custo 138 (igual ao CSV). Para outro n: `--tsp-n 8`.
+
 ## 3. Metodologia
 
 {{texto do grupo: algoritmos selecionados, linguagem, ambiente, instâncias e tamanhos, métricas, procedimento de medição}}
@@ -239,7 +244,11 @@
 > - Achados nos dados (confirmar com o Apêndice A):
 >   - TSP: nós de FB = nós de BT. A força bruta já percorre só permutações (não repete cidade), então o "backtracking" sem limite não poda nada que a força bruta explore; a coluna `podas_por_cidade_visitada` do BT conta candidatos rejeitados que a FB nem gera. Precisa ser explicado na §3/§6, ou a FB redefinida (ex.: gerar n^(n−1) sequências com repetição, como nas rainhas).
 >   - N rainhas: B&B poda poucos ramos por limite (130 em N=7) e gasta 424 avaliações; em N=7 foi ~2× mais lento que o BT na medição única — material para a §6 ("o custo do limite compensa?").
-> - Figuras sugeridas (gerar por script, não à mão): nós explorados × tamanho em escala log, uma por problema. Gerar PNG ou PDF para o Overleaf, ou pgfplots.
+> - **Figuras da §5** (geradas por `figuras/figuras_dados.py` a partir dos CSVs; **rodar de novo quando os CSVs forem regerados**: `py -3.12 figuras/figuras_dados.py`). Legendas: {{texto do grupo}}.
+>   - `nos-rainhas` e `nos-tsp`: nós explorados × tamanho, em escala log, 3 variantes, com o valor do maior tamanho rotulado. No TSP as linhas da força bruta e do backtracking coincidem (a da força bruta aparece como contorno), porque os nós são iguais.
+>   - `podas-rainhas`: % das tentativas podadas por causa (coluna, diagonal, limite) no BT e no B&B, com o total de podas acima de cada barra.
+>   - `tempo-rainhas` e `tempo-tsp`: tempo (ms) × tamanho, em escala log. 🔴 Com os CSVs atuais (execução única, a frio) os tempos são provisórios: regerar depois da P4.
+>   - `frio-aquecido` 🔴: sai só quando houver os CSVs da medição com aquecimento (`--aquecido-nqueens X.csv --aquecido-tsp Y.csv`, mesmas colunas, `tempo_decorrido_ns` = mediana). Tracejado = sem aquecimento; contínuo = com aquecimento.
 
 ## 6. Discussão
 
