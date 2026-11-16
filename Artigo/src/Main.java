@@ -11,8 +11,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         NQueensMetricsCsv nQueensReport = new NQueensMetricsCsv();
         TspMetricsCsv tspReport = new TspMetricsCsv();
-        NQueensExperimentRunner.run(nQueensReport, new int[]{4, 5, 6, 7});
-        TspExperimentRunner.run(tspReport, new int[]{1, 2, 4, 6, 8, 10});
+        new NQueensExperimentRunner().run(nQueensReport, new int[]{4, 5, 6, 7, 8});
+        new TspExperimentRunner().run(tspReport, new int[]{2, 4, 6, 8, 10});
 
         Path outputDirectory = Path.of("resources");
         Files.createDirectories(outputDirectory);

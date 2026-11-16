@@ -76,7 +76,7 @@ Artigo/
     images/, export/
 ```
 
-Compilar e rodar (em `Artigo/`): `javac -encoding UTF-8 -d out src/Main.java src/metrics/*.java src/nqueens/*/*.java src/reporting/*.java src/tsp/*/*.java` e `java -Dfile.encoding=UTF-8 -cp out Main`. O `out/` já é ignorado pelo `.gitignore` da raiz.
+Compilar e rodar (em `Artigo/`): `javac -encoding UTF-8 -d out src/Main.java src/experiment/*.java src/metrics/*.java src/nqueens/*/*.java src/reporting/*.java src/tsp/*/*.java` e `java -Dfile.encoding=UTF-8 -cp out Main`. O `out/` já é ignorado pelo `.gitignore` da raiz.
 
 ## Restaurar o ambiente em outro computador
 

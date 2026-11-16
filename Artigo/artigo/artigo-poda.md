@@ -19,14 +19,7 @@
 >
 > ### Sessão de código (opcional)
 >
-> - [ ] **P4 — Medição de tempo confiável.** Os CSVs atuais vêm de **uma execução, sem aquecimento** (ex.: TSP n=1 força bruta = 1,76 ms, artefato de JIT). O próprio plano 3 pede aquecimento + repetições + mediana. Destrava a §5 (tempos) e a §6. Feito por quem mexe no código (Rodrigo) ou via skill `reproducao` (ferramentas em `Artigo/src/analysis`, sem alterar o código existente).
->   **Decisão (Vini, 16/11):** a §3 vai relatar as **duas** medições, **sem aquecimento** e **com aquecimento**, e a diferença entre elas. Para isso é preciso:
->   - manter o modo atual (execução única, a frio) como a medição "sem aquecimento";
->   - gerar uma medição "com aquecimento" (rodadas descartadas + repetições + mediana);
->   - fazer as duas na mesma máquina (P6), com os mesmos tamanhos e as mesmas instâncias.
->
->   Ainda não existem dados com aquecimento. **⏳ Aguardando o Rodrigo (Vini, 16/11): ele faz a medição com aquecimento, então o Claude não monta ferramenta própria.**
-> - [ ] **P5 — Ampliar tamanhos.** N rainhas só vai até N=7 (plano: BT/B&B até 12, FB até 8 com orçamento e `SKIPPED_BY_BUDGET`); TSP até n=10. Com poucos pontos, as curvas de crescimento da §5 ficam pobres.
+> - [ ] **P5 — Ampliar tamanhos.** N rainhas foi até **N=8** no commit `6041c18` do Rodrigo (antes, N=7); o plano previa BT/B&B até 12 e FB até 8 com orçamento e `SKIPPED_BY_BUDGET`. TSP continua até n=10 (n=1 saiu; agora n=2..10). Com poucos pontos, as curvas de crescimento da §5 ficam pobres.
 >
 > ### ⏳ Aguardando terceiros
 >
@@ -86,7 +79,11 @@
 >   - Sustenta a §2.3 (origem do nome "branch and bound", ramificar e limitar para o TSP) e a §2.4 (TSP).
 >   - O limite do artigo é por **redução da matriz de custos**, não por árvore geradora. O limite do código não vem dele.
 > - ~~P8~~ Regra anti-IA: Claude não redige prosa do artigo (enunciado, 14/11).
-> - ~~P11~~ Testes JUnit: não serão feitos. O Rodrigo marca como ignorada no próximo commit (Vini, 16/11). A §5 cita como verificação de correção apenas "mesma contagem/custo nas 3 variantes", que é checada pelo `Main`.
+> - ~~P11~~ Testes JUnit: não serão feitos (Vini, 16/11; o Rodrigo marcou como desconsiderada em `84478e2`). A §5 cita como verificação de correção apenas "mesma contagem/custo nas 3 variantes", que é checada pelo `Main`.
+> - ~~P4~~ Medição com aquecimento: feita pelo Rodrigo (`84478e2` e `6041c18`, 16/11). Cada linha dos CSVs traz agora as duas medições da decisão de 16/11:
+>   - `warmup_elapsed_ns` = **sem aquecimento**: 1 execução (`WARMUP_RUNS = 1`), a primeira daquele solver naquele tamanho, cronometrada por fora do `solve`;
+>   - `tempo_decorrido_ns` = **com aquecimento**: mediana de 5 execuções (`MEASURED_RUNS = 5`) feitas logo depois.
+>   - Mesma execução, mesma máquina e mesmas instâncias. A máquina ainda depende da P6.
 > - ~~P9~~ Cabeçalho do enunciado com "Simulação e Modelagem de Sistemas" é erro de cópia; entrega é em APA (14/11).
 
 ---
