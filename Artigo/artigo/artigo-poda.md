@@ -38,10 +38,6 @@
 > ### Decisões em aberto
 >
 > - [ ] **P13 — Título e objetivos ajustados para N rainhas + TSP.** Isso é texto do grupo. Uma base possível é o título do próprio plano 2b, sem a mochila. Também é preciso ajustar o objetivo geral do rascunho do Rodrigo, que cita a mochila.
-> - [ ] **P14 — Substituir Held & Karp 1970.** O artigo não está disponível na biblioteca da Unisinos (Vini, 16/11). Ele sustentava a parte do TSP e do limite por árvore geradora (§2.3, §2.4, §4.2). Até a substituição ser escolhida, a referência continua listada, mas não pode ser citada. Candidatas em discussão:
->   - Cormen et al., *Algoritmos: teoria e prática* (3. ed. traduzida);
->   - Levitin, *Introduction to the Design and Analysis of Algorithms*, 3. ed., 2012, §12.2;
->   - Little et al. 1963 (acesso aberto no MIT DSpace).
 > - [x] **P3 — Referências científicas. FECHADA (14/11): ver ✅ Fechadas. O histórico da busca segue abaixo.** O enunciado pede "fontes científicas efetivamente utilizadas". Até agora a disciplina usou só o CPH (Laaksonen, 2018), que cobre backtracking/poda (busca completa) mas é fraco em B&B e limite por MST. Precisa de você (e do Rodrigo) escolher 2–4 fontes (livro-texto da disciplina, slides da professora, artigos). Eu só busco/cito o que for aprovado.
 >   **Candidatas (14/11, dados bibliográficos conferidos na web; o conteúdo ainda não foi lido, só o resumo/índice):**
 >
@@ -84,7 +80,8 @@
 > - ~~P1~~ Problemas: **N rainhas + TSP**; mochila fora (Vini, 14/11).
 > - ~~P2~~ PDF em **LaTeX/Overleaf**, template SBC da professora; este `.md` é roteiro, dados e material (Vini, 14/11).
 > - ~~P10~~ Sem repositório próprio: o trabalho fica em `Artigo/` no repositório do Rodrigo (Vini, 14/11).
-> - ~~P3~~ Referências: **CPH** (busca completa/backtracking em geral), **Haralick & Elliott 1980** (N rainhas, *forward checking*) e **Held & Karp 1970** (TSP, limite por árvore geradora). Nenhuma outra fonte (Vini, 14/11). Falta obter o PDF de Held & Karp (pago; tentar a biblioteca da Unisinos).
+> - ~~P3~~ Referências: **CPH** (busca completa/backtracking em geral), **Haralick & Elliott 1980** (N rainhas, *forward checking*) e **Held & Karp 1970** (TSP, limite por árvore geradora). Nenhuma outra fonte (Vini, 14/11).
+> - ~~P14~~ Held & Karp não está na biblioteca da Unisinos. Foi substituído por **Cormen et al., *Algoritmos: teoria e prática*, 3. ed.**, que cobre a árvore geradora mínima, o algoritmo de Prim, o TSP como NP-completo e o argumento "árvore mínima ≤ circuito ótimo" (Vini, 16/11). A tabela de candidatas acima (C6) e a recomendação do subagente ficam só como histórico.
 > - ~~P8~~ Regra anti-IA: Claude não redige prosa do artigo (enunciado, 14/11).
 > - ~~P11~~ Testes JUnit: não serão feitos. O Rodrigo marca como ignorada no próximo commit (Vini, 16/11). A §5 cita como verificação de correção apenas "mesma contagem/custo nas 3 variantes", que é checada pelo `Main`.
 > - ~~P9~~ Cabeçalho do enunciado com "Simulação e Modelagem de Sistemas" é erro de cópia; entrega é em APA (14/11).
@@ -135,7 +132,13 @@
 
 {{texto do grupo: N rainhas; Problema do Caixeiro-Viajante}}
 
-> **DEV 🟡 · material** §2. Fontes aprovadas: CPH para 2.1 e 2.2; Haralick & Elliott para 2.2 e para as N rainhas; Held & Karp para 2.3 e para o TSP. Citar com página impressa.
+> **DEV 🟡 · material** §2. Fontes aprovadas: CPH para 2.1 e 2.2; Haralick & Elliott para 2.2 e para as N rainhas; Cormen para o TSP e o limite por árvore geradora. Citar com página impressa.
+> - No Cormen (3. ed.), o que interessa ao TSP está em três lugares:
+>   - cap. 23: árvore geradora mínima e algoritmo de Prim, que é o que o `lowerBound` usa;
+>   - §34.5.4: o TSP é NP-completo;
+>   - §35.2: o argumento de que remover uma aresta de um circuito dá uma árvore geradora, logo a árvore mínima não custa mais que o circuito ótimo. Esse argumento vale para qualquer peso não negativo; a desigualdade triangular só é usada na aproximação, não neste ponto.
+> - O Cormen **não cobre branch and bound**. A ideia geral de B&B (§2.3) precisa vir do CPH; conferir com o `buscador-citacoes` se ele cobre o suficiente.
+> - O limite do código (menor aresta de saída + árvore mínima das restantes + menor aresta de volta) é uma montagem própria do Rodrigo a partir dessa ideia. Não atribuir a fórmula exata a uma fonte.
 > - Árvore de estados; força bruta enumera todas as folhas; backtracking abandona prefixos que violam restrição; B&B usa um limite (superior em maximização, inferior em minimização) comparado à melhor solução conhecida.
 > - N rainhas: problema de **satisfação** de restrições (contar todas as soluções). Não tem função objetivo — por isso o "B&B" das rainhas usa um limite de viabilidade (rainhas posicionáveis), ponto metodológico já destacado no plano 1 (§3.3, "nota metodológica"). Vale discutir isso honestamente no artigo.
 > - TSP: otimização (minimização), NP-difícil; rotas `(n−1)!/2` no caso simétrico fixando a origem e uma orientação. Limite inferior por **árvore geradora mínima** dos não visitados + duas conexões mínimas (plano 2b §3.3).
@@ -232,16 +235,17 @@
 
 ## Referências
 
-Haralick, R. M. and Elliott, G. L. (1980). Increasing tree search efficiency for constraint satisfaction problems. *Artificial Intelligence*, 14(3):263–313.
+Cormen, T. H., Leiserson, C. E., Rivest, R. L., and Stein, C. (2012). *Algoritmos: teoria e prática*. Elsevier, Rio de Janeiro, 3. edição. Tradução de *Introduction to Algorithms*, 3rd edition.
 
-Held, M. and Karp, R. M. (1970). The traveling-salesman problem and minimum spanning trees. *Operations Research*, 18(6):1138–1162.
+Haralick, R. M. and Elliott, G. L. (1980). Increasing tree search efficiency for constraint satisfaction problems. *Artificial Intelligence*, 14(3):263–313.
 
 Laaksonen, A. (2018). *Competitive Programmer's Handbook*. Disponível em: <https://cses.fi/book/book.pdf>.
 
-> **DEV 🟡** Referências: aprovadas pelo Vini em 14/11 (P3). Estão no estilo SBC de autor-data, em ordem alfabética.
-> - No Overleaf, usar o `.bib` do template. DOIs: Haralick e Elliott `10.1016/0004-3702(80)90051-X`; Held e Karp `10.1287/opre.18.6.1138`.
+> **DEV 🟡** Referências: aprovadas pelo Vini em 14/11 (P3). O Cormen substituiu Held & Karp em 16/11 (P14). Estão no estilo SBC de autor-data, em ordem alfabética.
+> - No Overleaf, usar o `.bib` do template. DOI: Haralick e Elliott `10.1016/0004-3702(80)90051-X`.
+> - Cormen: confira na ficha catalográfica do exemplar da biblioteca o ano, a editora e a cidade. A edição traduzida pode ter saído pela Elsevier ou, em reimpressões mais novas, pela GEN/LTC. Ajuste a referência ao exemplar que for de fato consultado.
 > - O link do CPH é o PDF público do autor; confira se é a mesma edição do PDF local (`C:\Users\Vini\Downloads\CPH.pdf`).
-> - Use o agente `buscador-citacoes` para achar a página impressa de cada afirmação, o que exige ter os PDFs. Haralick e Elliott: PDF aberto (escaneado). Held e Karp: pago.
+> - Use o agente `buscador-citacoes` para achar a página impressa de cada afirmação, o que exige ter os PDFs. Haralick e Elliott: PDF aberto (escaneado). Cormen: PDF da Minha Biblioteca ou fotos das páginas.
 
 > ## Apêndices (DEV)
 >
