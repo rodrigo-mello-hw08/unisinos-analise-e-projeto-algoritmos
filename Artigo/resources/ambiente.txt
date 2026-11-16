@@ -1,0 +1,16 @@
+Ambiente da medição de tempos (P6) - gerado por coletar-ambiente.ps1
+Data da coleta: 16/11/2026 20:57
+
+CPU: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
+Núcleos/threads: 4 núcleos / 8 threads
+Clock máximo informado: 2304 MHz
+RAM: 15.8 GB (2133 MT/s)
+SO: Microsoft Windows 11 Enterprise 10.0.26200 (64 bits)
+Energia: notebook na tomada; plano: Equilibrado
+
+java -version: openjdk version "21.0.10" 2026-01-20 LTS | OpenJDK Runtime Environment Microsoft-13106404 (build 21.0.10+7-LTS) | OpenJDK 64-Bit Server VM Microsoft-13106404 (build 21.0.10+7-LTS, mixed mode, sharing)
+javac -version: javac 21.0.10
+
+Commit atual (HEAD): f6c97f2
+Último commit dos CSVs: 6041c18_2026-11-16
+CSVs com alteração não commitada:  M Artigo/resources/resultados-nqueens.csv |  M Artigo/resources/resultados-tsp.csv
