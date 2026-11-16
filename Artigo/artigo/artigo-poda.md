@@ -158,7 +158,25 @@
 >   | n!; O(n!) só é viável para n ≤ 10 (tabela de 1 s) | ✅ sustenta | 14, 20, 21 | 1, 3 |
 >
 >   - A contagem (n−1)!/2 de rotas não está no CPH. Ela sai do raciocínio, ou do Cormen se ele trouxer.
->   - **§2.3 (branch and bound):** usar Little et al. 1963 (P15). Páginas ainda não buscadas.
+> - **Citações no Little et al. 1963** (`buscador-citacoes`, 16/11; *working paper*). As páginas são as **impressas** no cabeçalho de cada página. O deslocamento em relação ao PDF não é constante, porque há páginas inseridas (4a, 5a, 9a, 25a, 26a). Conferi no PDF os trechos das p. 1, 4 e 13 e o do resumo.
+>
+>   | Afirmação | Veredito | Pág. | Seção |
+>   |---|---|---|---|
+>   | Apresenta um algoritmo exato para o TSP chamado "branch and bound" | ✅ sustenta | resumo (sem número); 13 | Abstract; Branch and Bound |
+>   | Ideia do B&B: dividir o conjunto de rotas em subconjuntos disjuntos e achar um limite inferior para cada um | ✅ sustenta | 13 | Branch and Bound |
+>   | Poda: não examinar um nó cujo limite ≥ custo da melhor rota conhecida | ✅ sustenta | 6, 10, 21 (inferida), 22 | The Algorithm; Modifications |
+>   | O limite deles é por redução da matriz (subtrair o mínimo de cada linha e coluna) | 🟡 parcial: esse é o limite **inicial**; os nós seguintes somam penalidades | 4, 6 | The Algorithm, passos 1–2 |
+>   | Ordem de exploração | 🟡 parcial: o algoritmo básico expande o nó de **menor limite** (p. 8); o programa usa "Go To The Right"/"Throw Away the Tree", parecido com profundidade, mas o texto não usa esse nome | 8, 21 (inferida), 23 | passo 5; Modifications |
+>   | Definição do TSP: visitar as n−1 outras cidades e voltar à origem; serve também para matriz assimétrica | ✅ sustenta | 1 (sem número), 11, 12 | Introduction; Problem Statement |
+>   | Resultados: 10 cidades em 0,012 min, 20 em 0,084, 30 em 0,98, 40 em 8,37 (IBM 7090); tempo cresce aproximadamente exponencialmente | ✅ sustenta | resumo; 3; 25 (inferida); 25a | Abstract; Calculations; Table I |
+>   | Existem (n−1)! rotas possíveis | ✅ sustenta | 1 (sem número) | Introduction |
+>   | "Enumerar todas as rotas é inviável" | 🟡 parcial: o texto dá (n−1)! e fala da dificuldade, mas não diz "inviável". Essa conclusão é do grupo, apoiada nos números | 1, 3, 13–14 | — |
+>
+>   - **Não** escrever que Little et al. "cunharam" o termo: eles usam "branch and bound" entre aspas como nome do método, sem reivindicar a criação.
+>   - **Não** citar Little et al. para o limite do **nosso** código. O deles é por redução de matriz; o nosso é por árvore geradora mínima (Cormen/CPH para a árvore). O que o Little sustenta é a ideia de limite inferior e a regra de poda.
+>   - Nosso B&B é em profundidade e começa sem solução inicial. O algoritmo básico deles é "menor limite primeiro". É uma diferença que vale mencionar na §2.3 ou na §6.
+>   - Os tempos deles (IBM 7090) não são comparáveis aos nossos. No máximo, servem para mostrar o crescimento.
+>   - As páginas 21 e 25 não têm número impresso: foram inferidas pela posição. Formato sugerido: "p. 21 (inferida)", "resumo" e "p. 1".
 > - Árvore de estados; força bruta enumera todas as folhas; backtracking abandona prefixos que violam restrição; B&B usa um limite (superior em maximização, inferior em minimização) comparado à melhor solução conhecida.
 > - N rainhas: problema de **satisfação** de restrições (contar todas as soluções). Não tem função objetivo — por isso o "B&B" das rainhas usa um limite de viabilidade (rainhas posicionáveis), ponto metodológico já destacado no plano 1 (§3.3, "nota metodológica"). Vale discutir isso honestamente no artigo.
 > - TSP: otimização (minimização), NP-difícil; rotas `(n−1)!/2` no caso simétrico fixando a origem e uma orientação. Limite inferior por **árvore geradora mínima** dos não visitados + duas conexões mínimas (plano 2b §3.3).
@@ -270,14 +288,13 @@ Haralick, R. M. and Elliott, G. L. (1980). Increasing tree search efficiency for
 
 Laaksonen, A. (2018). *Competitive Programmer's Handbook*. Disponível em: <https://cses.fi/book/book.pdf>.
 
-Little, J. D. C., Murty, K. G., Sweeney, D. W., and Karel, C. (1963). An algorithm for the traveling salesman problem. *Operations Research*, 11(6):972–989.
+Little, J. D. C., Murty, K. G., Sweeney, D. W., and Karel, C. (1963). An algorithm for the traveling salesman problem. Working paper, School of Industrial Management, Massachusetts Institute of Technology, Cambridge, MA. Disponível em: <http://hdl.handle.net/1721.1/46828>.
 
 > **DEV 🟡** Referências: aprovadas pelo Vini em 14/11 (P3). O Cormen substituiu Held & Karp em 16/11 (P14). Estão no estilo SBC de autor-data, em ordem alfabética.
 > - No Overleaf, usar o `.bib` do template. DOI: Haralick e Elliott `10.1016/0004-3702(80)90051-X`.
-> - Little et al. (P15, 16/11): DOI `10.1287/opre.11.6.972`.
->   - A versão aberta é o *working paper* do MIT, em <http://hdl.handle.net/1721.1/46828>. A paginação dele **não** é a da revista.
->   - Se só o *working paper* for lido, cite o *working paper* (MIT Sloan School of Management, 1963, com o número que aparece na capa) **ou** confira as páginas na versão da revista.
->   - Não misturar páginas do *working paper* com a referência da revista.
+> - Little et al. (P15, 16/11): a referência é a do **working paper**, que é a versão lida (`resources/algorithmfortrav00litt.pdf`, que não vai para o git).
+>   - Página de rosto: 1º de março de 1963. A capa não traz número; a etiqueta da biblioteca diz "no. 07-63", o que é uma inferência e por isso ficou fora da referência.
+>   - A versão da revista é *Operations Research* 11(6):972–989, DOI `10.1287/opre.11.6.972`. A paginação é outra: **não** misturar as duas.
 > - Cormen: confira na ficha catalográfica do exemplar da biblioteca o ano, a editora e a cidade. A edição traduzida pode ter saído pela Elsevier ou, em reimpressões mais novas, pela GEN/LTC. Ajuste a referência ao exemplar que for de fato consultado.
 > - O link do CPH é o PDF público do autor; confira se é a mesma edição do PDF local (`C:\Users\Vini\Downloads\CPH.pdf`).
 > - Use o agente `buscador-citacoes` para achar a página impressa de cada afirmação, o que exige ter os PDFs. Haralick e Elliott: PDF aberto (escaneado). Cormen: PDF da Minha Biblioteca ou fotos das páginas.
