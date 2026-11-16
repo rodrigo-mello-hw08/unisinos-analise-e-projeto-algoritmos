@@ -38,6 +38,10 @@
 > ### Decisões em aberto
 >
 > - [ ] **P13 — Título e objetivos ajustados para N rainhas + TSP.** Isso é texto do grupo. Uma base possível é o título do próprio plano 2b, sem a mochila. Também é preciso ajustar o objetivo geral do rascunho do Rodrigo, que cita a mochila.
+> - [ ] **P14 — Substituir Held & Karp 1970.** O artigo não está disponível na biblioteca da Unisinos (Vini, 16/11). Ele sustentava a parte do TSP e do limite por árvore geradora (§2.3, §2.4, §4.2). Até a substituição ser escolhida, a referência continua listada, mas não pode ser citada. Candidatas em discussão:
+>   - Cormen et al., *Algoritmos: teoria e prática* (3. ed. traduzida);
+>   - Levitin, *Introduction to the Design and Analysis of Algorithms*, 3. ed., 2012, §12.2;
+>   - Little et al. 1963 (acesso aberto no MIT DSpace).
 > - [x] **P3 — Referências científicas. FECHADA (14/11): ver ✅ Fechadas. O histórico da busca segue abaixo.** O enunciado pede "fontes científicas efetivamente utilizadas". Até agora a disciplina usou só o CPH (Laaksonen, 2018), que cobre backtracking/poda (busca completa) mas é fraco em B&B e limite por MST. Precisa de você (e do Rodrigo) escolher 2–4 fontes (livro-texto da disciplina, slides da professora, artigos). Eu só busco/cito o que for aprovado.
 >   **Candidatas (14/11, dados bibliográficos conferidos na web; o conteúdo ainda não foi lido, só o resumo/índice):**
 >
