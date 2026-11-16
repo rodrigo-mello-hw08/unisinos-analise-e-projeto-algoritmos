@@ -38,6 +38,11 @@
 > ### Decisões em aberto
 >
 > - [ ] **P13 — Título e objetivos ajustados para N rainhas + TSP.** Isso é texto do grupo. Uma base possível é o título do próprio plano 2b, sem a mochila. Também é preciso ajustar o objetivo geral do rascunho do Rodrigo, que cita a mochila.
+> - [ ] **P15 — Fonte para branch and bound (§2.3).** O CPH não usa o termo e não tem poda por limite de custo (buscador, 16/11). O Cormen também não cobre o assunto. Opções:
+>   - (a) acrescentar uma fonte: Levitin 2012, §12.2 (B&B com exemplo do TSP; biblioteca) ou Little et al. 1963 (artigo que deu nome ao "branch and bound"; aberto no MIT DSpace);
+>   - (b) escrever a §2.3 sem citação, descrevendo só o que o código faz.
+>
+>   Arriscado num artigo científico. A escolha é do Vini.
 > - [x] **P3 — Referências científicas. FECHADA (14/11): ver ✅ Fechadas. O histórico da busca segue abaixo.** O enunciado pede "fontes científicas efetivamente utilizadas". Até agora a disciplina usou só o CPH (Laaksonen, 2018), que cobre backtracking/poda (busca completa) mas é fraco em B&B e limite por MST. Precisa de você (e do Rodrigo) escolher 2–4 fontes (livro-texto da disciplina, slides da professora, artigos). Eu só busco/cito o que for aprovado.
 >   **Candidatas (14/11, dados bibliográficos conferidos na web; o conteúdo ainda não foi lido, só o resumo/índice):**
 >
@@ -139,6 +144,23 @@
 >   - §35.2: o argumento de que remover uma aresta de um circuito dá uma árvore geradora, logo a árvore mínima não custa mais que o circuito ótimo. Esse argumento vale para qualquer peso não negativo; a desigualdade triangular só é usada na aproximação, não neste ponto.
 > - O Cormen **não cobre branch and bound**. A ideia geral de B&B (§2.3) precisa vir do CPH; conferir com o `buscador-citacoes` se ele cobre o suficiente.
 > - O limite do código (menor aresta de saída + árvore mínima das restantes + menor aresta de volta) é uma montagem própria do Rodrigo a partir dessa ideia. Não atribuir a fórmula exata a uma fonte.
+> - **Citações no CPH** (`buscador-citacoes`, 16/11). As páginas são as **impressas**: no PDF, a página impressa + 10. Conferi por amostragem as p. 21, 51, 148 e 177.
+>
+>   | Afirmação | Veredito | Pág. | Seção do CPH |
+>   |---|---|---|---|
+>   | Busca completa gera todas as soluções e escolhe a melhor ou conta as válidas | ✅ sustenta | 47 | 5 Complete search |
+>   | Gerar subconjuntos e permutações por recursão (árvore de chamadas) | ✅ sustenta | 47–49 | 5.1, 5.2 |
+>   | Backtracking estende a solução passo a passo | 🟡 parcial: o livro não diz "volta/abandona" com essas palavras; o corte aparece na poda (p. 51) | 50 | 5.3 |
+>   | N rainhas: restrições de coluna e diagonais; q(8) = 92; 2 soluções para N=4 | ✅ sustenta | 50–51 | 5.3 |
+>   | Poda: detectar cedo que a solução parcial não pode ser completada; grande efeito no tempo | 🟡 parcial: exemplo do grid 7×7, de 483 s para 0,6 s (p. 54). **Não** diz que o pior caso não muda | 51, 54 | 5.4 Pruning the search |
+>   | **Branch and bound / poda por limite de custo** | 🔴 **sem fonte**: o termo não aparece; a poda da 5.4 é por viabilidade, não por custo | — | — |
+>   | Árvore geradora mínima: definição | ✅ sustenta | 141 | 15 |
+>   | Prim e sua complexidade, O(n + m log m) com fila de prioridade (o código usa a versão O(n²) em matriz, que não está no CPH) | ✅ sustenta | 147–148 | 15.3 |
+>   | Caminho/circuito hamiltoniano: sem método eficiente, NP-difícil; backtracking ≥ O(n!); PD em O(2ⁿn²) | 🟡 parcial: o CPH **não** fala de "caixeiro-viajante" nem de custos; citar como problema relacionado. O TSP propriamente dito fica com o Cormen | 177–178 | 19.2 |
+>   | n!; O(n!) só é viável para n ≤ 10 (tabela de 1 s) | ✅ sustenta | 14, 20, 21 | 1, 3 |
+>
+>   - A contagem (n−1)!/2 de rotas não está no CPH. Ela sai do raciocínio, ou do Cormen se ele trouxer.
+>   - **§2.3 sem fonte para branch and bound:** nem o CPH nem o Cormen cobrem. Ver P15.
 > - Árvore de estados; força bruta enumera todas as folhas; backtracking abandona prefixos que violam restrição; B&B usa um limite (superior em maximização, inferior em minimização) comparado à melhor solução conhecida.
 > - N rainhas: problema de **satisfação** de restrições (contar todas as soluções). Não tem função objetivo — por isso o "B&B" das rainhas usa um limite de viabilidade (rainhas posicionáveis), ponto metodológico já destacado no plano 1 (§3.3, "nota metodológica"). Vale discutir isso honestamente no artigo.
 > - TSP: otimização (minimização), NP-difícil; rotas `(n−1)!/2` no caso simétrico fixando a origem e uma orientação. Limite inferior por **árvore geradora mínima** dos não visitados + duas conexões mínimas (plano 2b §3.3).
