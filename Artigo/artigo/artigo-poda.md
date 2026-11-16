@@ -20,8 +20,13 @@
 > ### Sessão de código (opcional)
 >
 > - [ ] **P4 — Medição de tempo confiável.** Os CSVs atuais vêm de **uma execução, sem aquecimento** (ex.: TSP n=1 força bruta = 1,76 ms, artefato de JIT). O próprio plano 3 pede aquecimento + repetições + mediana. Destrava a §5 (tempos) e a §6. Feito por quem mexe no código (Rodrigo) ou via skill `reproducao` (ferramentas em `Artigo/src/analysis`, sem alterar o código existente).
+>   **Decisão (Vini, 16/11):** a §3 vai relatar as **duas** medições, **sem aquecimento** e **com aquecimento**, e a diferença entre elas. Para isso é preciso:
+>   - manter o modo atual (execução única, a frio) como a medição "sem aquecimento";
+>   - gerar uma medição "com aquecimento" (rodadas descartadas + repetições + mediana);
+>   - fazer as duas na mesma máquina (P6), com os mesmos tamanhos e as mesmas instâncias.
+>
+>   Ainda não existem dados com aquecimento.
 > - [ ] **P5 — Ampliar tamanhos.** N rainhas só vai até N=7 (plano: BT/B&B até 12, FB até 8 com orçamento e `SKIPPED_BY_BUDGET`); TSP até n=10. Com poucos pontos, as curvas de crescimento da §5 ficam pobres.
-> - [ ] **P11 — Testes de correção (JUnit) do plano 3** não existem no código. Opcional; a §5 pode citar a verificação "mesma contagem/custo nas 3 variantes" a partir dos CSVs.
 >
 > ### ⏳ Aguardando terceiros
 >
@@ -77,6 +82,7 @@
 > - ~~P10~~ Sem repositório próprio: o trabalho fica em `Artigo/` no repositório do Rodrigo (Vini, 14/11).
 > - ~~P3~~ Referências: **CPH** (busca completa/backtracking em geral), **Haralick & Elliott 1980** (N rainhas, *forward checking*) e **Held & Karp 1970** (TSP, limite por árvore geradora). Nenhuma outra fonte (Vini, 14/11). Falta obter o PDF de Held & Karp (pago; tentar a biblioteca da Unisinos).
 > - ~~P8~~ Regra anti-IA: Claude não redige prosa do artigo (enunciado, 14/11).
+> - ~~P11~~ Testes JUnit: não serão feitos. O Rodrigo marca como ignorada no próximo commit (Vini, 16/11). A §5 cita como verificação de correção apenas "mesma contagem/custo nas 3 variantes", que é checada pelo `Main`.
 > - ~~P9~~ Cabeçalho do enunciado com "Simulação e Modelagem de Sistemas" é erro de cópia; entrega é em APA (14/11).
 
 ---
@@ -140,7 +146,12 @@
 > **DEV 🟡 · material** §3 — o mapeamento detalhado do código (classes, métricas, instâncias, como rodar) está no Apêndice A.
 > - Três variantes por problema, mesma interface (`NQueensSolver`, `TspSolver`), mesmas instâncias.
 > - Métricas registradas: tempo (ns, `System.nanoTime()`), nós explorados, tentativas, podas por causa (coluna, diagonal, limite, cidade visitada), avaliações do limite, soluções/rotas completas avaliadas.
-> - Procedimento de medição: **depende de P4** (hoje é execução única sem aquecimento — não descrever assim no artigo sem decidir).
+> - Procedimento de medição (decisão de 16/11, ver P4): descrever as **duas** medições, **sem aquecimento** (execução única, a frio, que é o que os CSVs de 12/11 têm) e **com aquecimento** (rodadas descartadas + mediana de repetições), e a **diferença** entre elas.
+>   - Fatos a explicar: a JVM começa interpretando o bytecode e depois compila os trechos mais executados (JIT). Por isso a primeira execução inclui carga de classes e compilação.
+>   - Exemplo já visível no CSV atual: TSP n=1 com força bruta leva 1,76 ms, um tempo absurdo para um único nó.
+>   - Precisa de fonte se for afirmado como teoria (nenhuma das 3 referências aprovadas cobre a JVM/JIT). Ou se descreve só o que foi observado, ou se pede uma fonte nova ao Vini.
+>   - Números da comparação: 🔴 aguardam a medição com aquecimento (P4/P6).
+>   - Onde mostrar: uma tabela pequena (algoritmo × tamanho, tempo frio × tempo aquecido, razão) na §3 ou junto da Tabela 4 na §5. A escolha é do grupo.
 > - Tamanhos: N rainhas N=4..7; TSP n=1,2,4,6,8,10 (P5 pode ampliar).
 
 ## 4. Análise Teórica dos Algoritmos
