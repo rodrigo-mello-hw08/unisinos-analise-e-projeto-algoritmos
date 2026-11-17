@@ -23,8 +23,6 @@
 >
 > ### ⏳ Aguardando terceiros
 >
-> - [ ] **P6 — Máquina oficial dos tempos** (CPU, RAM, SO, JDK). Nos relatórios anteriores foi o Ryzen 7 5700X do Rodrigo. Perguntar ao Rodrigo em qual máquina gerou os CSVs do commit `6041c18` (16/11, com aquecimento), que são os usados nas Tabelas 4–6 e nas Figuras 7–9. Se ele regerar em outra máquina, refazer tabelas e figuras. **Último bloqueio dos tempos** (a P4 fechou).
->   **⏳ (16/11)** Script `coletar-ambiente.ps1` criado: o Rodrigo faz pull, roda na máquina dos CSVs e faz push de `resources/ambiente.txt` (pedido em `handoff-rodrigo.md`). Quando chegar: preencher o **Ambiente** da §3 e tirar o 🟡 das Tabelas 4–6 e das Figuras 7–9.
 > - [ ] **P7 — Integrantes.** Dupla Vini + Rodrigo, como nos relatórios? (enunciado: individual ou dupla). E-mails institucionais para o cabeçalho SBC.
 >
 > ### ⏸ Adiadas
@@ -84,7 +82,8 @@
 > - ~~P4~~ Medição com aquecimento: feita pelo Rodrigo (`84478e2` e `6041c18`, 16/11). Cada linha dos CSVs traz agora as duas medições da decisão de 16/11:
 >   - `warmup_elapsed_ns` = **sem aquecimento**: 1 execução (`WARMUP_RUNS = 1`), a primeira daquele solver naquele tamanho, cronometrada por fora do `solve`;
 >   - `tempo_decorrido_ns` = **com aquecimento**: mediana de 5 execuções (`MEASURED_RUNS = 5`) feitas logo depois.
->   - Mesma execução, mesma máquina e mesmas instâncias. A máquina ainda depende da P6.
+>   - Mesma execução, mesma máquina e mesmas instâncias.
+> - ~~P6~~ Máquina dos tempos: o Rodrigo regerou os CSVs e rodou `coletar-ambiente.ps1` (`3bb29f7`, 16/11). Notebook i7-10510U, 15,8 GB, Windows 11 Enterprise, OpenJDK 21.0.10, na tomada. Tabelas 4–6, Figuras 7–9 e o **Ambiente** da §3 atualizados. Contagens idênticas às de `6041c18`.
 > - ~~P9~~ Cabeçalho do enunciado com "Simulação e Modelagem de Sistemas" é erro de cópia; entrega é em APA (14/11).
 
 ---
@@ -104,7 +103,7 @@
 
 {{texto do grupo: versão em inglês do resumo}}
 
-> **DEV 🔴 · material** Resumo/Abstract: escrever por último. Depende de P13 e da máquina dos tempos (P6). Pergunta de pesquisa do rascunho do Rodrigo: "como diferentes estratégias de poda influenciam o desempenho computacional de algoritmos de busca aplicados a problemas combinatórios?".
+> **DEV 🔴 · material** Resumo/Abstract: escrever por último. Depende de P13. Pergunta de pesquisa do rascunho do Rodrigo: "como diferentes estratégias de poda influenciam o desempenho computacional de algoritmos de busca aplicados a problemas combinatórios?".
 
 ## 1. Introdução
 
@@ -202,7 +201,7 @@
 
 {{texto do grupo: algoritmos selecionados, linguagem, ambiente, instâncias e tamanhos, métricas, procedimento de medição}}
 
-**Ambiente:** Java SDK 21 (JDK 21); {{CPU, RAM, SO da máquina oficial — P6}}. Código-fonte: <https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/tree/main/Artigo>.
+**Ambiente:** OpenJDK 21.0.10 (Microsoft Build); notebook com Intel Core i7-10510U (1,80 GHz, 4 núcleos/8 threads), 15,8 GB de RAM (2.133 MT/s), Windows 11 Enterprise 10.0.26200 (64 bits), ligado na tomada, plano de energia "Equilibrado". Código-fonte: <https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/tree/main/Artigo>.
 
 ![Instância do TSP com n=6 e rota ótima](images/tsp-instancia-6.png)
 
@@ -211,13 +210,14 @@
 > **DEV 🟡 · material** §3 — o mapeamento detalhado do código (classes, métricas, instâncias, como rodar) está no Apêndice A.
 > - Três variantes por problema, mesma interface (`NQueensSolver`, `TspSolver`), mesmas instâncias.
 > - Métricas registradas: tempo (ns, `System.nanoTime()`), nós explorados, tentativas, podas por causa (coluna, diagonal, limite, cidade visitada), avaliações do limite, soluções/rotas completas avaliadas.
-> - Procedimento de medição (decisão de 16/11; implementado pelo Rodrigo em `84478e2`/`6041c18`): as **duas** medições saem da mesma execução do `Main`.
+> - Procedimento de medição (decisão de 16/11; implementado pelo Rodrigo em `84478e2`/`6041c18`; dados finais em `3bb29f7`): as **duas** medições saem da mesma execução do `Main`.
 >   - Para cada tamanho e cada solver, na ordem FB → BT → B&B: 1 execução de aquecimento (`WARMUP_RUNS = 1`, `src/experiment/ExperimentRunner.java`), cronometrada por fora do `solve` → coluna `warmup_elapsed_ns` = **sem aquecimento**; depois 5 execuções (`MEASURED_RUNS = 5`), cronometradas pelo `SearchMetrics` → mediana em `tempo_decorrido_ns` = **com aquecimento**.
 >   - As 5 repetições também conferem o resultado (mesmo nº de soluções / mesmo custo; no TSP, rota válida).
 >   - Ressalva para o texto: o "sem aquecimento" só é realmente a frio no **primeiro tamanho** de cada solver (N=4; n=2). Nos seguintes, o JIT já compilou o código nos tamanhos anteriores. Por isso a razão sem/com aquecimento cai para ~1× nos tamanhos grandes (Tabelas 5 e 6).
 >   - **Decisão (Vini, 16/11): sem fonte nova.** O texto diz só o que foi **observado**: a primeira execução de cada solver foi muito mais lenta que as seguintes, e por isso a medição passou a usar aquecimento e mediana, para ter tempos mais confiáveis. Não explicar o mecanismo da JVM (JIT, carga de classes) como teoria, porque nenhuma das 4 referências cobre isso.
->   - Exemplos no CSV: TSP n=2 com força bruta, 1,84 ms sem aquecimento contra 0,001 ms com aquecimento (~1.800×) para um problema de 2 nós; rainhas N=4 com força bruta, 3,25 ms contra 0,102 ms (~32×).
+>   - Exemplos no CSV: TSP n=2 com força bruta, 1,90 ms sem aquecimento contra 0,001 ms com aquecimento (~2.100×) para um problema de 2 nós; rainhas N=4 com força bruta, 4,40 ms contra 0,087 ms (~51×).
 >   - Onde mostrar: Tabelas 5 e 6 + Figura 9 ficaram na §5, depois da Tabela 4. Podem ir para a §3 se o grupo preferir.
+> - Ambiente: vem de `resources/ambiente.txt` (gerado por `coletar-ambiente.ps1` na máquina do Rodrigo, 16/11, mesmo commit dos CSVs). Não é o Ryzen dos relatórios anteriores.
 > - Tamanhos: N rainhas N=4..8; TSP n=2,4,6,8,10 (n=1 saiu no `6041c18`; P5 pode ampliar).
 
 ## 4. Análise Teórica dos Algoritmos
@@ -287,15 +287,15 @@
 
 | Problema | Tamanho | Força bruta | Backtracking | Branch and bound |
 |---|---:|---:|---:|---:|
-| N rainhas | 4 | 0,102 | 0,010 | 0,018 |
-| N rainhas | 5 | 0,201 | 0,031 | 0,057 |
-| N rainhas | 6 | 2,14 | 0,106 | 0,051 |
-| N rainhas | 7 | 8,91 | 0,060 | 0,144 |
-| N rainhas | 8 | 180,1 | 0,168 | 0,158 |
-| TSP | 4 | 0,004 | 0,004 | 0,011 |
-| TSP | 6 | 0,084 | 0,093 | 0,075 |
-| TSP | 8 | 1,29 | 1,48 | 0,425 |
-| TSP | 10 | 18,2 | 14,5 | 0,390 |
+| N rainhas | 4 | 0,087 | 0,009 | 0,019 |
+| N rainhas | 5 | 0,191 | 0,026 | 0,062 |
+| N rainhas | 6 | 2,23 | 0,119 | 0,048 |
+| N rainhas | 7 | 9,92 | 0,096 | 0,148 |
+| N rainhas | 8 | 175,0 | 0,100 | 0,158 |
+| TSP | 4 | 0,004 | 0,004 | 0,007 |
+| TSP | 6 | 0,096 | 0,083 | 0,069 |
+| TSP | 8 | 0,708 | 0,886 | 0,320 |
+| TSP | 10 | 19,0 | 15,2 | 0,499 |
 
 ![Tempo de execução com aquecimento nas N rainhas](images/tempo-rainhas.png)
 
@@ -309,41 +309,41 @@
 
 | N | FB sem | FB com | FB razão | BT sem | BT com | BT razão | B&B sem | B&B com | B&B razão |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 4 | 3,25 | 0,102 | 31,9× | 0,057 | 0,010 | 5,6× | 0,060 | 0,018 | 3,4× |
-| 5 | 0,233 | 0,201 | 1,2× | 0,042 | 0,031 | 1,3× | 0,065 | 0,057 | 1,1× |
-| 6 | 5,29 | 2,14 | 2,5× | 0,191 | 0,106 | 1,8× | 0,125 | 0,051 | 2,5× |
-| 7 | 8,84 | 8,91 | 1,0× | 0,103 | 0,060 | 1,7× | 0,196 | 0,144 | 1,4× |
-| 8 | 202,0 | 180,1 | 1,1× | 0,197 | 0,168 | 1,2× | 0,233 | 0,158 | 1,5× |
+| 4 | 4,40 | 0,087 | 50,7× | 0,056 | 0,009 | 6,1× | 0,059 | 0,019 | 3,1× |
+| 5 | 0,363 | 0,191 | 1,9× | 0,042 | 0,026 | 1,6× | 0,075 | 0,062 | 1,2× |
+| 6 | 6,03 | 2,23 | 2,7× | 0,131 | 0,119 | 1,1× | 0,118 | 0,048 | 2,5× |
+| 7 | 11,3 | 9,92 | 1,1× | 0,112 | 0,096 | 1,2× | 0,198 | 0,148 | 1,3× |
+| 8 | 191,1 | 175,0 | 1,1× | 0,139 | 0,100 | 1,4× | 0,200 | 0,158 | 1,3× |
 
 **Tabela 6. Caixeiro-Viajante: tempo sem aquecimento (1 execução) e com aquecimento (mediana de 5), em ms, e a razão entre eles.**
 
 | n | FB sem | FB com | FB razão | BT sem | BT com | BT razão | B&B sem | B&B com | B&B razão |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 4 | 0,008 | 0,004 | 2,3× | 0,018 | 0,004 | 4,6× | 0,029 | 0,011 | 2,7× |
-| 6 | 0,157 | 0,084 | 1,9× | 0,146 | 0,093 | 1,6× | 0,107 | 0,075 | 1,4× |
-| 8 | 1,23 | 1,29 | 1,0× | 1,59 | 1,48 | 1,1× | 0,529 | 0,425 | 1,2× |
-| 10 | 20,0 | 18,2 | 1,1× | 18,1 | 14,5 | 1,2× | 0,479 | 0,390 | 1,2× |
+| 4 | 0,007 | 0,004 | 2,1× | 0,012 | 0,004 | 3,2× | 0,018 | 0,007 | 2,6× |
+| 6 | 0,095 | 0,096 | 1,0× | 0,102 | 0,083 | 1,2× | 0,079 | 0,069 | 1,2× |
+| 8 | 0,734 | 0,708 | 1,0× | 0,899 | 0,886 | 1,0× | 0,361 | 0,320 | 1,1× |
+| 10 | 28,6 | 19,0 | 1,5× | 15,9 | 15,2 | 1,0× | 0,501 | 0,499 | 1,0× |
 
 ![Tempo sem e com aquecimento, N rainhas e Caixeiro-Viajante](images/frio-aquecido.png)
 
 **Figura 9.** {{legenda — texto do grupo}}
 
-> **DEV 🟡** §5: Tabelas 1–6 copiadas de `../resources/resultados-{nqueens,tsp}.csv` (commit `6041c18` do Rodrigo, 16/11); contagens são determinísticas (as de N=4..7 e do TSP batem com as de `03096d0`), mas re-conferir se o código mudar. Tabelas 3, 4 e 6 omitem n=2 (trivial; o CSV traz). As 3 variantes concordam em todas as linhas (mesmo nº de soluções / mesmo custo ótimo) — isso é a verificação de correção.
-> - Tempos (Tabelas 4–6) 🟡: máquina do CSV ainda não registrada (P6). Se o Rodrigo regerar os CSVs, refazer as tabelas e rodar `figuras_dados.py` de novo.
-> - Tempos abaixo de ~0,1 ms são ruidosos com 5 repetições: ex. BT das rainhas com aquecimento cai de 0,106 ms (N=6) para 0,060 ms (N=7), embora a árvore cresça (153 → 552 nós). Vale dizer no texto que a comparação de tempo só é informativa nos tamanhos maiores.
+> **DEV 🟡** §5: Tabelas 1–6 copiadas de `../resources/resultados-{nqueens,tsp}.csv` (commit `3bb29f7` do Rodrigo, 16/11, máquina em `resources/ambiente.txt`); contagens são determinísticas (idênticas às de `6041c18`; as de N=4..7 e do TSP batem também com `03096d0`), mas re-conferir se o código mudar. Tabelas 3, 4 e 6 omitem n=2 (trivial; o CSV traz). As 3 variantes concordam em todas as linhas (mesmo nº de soluções / mesmo custo ótimo) — isso é a verificação de correção.
+> - Tempos (Tabelas 4–6) ✅ conferidos com o CSV de `3bb29f7` (16/11). Se os CSVs forem regerados, refazer as tabelas, rodar `figuras_dados.py` e `coletar-ambiente.ps1` de novo.
+> - Tempos abaixo de ~0,1 ms são ruidosos com 5 repetições: ex. BT das rainhas com aquecimento cai de 0,119 ms (N=6) para 0,096 ms (N=7), embora a árvore cresça (153 → 552 nós). Vale dizer no texto que a comparação de tempo só é informativa nos tamanhos maiores.
 > - Os tempos antigos (`03096d0`, execução única) eram outros (ex.: TSP n=10 FB 113,5 ms, BT 46,7 ms, B&B 2,8 ms). Não usar.
 > - Achados nos dados (confirmar com o Apêndice A):
 >   - TSP: nós de FB = nós de BT. A força bruta já percorre só permutações (não repete cidade), então o "backtracking" sem limite não poda nada que a força bruta explore; a coluna `podas_por_cidade_visitada` do BT conta candidatos rejeitados que a FB nem gera. Precisa ser explicado na §3/§6, ou a FB redefinida (ex.: gerar n^(n−1) sequências com repetição, como nas rainhas).
->   - N rainhas: B&B poda poucos ramos por limite (130 em N=7, 560 em N=8) e gasta 424 / 1.633 avaliações. Com aquecimento, o B&B foi ~2,4× mais lento que o BT em N=7 (0,144 contra 0,060 ms) e praticamente empatou em N=8 (0,158 contra 0,168 ms) — material para a §6 ("o custo do limite compensa?").
->   - TSP: com aquecimento, FB e BT ficam próximos (n=8: 1,29 contra 1,48 ms; n=10: 18,2 contra 14,5 ms), coerente com a mesma árvore (P12). O B&B é ~47× mais rápido que a FB em n=10 (0,390 contra 18,2 ms).
+>   - N rainhas: B&B poda poucos ramos por limite (130 em N=7, 560 em N=8) e gasta 424 / 1.633 avaliações. Com aquecimento, o B&B foi mais lento que o BT em N=7 (0,148 contra 0,096 ms, ~1,5×) e em N=8 (0,158 contra 0,100 ms, ~1,6×), apesar de explorar menos nós — material para a §6 ("o custo do limite compensa?").
+>   - TSP: com aquecimento, FB e BT ficam próximos (n=8: 0,708 contra 0,886 ms; n=10: 19,0 contra 15,2 ms), coerente com a mesma árvore (P12). O B&B é ~38× mais rápido que a FB em n=10 (0,499 contra 19,0 ms).
 > - **Figuras da §5** (geradas por `figuras/figuras_dados.py` a partir dos CSVs; **rodar de novo quando os CSVs forem regerados**: `py -3.12 figuras/figuras_dados.py`). Legendas: {{texto do grupo}}.
 >   - `nos-rainhas` e `nos-tsp`: nós explorados × tamanho, em escala log, 3 variantes, com o valor do maior tamanho rotulado. No TSP as linhas da força bruta e do backtracking coincidem (a da força bruta aparece como contorno), porque os nós são iguais.
 >   - `podas-rainhas`: % das tentativas podadas por causa (coluna, diagonal, limite) no BT e no B&B, com o total de podas acima de cada barra.
->   - `tempo-rainhas` e `tempo-tsp`: tempo com aquecimento (mediana, ms) × tamanho, em escala log. 🟡 Regeradas em 16/11 com os CSVs do `6041c18`; dependem da P6 (máquina).
->   - `frio-aquecido` 🟡 (gerada em 16/11): dois painéis (rainhas, TSP), sem aquecimento tracejado e com aquecimento contínuo, a partir das colunas `warmup_elapsed_ns` e `tempo_decorrido_ns` do mesmo CSV (o script não usa mais `--aquecido-*`). O efeito aparece no primeiro tamanho (N=4, força bruta) e some nos maiores.
+>   - `tempo-rainhas` e `tempo-tsp`: tempo com aquecimento (mediana, ms) × tamanho, em escala log. ✅ Regeradas em 16/11 com os CSVs de `3bb29f7`.
+>   - `frio-aquecido` ✅ (regerada em 16/11 com `3bb29f7`): dois painéis (rainhas, TSP), sem aquecimento tracejado e com aquecimento contínuo, a partir das colunas `warmup_elapsed_ns` e `tempo_decorrido_ns` do mesmo CSV (o script não usa mais `--aquecido-*`). O efeito aparece no primeiro tamanho (N=4, força bruta) e some nos maiores.
 > - **Posição proposta das figuras da §5 (16/11)**: cada gráfico logo depois da tabela que ele resume — Fig. 4 `nos-rainhas` após a Tabela 1, Fig. 5 `podas-rainhas` após a Tabela 2, Fig. 6 `nos-tsp` após a Tabela 3, Fig. 7–8 `tempo-*` após a Tabela 4, Fig. 9 `frio-aquecido` após as Tabelas 5–6. Ordem: rainhas primeiro, depois TSP, depois tempo (mesma ordem das perguntas da §6).
 >   - (16/11, Vini) **Meta: ocupar o máximo das 10–15 laudas com figuras e formatação.** Manter tabela **e** gráfico de cada conjunto de números, cada figura separada (sem juntar painéis), em largura cheia.
->   - Fig. 7–9 🟡: já usam a medição com aquecimento; regerar só se os CSVs mudarem (P6).
+>   - Fig. 7–9 ✅: medição final de `3bb29f7`; regerar só se os CSVs mudarem.
 >   - No Overleaf (SBC é coluna única): todas as figuras com `width=\linewidth`, exceto `solucoes-rainhas-4` (~0,6`\linewidth`, senão os tabuleiros ficam enormes). Cada figura num `figure` próprio com `[htbp]`; tabelas em `table` com legenda acima (padrão SBC).
 >   - Figuras extras que ainda dá para gerar com os dados que existem, se precisar de mais espaço: árvore do B&B para N=4 ao lado da do BT; razão FB/BT/B&B de nós por tamanho; a mesma instância do TSP com a árvore do B&B. Só gero se o grupo pedir.
 
@@ -351,13 +351,13 @@
 
 {{texto do grupo: comparar teoria (§4) e experimentos (§5); responder as perguntas do plano: quanto a poda reduz nós, que restrição poda mais, se o custo do limite compensa, se menos nós sempre significa menos tempo}}
 
-> **DEV 🟡 · material** §6: tempos com aquecimento já existem (Tabelas 4–6); falta registrar a máquina (P6). Pontos que os dados já sustentam: redução de nós de várias ordens de grandeza (rainhas N=8: 19.173.961 → 2.057; TSP n=10: 986.410 → 855); menos nós nem sempre é menos tempo (rainhas N=7: B&B tem menos nós que o BT, 464 contra 552, mas levou mais tempo, 0,144 contra 0,060 ms); no TSP o ganho vem quase todo do limite (BT = FB em nós); nas rainhas o limite agrega pouco sobre a poda por restrição (552 → 464 nós) com custo extra de avaliação.
+> **DEV 🟡 · material** §6: tempos finais nas Tabelas 4–6 (`3bb29f7`). Pontos que os dados já sustentam: redução de nós de várias ordens de grandeza (rainhas N=8: 19.173.961 → 2.057; TSP n=10: 986.410 → 855); menos nós nem sempre é menos tempo (rainhas N=7: B&B tem menos nós que o BT, 464 contra 552, mas levou mais tempo, 0,148 contra 0,096 ms; em N=8, 0,158 contra 0,100 ms); no TSP o ganho vem quase todo do limite (BT = FB em nós); nas rainhas o limite agrega pouco sobre a poda por restrição (552 → 464 nós) com custo extra de avaliação.
 
 ## 7. Conclusão
 
 {{texto do grupo: síntese, resposta ao objetivo, limitações (tamanhos pequenos, uma máquina, instâncias aleatórias), trabalhos futuros}}
 
-> **DEV 🔴** §7: escrever depois da §6. Limitações já visíveis: tamanhos pequenos (P5), uma máquina (P6), uma semente/instância por tamanho no TSP (confirmar no Apêndice A).
+> **DEV 🔴** §7: escrever depois da §6. Limitações já visíveis: tamanhos pequenos (P5), uma máquina só, um notebook (§3), uma semente/instância por tamanho no TSP (confirmar no Apêndice A).
 
 ## Referências
 

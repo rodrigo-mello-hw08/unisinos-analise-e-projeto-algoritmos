@@ -60,9 +60,9 @@ Pedidos em aberto: `handoff-*.md`.
 
 ## Resultados-chave já verificados (para não rodar de novo)
 
-- Origem: `resources/resultados-*.csv`, commit `6041c18` (Rodrigo, 16/11/2026). Cada linha tem `warmup_elapsed_ns` (**sem aquecimento**, 1 execução) e `tempo_decorrido_ns` (**com aquecimento**, mediana de 5). Máquina ainda não registrada (P6); contagens são determinísticas. Usar só os CSVs do Rodrigo (Vini, 16/11): não medir tempos em outra máquina.
+- Origem: `resources/resultados-*.csv`, commit `3bb29f7` (Rodrigo, 16/11/2026). Cada linha tem `warmup_elapsed_ns` (**sem aquecimento**, 1 execução) e `tempo_decorrido_ns` (**com aquecimento**, mediana de 5). Máquina em `resources/ambiente.txt`: notebook i7-10510U, 15,8 GB, Windows 11 Enterprise, OpenJDK 21.0.10 (P6 fechada). Contagens determinísticas. Usar só os CSVs do Rodrigo (Vini, 16/11).
 - N rainhas (N=4..8): soluções 2, 10, 4, 40, 92 (iguais nas 3 variantes). Nós: FB 341/3906/55987/960800/19173961; BT 17/54/153/552/2057; B&B 17/54/131/464/1725.
-- Tempos com aquecimento (ms): rainhas N=8 FB 180,1, BT 0,168, B&B 0,158; TSP n=10 FB 18,2, BT 14,5, B&B 0,390.
+- Tempos com aquecimento (ms): rainhas N=8 FB 175,0, BT 0,100, B&B 0,158; TSP n=10 FB 19,0, BT 15,2, B&B 0,499.
 - TSP (n=2,4,6,8,10): custo ótimo igual nas 3 variantes (n=10: 233). Rotas completas avaliadas FB = BT = (n−1)!/2 (n=10: 181440); B&B 11. Nós FB = BT (n=10: 986410); B&B 855.
 
 ## Estrutura do repositório
