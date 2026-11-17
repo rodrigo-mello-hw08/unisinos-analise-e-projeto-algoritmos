@@ -1,0 +1,291 @@
+
+==========================================================================
+Demonstração: solução gulosa e solução ótima (mochila clássica 0/1)
+==========================================================================
+Capacidade da mochila: 4.00
+Dados de entrada:
+  A: peso=3.00, valor=5.00, valor/peso=1.67
+  B: peso=2.00, valor=3.00, valor/peso=1.50
+  C: peso=2.00, valor=3.00, valor/peso=1.50
+
+--- Comparação entre a solução gulosa e a ótima: mochila clássica (0/1) ---
+Selecionado: A (peso=3.00, valor=5.00)
+Ignorado: B (não cabe; peso=2.00, capacidade restante=1.00)
+Ignorado: C (não cabe; peso=2.00, capacidade restante=1.00)
+
+> Tipo de resultado retornado: ClassicKnapsack
+> Itens selecionados: 1
+> Peso utilizado: 3.00 / 4.00
+> Valor total: 5.00
+> Tempo de execução: 1.955 ms
+Solução ótima (enumeração de subconjuntos):
+  Selecionado: B (peso=2.00, valor=3.00)
+  Selecionado: C (peso=2.00, valor=3.00)
+Peso utilizado: 4.00 / 4.00
+Valor total ótimo: 6.00
+Diferença em relação à solução gulosa: 1.00
+
+==========================================================================
+Teste 1 — Instância pequena
+==========================================================================
+Capacidade da mochila: 10.00
+Quantidade de itens: 5
+Dados de entrada:
+  A: peso=2.00, valor=10.00
+  B: peso=3.00, valor=14.00
+  C: peso=5.00, valor=25.00
+  D: peso=4.00, valor=16.00
+  E: peso=1.00, valor=3.00
+
+--- Teste 1 — Instância pequena: mochila clássica (0/1) ---
+Selecionado: A (peso=2.00, valor=10.00)
+Selecionado: C (peso=5.00, valor=25.00)
+Selecionado: B (peso=3.00, valor=14.00)
+Ignorado: D (não cabe; peso=4.00, capacidade restante=0.00)
+Ignorado: E (não cabe; peso=1.00, capacidade restante=0.00)
+
+> Tipo de resultado retornado: ClassicKnapsack
+> Itens selecionados: 3
+> Peso utilizado: 10.00 / 10.00
+> Valor total: 49.00
+> Tempo de execução: 0.016 ms
+
+--- Teste 1 — Instância pequena: mochila fracionária ---
+Selecionado: A (fração=1.0000, peso usado=2.00, valor obtido=10.00)
+Selecionado: C (fração=1.0000, peso usado=5.00, valor obtido=25.00)
+Selecionado: B (fração=1.0000, peso usado=3.00, valor obtido=14.00)
+
+> Tipo de resultado retornado: FractionalKnapsack
+> Itens aproveitados integral ou parcialmente: 3
+> Peso utilizado: 10.00 / 10.00
+> Valor total: 49.00
+> Tempo de execução: 0.516 ms
+
+==========================================================================
+Teste 2 — Instância média
+==========================================================================
+Capacidade da mochila: 100.00
+Quantidade de itens: 100
+Dados de entrada:
+  Item-1: peso=2.00, valor=22.00
+  Item-2: peso=3.00, valor=39.00
+  Item-3: peso=4.00, valor=56.00
+  Item-4: peso=5.00, valor=73.00
+  Item-5: peso=6.00, valor=90.00
+  ... e mais 95 itens
+
+--- Teste 2 — Instância média: mochila clássica (0/1) ---
+Selecionado: Item-40 (peso=1.00, valor=85.00)
+Selecionado: Item-80 (peso=1.00, valor=65.00)
+Selecionado: Item-41 (peso=2.00, valor=102.00)
+Selecionado: Item-20 (peso=1.00, valor=45.00)
+Selecionado: Item-81 (peso=2.00, valor=82.00)
+Selecionado: Item-82 (peso=3.00, valor=99.00)
+Selecionado: Item-21 (peso=2.00, valor=62.00)
+Selecionado: Item-22 (peso=3.00, valor=79.00)
+Selecionado: Item-60 (peso=1.00, valor=25.00)
+Selecionado: Item-23 (peso=4.00, valor=96.00)
+As demais decisões foram omitidas para manter a saída legível.
+
+> Tipo de resultado retornado: ClassicKnapsack
+> Itens selecionados: 26
+> Peso utilizado: 100.00 / 100.00
+> Valor total: 1808.00
+> Tempo de execução: 0.229 ms
+
+--- Teste 2 — Instância média: mochila fracionária ---
+Selecionado: Item-40 (fração=1.0000, peso usado=1.00, valor obtido=85.00)
+Selecionado: Item-80 (fração=1.0000, peso usado=1.00, valor obtido=65.00)
+Selecionado: Item-41 (fração=1.0000, peso usado=2.00, valor obtido=102.00)
+Selecionado: Item-20 (fração=1.0000, peso usado=1.00, valor obtido=45.00)
+Selecionado: Item-81 (fração=1.0000, peso usado=2.00, valor obtido=82.00)
+Selecionado: Item-82 (fração=1.0000, peso usado=3.00, valor obtido=99.00)
+Selecionado: Item-21 (fração=1.0000, peso usado=2.00, valor obtido=62.00)
+Selecionado: Item-22 (fração=1.0000, peso usado=3.00, valor obtido=79.00)
+Selecionado: Item-60 (fração=1.0000, peso usado=1.00, valor obtido=25.00)
+Selecionado: Item-23 (fração=1.0000, peso usado=4.00, valor obtido=96.00)
+As demais decisões foram omitidas para manter a saída legível.
+
+> Tipo de resultado retornado: FractionalKnapsack
+> Itens aproveitados integral ou parcialmente: 26
+> Peso utilizado: 100.00 / 100.00
+> Valor total: 1818.40
+> Tempo de execução: 0.162 ms
+
+==========================================================================
+Teste 3 — Instância grande
+==========================================================================
+Capacidade da mochila: 500.00
+Quantidade de itens: 2000
+Dados de entrada:
+  Item-1: peso=2.00, valor=47.00
+  Item-2: peso=3.00, valor=84.00
+  Item-3: peso=4.00, valor=121.00
+  Item-4: peso=5.00, valor=158.00
+  Item-5: peso=6.00, valor=195.00
+  ... e mais 1995 itens
+
+--- Teste 3 — Instância grande: mochila clássica (0/1) ---
+Selecionado: Item-350 (peso=1.00, valor=460.00)
+Selecionado: Item-850 (peso=1.00, valor=460.00)
+Selecionado: Item-1350 (peso=1.00, valor=460.00)
+Selecionado: Item-1850 (peso=1.00, valor=460.00)
+Selecionado: Item-200 (peso=1.00, valor=410.00)
+Selecionado: Item-700 (peso=1.00, valor=410.00)
+Selecionado: Item-1200 (peso=1.00, valor=410.00)
+Selecionado: Item-1700 (peso=1.00, valor=410.00)
+Selecionado: Item-50 (peso=1.00, valor=360.00)
+Selecionado: Item-550 (peso=1.00, valor=360.00)
+As demais decisões foram omitidas para manter a saída legível.
+
+> Tipo de resultado retornado: ClassicKnapsack
+> Itens selecionados: 157
+> Peso utilizado: 500.00 / 500.00
+> Valor total: 54061.00
+> Tempo de execução: 1.902 ms
+
+--- Teste 3 — Instância grande: mochila fracionária ---
+Selecionado: Item-350 (fração=1.0000, peso usado=1.00, valor obtido=460.00)
+Selecionado: Item-850 (fração=1.0000, peso usado=1.00, valor obtido=460.00)
+Selecionado: Item-1350 (fração=1.0000, peso usado=1.00, valor obtido=460.00)
+Selecionado: Item-1850 (fração=1.0000, peso usado=1.00, valor obtido=460.00)
+Selecionado: Item-200 (fração=1.0000, peso usado=1.00, valor obtido=410.00)
+Selecionado: Item-700 (fração=1.0000, peso usado=1.00, valor obtido=410.00)
+Selecionado: Item-1200 (fração=1.0000, peso usado=1.00, valor obtido=410.00)
+Selecionado: Item-1700 (fração=1.0000, peso usado=1.00, valor obtido=410.00)
+Selecionado: Item-50 (fração=1.0000, peso usado=1.00, valor obtido=360.00)
+Selecionado: Item-550 (fração=1.0000, peso usado=1.00, valor obtido=360.00)
+As demais decisões foram omitidas para manter a saída legível.
+
+> Tipo de resultado retornado: FractionalKnapsack
+> Itens aproveitados integral ou parcialmente: 157
+> Peso utilizado: 500.00 / 500.00
+> Valor total: 54061.00
+> Tempo de execução: 1.448 ms
+
+==========================================================================
+Lote pequeno - mochila clássica dinâmica (0/1)
+==========================================================================
+Itens: 5 | Capacidade: 10.00
+  Selecionado: C (peso=5.00, valor=25.00)
+  Selecionado: B (peso=3.00, valor=14.00)
+  Selecionado: A (peso=2.00, valor=10.00)
+Itens selecionados: 3
+Peso utilizado: 10.00 / 10.00
+Valor total: 49.00
+Tempo de execução: 0.059 ms
+
+==========================================================================
+Lote médio - mochila clássica dinâmica (0/1)
+==========================================================================
+Itens: 100 | Capacidade: 100.00
+  Selecionado: Item-88 (peso=9.00, valor=101.00)
+  Selecionado: Item-87 (peso=8.00, valor=84.00)
+  Selecionado: Item-82 (peso=3.00, valor=99.00)
+  Selecionado: Item-81 (peso=2.00, valor=82.00)
+  Selecionado: Item-80 (peso=1.00, valor=65.00)
+  Selecionado: Item-64 (peso=5.00, valor=93.00)
+  Selecionado: Item-63 (peso=4.00, valor=76.00)
+  Selecionado: Item-62 (peso=3.00, valor=59.00)
+  Selecionado: Item-61 (peso=2.00, valor=42.00)
+  Selecionado: Item-60 (peso=1.00, valor=25.00)
+  ... e mais 14 itens
+Itens selecionados: 24
+Peso utilizado: 100.00 / 100.00
+Valor total: 1812.00
+Tempo de execução: 0.888 ms
+
+==========================================================================
+Lote grande - mochila clássica dinâmica (0/1)
+==========================================================================
+Itens: 2000 | Capacidade: 500.00
+  Selecionado: Item-1954 (peso=5.00, valor=308.00)
+  Selecionado: Item-1953 (peso=4.00, valor=271.00)
+  Selecionado: Item-1952 (peso=3.00, valor=234.00)
+  Selecionado: Item-1951 (peso=2.00, valor=197.00)
+  Selecionado: Item-1950 (peso=1.00, valor=160.00)
+  Selecionado: Item-1905 (peso=6.00, valor=495.00)
+  Selecionado: Item-1904 (peso=5.00, valor=458.00)
+  Selecionado: Item-1903 (peso=4.00, valor=421.00)
+  Selecionado: Item-1902 (peso=3.00, valor=384.00)
+  Selecionado: Item-1901 (peso=2.00, valor=347.00)
+  ... e mais 147 itens
+Itens selecionados: 157
+Peso utilizado: 500.00 / 500.00
+Valor total: 54061.00
+Tempo de execução: 8.878 ms
+
+==========================================================================
+Cenários em que a programação dinâmica encontra o ótimo
+==========================================================================
+
+Cenário 1 | capacidade: 4.00
+---------------------------------------------------------------------------
+Itens de entrada:
+  A (peso=3.00, valor=5.00, valor/peso=1.67)
+  B (peso=2.00, valor=3.00, valor/peso=1.50)
+  C (peso=2.00, valor=3.00, valor/peso=1.50)
+
+Guloso: valor=5.00
+  Itens escolhidos: Classic Knapsack: 
+> maxCapacity=4.0, 
+> capacityUsed=3.0, 
+> totalValue=5.0, 
+> selectedItems[
+(name=A, weight=3.0, value=5.0)
+]
+
+Dinâmico: valor=6.00, peso=4.00
+  Selecionado: C (peso=2.00, valor=3.00)
+  Selecionado: B (peso=2.00, valor=3.00)
+Ótimo esperado: 6.00 | Dinâmico correto: sim | Guloso subótimo: sim
+
+Cenário 2 | capacidade: 50.00
+---------------------------------------------------------------------------
+Itens de entrada:
+  A (peso=10.00, valor=60.00, valor/peso=6.00)
+  B (peso=20.00, valor=100.00, valor/peso=5.00)
+  C (peso=30.00, valor=120.00, valor/peso=4.00)
+
+Guloso: valor=160.00
+  Itens escolhidos: Classic Knapsack: 
+> maxCapacity=50.0, 
+> capacityUsed=30.0, 
+> totalValue=160.0, 
+> selectedItems[
+(name=A, weight=10.0, value=60.0), 
+(name=B, weight=20.0, value=100.0)
+]
+
+Dinâmico: valor=220.00, peso=50.00
+  Selecionado: C (peso=30.00, valor=120.00)
+  Selecionado: B (peso=20.00, valor=100.00)
+Ótimo esperado: 220.00 | Dinâmico correto: sim | Guloso subótimo: sim
+
+Cenário 3 | capacidade: 10.00
+---------------------------------------------------------------------------
+Itens de entrada:
+  A (peso=6.00, valor=30.00, valor/peso=5.00)
+  B (peso=5.00, valor=24.00, valor/peso=4.80)
+  C (peso=5.00, valor=24.00, valor/peso=4.80)
+
+Guloso: valor=30.00
+  Itens escolhidos: Classic Knapsack: 
+> maxCapacity=10.0, 
+> capacityUsed=6.0, 
+> totalValue=30.0, 
+> selectedItems[
+(name=A, weight=6.0, value=30.0)
+]
+
+Dinâmico: valor=48.00, peso=10.00
+  Selecionado: C (peso=5.00, valor=24.00)
+  Selecionado: B (peso=5.00, valor=24.00)
+Ótimo esperado: 48.00 | Dinâmico correto: sim | Guloso subótimo: sim
+
+==========================================================================
+Comparação de tempo no lote grande
+==========================================================================
+Instância: 2000 itens | capacidade: 500.00
+Guloso: valor=54061.00 | tempo=1.355 ms
+Dinâmico: valor=54061.00 | tempo=8.879 ms
