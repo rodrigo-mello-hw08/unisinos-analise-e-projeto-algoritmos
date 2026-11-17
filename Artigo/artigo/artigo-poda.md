@@ -13,6 +13,8 @@
 >
 > **Antes de exportar:** o PDF final é escrito pelo grupo em LaTeX/Overleaf (template SBC); este arquivo é o roteiro. §0 e Apêndices são 100% DEV.
 >
+> **Overleaf (16/11):** o projeto LaTeX está em `overleaf/` (template SBC, tabelas 1–6, figuras 1–9, `referencias.bib`) e já foi importado no Overleaf pelo Vini. Lá ficam o texto e as `\lacuna{...}`. Se os CSVs mudarem, atualizar as tabelas **aqui e no Overleaf**.
+>
 > **Estado:** ESQUELETO v1 — 2026-11-14. Entrega **23/11/2026 19:30** (PDF, Moodle, "Aula 7 - Artigo Científico"). Limite: **10–15 laudas** SBC.
 
 > ## 0. PENDÊNCIAS

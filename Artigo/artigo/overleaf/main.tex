@@ -1,0 +1,358 @@
+% =====================================================================
+% Artigo — Análise e Projeto de Algoritmos (Unisinos, 2026/2)
+% Template SBC da professora (sbc-template.sty + sbc.bst).
+%
+% COMO USAR
+%  - \lacuna{...} = texto a escrever pelo grupo (aparece em vermelho no PDF).
+%    Antes de entregar: procurar "\lacuna" e garantir que não sobrou nenhuma.
+%  - Comentários "% MATERIAL:" = lembretes curtos (números, fontes, onde está
+%    no roteiro). Não aparecem no PDF. Detalhes em Artigo/artigo/artigo-poda.md.
+%  - Tabelas e figuras já estão com os dados finais (CSVs do Rodrigo, 3bb29f7).
+%  - Limite: 10 a 15 páginas. Entrega: 23/11/2026, 19h30, Moodle.
+% =====================================================================
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\graphicspath{{figuras/}}
+
+% Lacuna: texto do grupo ainda não escrito
+\newcommand{\lacuna}[1]{\textcolor{red}{[#1]}}
+
+\sloppy
+
+% MATERIAL: P13 — título ajustado para N rainhas + TSP (sem mochila).
+\title{\lacuna{Título definitivo}}
+
+% MATERIAL: P7 — confirmar integrantes e e-mails institucionais.
+\author{\lacuna{Nome 1}\inst{1}, \lacuna{Nome 2}\inst{1}}
+
+\address{Escola Politécnica -- Universidade do Vale do Rio dos Sinos (Unisinos)\\
+  São Leopoldo -- RS -- Brasil
+  \email{\lacuna{e-mails}}
+}
+
+\begin{document}
+
+\maketitle
+
+% MATERIAL: escrever por último. Até 10 linhas cada, ambos na primeira página.
+% Pergunta do rascunho do Rodrigo: como diferentes estratégias de poda
+% influenciam o desempenho de algoritmos de busca em problemas combinatórios.
+\begin{abstract}
+  \lacuna{Abstract em inglês}
+\end{abstract}
+
+\begin{resumo}
+  \lacuna{Resumo: problema, objetivo, método, principais resultados, conclusão}
+\end{resumo}
+
+% =====================================================================
+\section{Introdução}
+% MATERIAL:
+%  - Objetivo geral e 5 específicos no rascunho do Rodrigo (docs/rascunho-rodrigo.md);
+%    trocar "mochila" por TSP.
+%  - Perguntas do experimento: fim de ../planos/plano-inicial.md.
+%  - Fechar com a organização do artigo (seções 2 a 7).
+
+\lacuna{Contexto, problema, justificativa, questão de investigação, objetivos, organização do artigo}
+
+% =====================================================================
+\section{Fundamentação Teórica}
+% MATERIAL: fontes aprovadas e páginas IMPRESSAS no roteiro (§2, tabelas de citação).
+%  CPH: busca completa p. 47; subconjuntos/permutações p. 47--49; backtracking p. 50;
+%       N rainhas p. 50--51; poda p. 51, 54; MST p. 141; Prim p. 147--148;
+%       caminho hamiltoniano p. 177--178; n! viável até n<=10 p. 14, 20, 21.
+%  Little et al.: B&B para TSP (resumo; p. 13); poda por limite (p. 6, 10, 22).
+%  Cormen: cap. 23 (MST/Prim), 34.5.4 (TSP NP-completo), 35.2 (MST <= circuito ótimo).
+%  Haralick & Elliott: forward checking (o "B&B" das rainhas, na prática).
+%  Exemplo de citação: \cite{laaksonen:2018}, \cite{little:1963},
+%  \cite{cormen:2012}, \cite{haralick:1980}.
+
+\subsection{Espaço de busca e busca exaustiva}
+
+\lacuna{texto do grupo}
+
+\subsection{Backtracking e poda por restrição}
+
+\lacuna{texto do grupo}
+
+\subsection{Branch and Bound e poda por limite}
+% MATERIAL: não dizer que Little et al. "cunharam" o termo. O B&B deles é
+% "menor limite primeiro"; o nosso é em profundidade e sem solução inicial.
+
+\lacuna{texto do grupo}
+
+\subsection{Problemas estudados}
+% MATERIAL: N rainhas = satisfação de restrições (contar soluções, sem função
+% objetivo). TSP = minimização; (n-1)!/2 rotas no caso simétrico.
+
+\lacuna{texto do grupo: N rainhas; Problema do Caixeiro-Viajante}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.6\linewidth]{solucoes-rainhas-4.pdf}
+\caption{\lacuna{legenda: as 2 soluções das N rainhas para N=4}}
+\label{fig:solucoes4}
+\end{figure}
+
+% MATERIAL: 17 nós, 2 soluções (borda verde), 4 nós sem continuação (laranja);
+% c/d = podas por coluna/diagonal. Força bruta: 341 nós em N=4.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{arvore-rainhas-4.pdf}
+\caption{\lacuna{legenda: árvore de estados do backtracking, N=4}}
+\label{fig:arvore4}
+\end{figure}
+
+% =====================================================================
+\section{Metodologia}
+% MATERIAL:
+%  - 3 variantes por problema, mesma interface (NQueensSolver, TspSolver), mesmas instâncias.
+%  - Métricas: tempo (System.nanoTime), nós, tentativas, podas por causa, avaliações do limite.
+%  - Medição: por tamanho e solver (FB -> BT -> B&B), 1 execução sem aquecimento
+%    (warmup_elapsed_ns) + mediana de 5 com aquecimento (tempo_decorrido_ns).
+%  - Só relatar o observado (primeira execução bem mais lenta); sem teoria da JVM.
+%  - Tamanhos: N = 4..8; n = 2, 4, 6, 8, 10. TSP: semente 20261110 + n, pesos em [1, 100].
+%  - Fig. 3: n=6, rota 0-1-4-2-3-5-0, custo 138.
+
+\lacuna{Algoritmos, linguagem, ambiente, instâncias e tamanhos, métricas, procedimento de medição}
+
+\textbf{Ambiente:} OpenJDK 21.0.10 (Microsoft Build); notebook com Intel Core
+i7-10510U (1,80~GHz, 4 núcleos/8 \emph{threads}), 15,8~GB de RAM (2.133~MT/s),
+Windows 11 Enterprise 10.0.26200 (64 bits), ligado na tomada, plano de energia
+``Equilibrado''. Código-fonte:
+\url{https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/tree/main/Artigo}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{tsp-instancia-6.pdf}
+\caption{\lacuna{legenda: instância do TSP com n=6 e rota ótima}}
+\label{fig:tsp6}
+\end{figure}
+
+% =====================================================================
+\section{Análise Teórica dos Algoritmos}
+% MATERIAL (enunciado: contagem de operações, somatórios, recorrências):
+%  Rainhas FB: nós = soma_{k=0..N} N^k = (N^{N+1}-1)/(N-1) (confere: 341, 3906,
+%    55987, 960800, 19173961); folhas N^N, isValid O(N^2) -> O(N^N N^2).
+%  Rainhas BT: O(N!) no pior caso. Rainhas B&B: limite O(N^2) por nó -> O(N! N^2).
+%  TSP FB/BT: (n-1)!/2 rotas avaliadas; nós ~ e(n-1)! (986410 em n=10) -> O((n-1)! n).
+%  TSP B&B: Prim O(n^2) por nó -> O((n-1)! n^2) no pior caso.
+%  Recorrência: T(k) = (n-k) T(k+1) + custo do nó.
+
+\subsection{N rainhas}
+
+\lacuna{texto do grupo}
+
+\subsection{Problema do Caixeiro-Viajante}
+
+\lacuna{texto do grupo}
+
+% =====================================================================
+\section{Experimentos e Resultados}
+% MATERIAL: descrever o que tabelas/figuras mostram; interpretar só na seção 6.
+%  - As 3 variantes concordam em todas as linhas (verificação de correção).
+%  - Tempos < ~0,1 ms são ruidosos (BT rainhas: 0,119 ms em N=6 -> 0,096 em N=7).
+%  - Tabelas 3, 4 e 6 omitem n=2 (trivial).
+
+\lacuna{texto do grupo}
+
+\begin{table}[htbp]
+\centering
+\caption{N rainhas: nós explorados e soluções encontradas.}
+\label{tab:nos-rainhas}
+\begin{tabular}{rrrrr}
+\toprule
+N & Soluções & Nós (força bruta) & Nós (backtracking) & Nós (branch and bound) \\
+\midrule
+4 & 2  & 341        & 17    & 17    \\
+5 & 10 & 3.906      & 54    & 54    \\
+6 & 4  & 55.987     & 153   & 131   \\
+7 & 40 & 960.800    & 552   & 464   \\
+8 & 92 & 19.173.961 & 2.057 & 1.725 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{nos-rainhas.pdf}
+\caption{\lacuna{legenda: nós explorados nas N rainhas}}
+\label{fig:nos-rainhas}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{N rainhas: podas por causa.}
+\label{tab:podas-rainhas}
+\small
+\begin{tabular}{rrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{Backtracking} & \multicolumn{4}{c}{Branch and bound} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-7}
+N & Coluna & Diagonal & Coluna & Diagonal & Limite & Avaliações do limite \\
+\midrule
+4 & 28     & 16    & 18    & 10    & 4   & 15    \\
+5 & 119    & 48    & 105   & 42    & 4   & 44    \\
+6 & 538    & 204   & 242   & 126   & 44  & 127   \\
+7 & 2.239  & 794   & 1.151 & 444   & 130 & 424   \\
+8 & 10.212 & 3.452 & 4.996 & 1.864 & 560 & 1.633 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{podas-rainhas.pdf}
+\caption{\lacuna{legenda: podas por causa nas N rainhas}}
+\label{fig:podas-rainhas}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Caixeiro-Viajante: custo ótimo, nós explorados e rotas completas avaliadas.}
+\label{tab:tsp}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{rrrrrrrr}
+\toprule
+ & & \multicolumn{3}{c}{Nós explorados} & \multicolumn{3}{c}{Rotas avaliadas} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+n & Custo ótimo & FB & BT & B\&B & FB & BT & B\&B \\
+\midrule
+4  & 259 & 16      & 16      & 7   & 3       & 3       & 1  \\
+6  & 138 & 326     & 326     & 41  & 60      & 60      & 3  \\
+8  & 265 & 13.700  & 13.700  & 436 & 2.520   & 2.520   & 13 \\
+10 & 233 & 986.410 & 986.410 & 855 & 181.440 & 181.440 & 11 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{nos-tsp.pdf}
+\caption{\lacuna{legenda: nós explorados no TSP}}
+\label{fig:nos-tsp}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução com aquecimento (mediana de 5 execuções, após 1 de aquecimento), em ms.}
+\label{tab:tempo}
+\begin{tabular}{lrrrr}
+\toprule
+Problema & Tamanho & Força bruta & Backtracking & Branch and bound \\
+\midrule
+N rainhas & 4  & 0,087 & 0,009 & 0,019 \\
+N rainhas & 5  & 0,191 & 0,026 & 0,062 \\
+N rainhas & 6  & 2,23  & 0,119 & 0,048 \\
+N rainhas & 7  & 9,92  & 0,096 & 0,148 \\
+N rainhas & 8  & 175,0 & 0,100 & 0,158 \\
+\midrule
+TSP       & 4  & 0,004 & 0,004 & 0,007 \\
+TSP       & 6  & 0,096 & 0,083 & 0,069 \\
+TSP       & 8  & 0,708 & 0,886 & 0,320 \\
+TSP       & 10 & 19,0  & 15,2  & 0,499 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{tempo-rainhas.pdf}
+\caption{\lacuna{legenda: tempo com aquecimento nas N rainhas}}
+\label{fig:tempo-rainhas}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{tempo-tsp.pdf}
+\caption{\lacuna{legenda: tempo com aquecimento no TSP}}
+\label{fig:tempo-tsp}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{N rainhas: tempo sem aquecimento (1 execução) e com aquecimento (mediana de 5), em ms, e a razão entre eles.}
+\label{tab:frio-rainhas}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{rrrrrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Força bruta} & \multicolumn{3}{c}{Backtracking} & \multicolumn{3}{c}{Branch and bound} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+N & sem & com & razão & sem & com & razão & sem & com & razão \\
+\midrule
+4 & 4,40  & 0,087 & 50,7$\times$ & 0,056 & 0,009 & 6,1$\times$ & 0,059 & 0,019 & 3,1$\times$ \\
+5 & 0,363 & 0,191 & 1,9$\times$  & 0,042 & 0,026 & 1,6$\times$ & 0,075 & 0,062 & 1,2$\times$ \\
+6 & 6,03  & 2,23  & 2,7$\times$  & 0,131 & 0,119 & 1,1$\times$ & 0,118 & 0,048 & 2,5$\times$ \\
+7 & 11,3  & 9,92  & 1,1$\times$  & 0,112 & 0,096 & 1,2$\times$ & 0,198 & 0,148 & 1,3$\times$ \\
+8 & 191,1 & 175,0 & 1,1$\times$  & 0,139 & 0,100 & 1,4$\times$ & 0,200 & 0,158 & 1,3$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Caixeiro-Viajante: tempo sem aquecimento (1 execução) e com aquecimento (mediana de 5), em ms, e a razão entre eles.}
+\label{tab:frio-tsp}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{rrrrrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{Força bruta} & \multicolumn{3}{c}{Backtracking} & \multicolumn{3}{c}{Branch and bound} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+n & sem & com & razão & sem & com & razão & sem & com & razão \\
+\midrule
+4  & 0,007 & 0,004 & 2,1$\times$ & 0,012 & 0,004 & 3,2$\times$ & 0,018 & 0,007 & 2,6$\times$ \\
+6  & 0,095 & 0,096 & 1,0$\times$ & 0,102 & 0,083 & 1,2$\times$ & 0,079 & 0,069 & 1,2$\times$ \\
+8  & 0,734 & 0,708 & 1,0$\times$ & 0,899 & 0,886 & 1,0$\times$ & 0,361 & 0,320 & 1,1$\times$ \\
+10 & 28,6  & 19,0  & 1,5$\times$ & 15,9  & 15,2  & 1,0$\times$ & 0,501 & 0,499 & 1,0$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{frio-aquecido.pdf}
+\caption{\lacuna{legenda: tempo sem e com aquecimento, N rainhas e TSP}}
+\label{fig:frio-aquecido}
+\end{figure}
+
+% =====================================================================
+\section{Discussão}
+% MATERIAL (perguntas do plano: quanto a poda reduz nós, que restrição poda mais,
+% se o custo do limite compensa, se menos nós = menos tempo):
+%  - Rainhas N=8: 19.173.961 -> 2.057 nós (BT). TSP n=10: 986.410 -> 855 (B&B).
+%  - Rainhas: B&B com menos nós que o BT, mas mais lento (N=7: 0,148 x 0,096 ms;
+%    N=8: 0,158 x 0,100 ms). Limite agrega pouco (552 -> 464 nós em N=7).
+%  - TSP: BT = FB em nós (P12, ainda pendente); ganho vem do limite.
+%    B&B ~38x mais rápido que a FB em n=10 (0,499 x 19,0 ms).
+%  - Limite do código (MST) != limite de Little et al. (redução de matriz).
+
+\lacuna{Comparar teoria (seção 4) e experimentos (seção 5)}
+
+% =====================================================================
+\section{Conclusão}
+% MATERIAL: limitações — tamanhos pequenos (P5), uma máquina (notebook),
+% uma instância por tamanho no TSP.
+
+\lacuna{Síntese, resposta ao objetivo, limitações, trabalhos futuros}
+
+% =====================================================================
+% Estilo de referências do template SBC (autor-data). Só as 4 aprovadas.
+% Se alguma não for citada com \cite no texto, ela não aparece na lista;
+% o \nocite abaixo garante as 4 enquanto o texto não estiver pronto.
+\nocite{laaksonen:2018,haralick:1980,cormen:2012,little:1963}
+\bibliographystyle{sbc}
+\bibliography{referencias}
+
+\end{document}

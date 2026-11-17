@@ -76,6 +76,8 @@ Artigo/
   artigo/
     artigo-poda.md        roteiro + dados + material (convenção DEV/{{lacunas}})
     docs/                 enunciado, rascunho do Rodrigo, template de relatório (não usado), sbc/ (template SBC)
+    overleaf/             projeto LaTeX SBC (main.tex, referencias.bib, figuras/) — importado no Overleaf em 16/11; a versão viva é a do Overleaf
+    docs/sbc/template-latex/  template LaTeX original da professora
     images/, export/
 ```
 
