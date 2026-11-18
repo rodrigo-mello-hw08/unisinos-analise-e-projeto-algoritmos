@@ -12,10 +12,9 @@ import java.util.Locale;
 
 public final class DivideAndConquerRunner {
     private static final int MAX_ITEMS_TO_PRINT = 10;
-    private static final int MAX_ITEMS_TO_EXECUTE = 600;
+    static final int MAX_ITEMS_TO_EXECUTE = 2000;
 
-    private DivideAndConquerRunner() {
-    }
+    private DivideAndConquerRunner() {}
 
     public static void run() {
         Locale.setDefault(Locale.US);
@@ -29,8 +28,8 @@ public final class DivideAndConquerRunner {
         System.out.printf("Itens: %d | Capacidade: %.2f%n", items.size(), capacity);
 
         if (items.size() > MAX_ITEMS_TO_EXECUTE) {
-            System.out.printf("Execução omitida: %d itens excedem o limite seguro de %d itens " +
-                            "para a recursão exponencial",
+            System.out.printf("Execução omitida: %d itens excedem o limite configurado de %d. " +
+                            "A poda reduz a busca em muitos casos, mas o pior caso continua exponencial.%n",
                     items.size(), MAX_ITEMS_TO_EXECUTE);
             return;
         }

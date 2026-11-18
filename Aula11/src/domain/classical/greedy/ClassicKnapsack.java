@@ -45,6 +45,10 @@ public class ClassicKnapsack extends Knapsack {
         return totalValue;
     }
 
+    public double getUsedCapacity() {
+        return usedCapacity;
+    }
+
     @Override
     public String toString() {
         String items = selectedItems.stream().map(KnapsackItem::toString).collect(Collectors.joining(", \n"));

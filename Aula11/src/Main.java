@@ -8,8 +8,8 @@ public class Main {
     public static void main(String[] args) {
 //        GreedyRunner.run();
 //        DynamicRunner.run();
-//        ComparisonRunner.run();
-        DivideAndConquerRunner.run();
+//        DivideAndConquerRunner.run();
+        ComparisonRunner.run();
     }
 
 }

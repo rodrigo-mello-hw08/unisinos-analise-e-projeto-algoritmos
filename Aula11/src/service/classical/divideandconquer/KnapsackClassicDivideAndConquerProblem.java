@@ -6,14 +6,15 @@ import domain.classical.greedy.KnapsackItem;
 import service.KnapsackProblem;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class KnapsackClassicDivideAndConquerProblem implements KnapsackProblem {
     private final double maxCapacity;
 
     public KnapsackClassicDivideAndConquerProblem(double maxCapacity) {
-        if (maxCapacity < 0) {
-            throw new IllegalArgumentException("A capacidade não pode ser negativa.");
+        if (maxCapacity < 0 || !Double.isFinite(maxCapacity)) {
+            throw new IllegalArgumentException("A capacidade deve ser finita e não negativa.");
         }
         this.maxCapacity = maxCapacity;
     }
@@ -23,57 +24,82 @@ public class KnapsackClassicDivideAndConquerProblem implements KnapsackProblem {
         if (items == null) {
             throw new IllegalArgumentException("A lista de itens não pode ser nula.");
         }
-        List<KnapsackItem> selectedItems = solve(items, 0, maxCapacity).selectedItems;
-        return new ClassicKnapsack(maxCapacity, selectedItems);
+
+        List<KnapsackItem> orderedItems = new ArrayList<>(items);
+        orderedItems.sort(Comparator.comparingDouble(
+                (KnapsackItem item) -> item.getValue() / item.getWeight()).reversed());
+
+        SearchState searchState = new SearchState();
+        search(orderedItems, 0, maxCapacity, 0, new ArrayList<>(), searchState);
+        return new ClassicKnapsack(maxCapacity, searchState.bestSelectedItems);
     }
 
-    private Solution solve(List<KnapsackItem> items, int itemIndex, double remainingCapacity) {
-        if (itemIndex >= items.size()) {
-            return Solution.empty();
+    private void search(List<KnapsackItem> items, int itemIndex,
+                        double remainingCapacity, double currentValue,
+                        List<KnapsackItem> currentSelectedItems,
+                        SearchState searchState) {
+
+        if (currentValue > searchState.bestValue) {
+            searchState.bestValue = currentValue;
+            searchState.bestSelectedItems = new ArrayList<>(currentSelectedItems);
         }
+
+        boolean allItemsHaveBeenConsidered = itemIndex >= items.size();
+        double maximumReachableValue = calculateUpperBound(items, itemIndex, remainingCapacity, currentValue);
+        boolean upperBoundCannotImproveBestSolution = maximumReachableValue <= searchState.bestValue;
+        if (allItemsHaveBeenConsidered || upperBoundCannotImproveBestSolution) {
+            return;
+        }
+
+        exploreBranches(items, itemIndex, remainingCapacity,
+                currentValue, currentSelectedItems, searchState);
+    }
+
+    private void exploreBranches(List<KnapsackItem> items, int itemIndex,
+                                 double remainingCapacity, double currentValue,
+                                 List<KnapsackItem> currentSelectedItems, SearchState searchState) {
+
         KnapsackItem currentItem = items.get(itemIndex);
-        Solution bestSolWithoutCurrentItem = solveWithoutCurrentItem(items, itemIndex, remainingCapacity);
-        Solution bestSolWithCurrentItem = solveWithCurrentItem(items, itemIndex, remainingCapacity, currentItem);
-
-        return bestSolWithCurrentItem.totalValue > bestSolWithoutCurrentItem.totalValue
-                ? bestSolWithCurrentItem
-                : bestSolWithoutCurrentItem;
-    }
-
-    private Solution solveWithoutCurrentItem(List<KnapsackItem> items, int itemIndex, double remainingCapacity) {
-        return solve(items, itemIndex + 1, remainingCapacity);
-    }
-
-    private Solution solveWithCurrentItem(List<KnapsackItem> items, int itemIndex,
-                                          double remainingCapacity, KnapsackItem currentItem) {
-        if (currentItem.getWeight() > remainingCapacity) {
-            return Solution.empty();
+        boolean currentItemFits = currentItem.getWeight() <= remainingCapacity;
+        if (currentItemFits) {
+            currentSelectedItems.add(currentItem);
+            search(items,
+                    itemIndex + 1,
+                    remainingCapacity - currentItem.getWeight(),
+                    currentValue + currentItem.getValue(),
+                    currentSelectedItems,
+                    searchState);
+            currentSelectedItems.removeLast();
         }
 
-        double remainingCapacityAfterTakingCurrentItem = remainingCapacity - currentItem.getWeight();
-        Solution bestSolutionForRemainingItems = solve(
-                items, itemIndex + 1, remainingCapacityAfterTakingCurrentItem);
-
-        List<KnapsackItem> selectedItemsWithCurrentItem = new ArrayList<>();
-        selectedItemsWithCurrentItem.add(currentItem);
-        selectedItemsWithCurrentItem.addAll(bestSolutionForRemainingItems.selectedItems);
-
-        return new Solution(
-                currentItem.getValue() + bestSolutionForRemainingItems.totalValue,
-                selectedItemsWithCurrentItem);
+        search(items, itemIndex + 1, remainingCapacity, currentValue, currentSelectedItems, searchState);
     }
 
-    private static final class Solution {
-        private final double totalValue;
-        private final List<KnapsackItem> selectedItems;
+    private double calculateUpperBound(List<KnapsackItem> items, int itemIndex,
+                                       double remainingCapacity, double currentValue) {
 
-        private Solution(double totalValue, List<KnapsackItem> selectedItems) {
-            this.totalValue = totalValue;
-            this.selectedItems = selectedItems;
-        }
+        double upperBound = currentValue;
+        double capacityAvailable = remainingCapacity;
 
-        private static Solution empty() {
-            return new Solution(0, new ArrayList<>());
+        for (int i = itemIndex; i < items.size() && capacityAvailable > 0; i++) {
+            KnapsackItem item = items.get(i);
+            if (item.getValue() <= 0) {
+                continue;
+            }
+
+            if (item.getWeight() <= capacityAvailable) {
+                upperBound += item.getValue();
+                capacityAvailable -= item.getWeight();
+            } else {
+                upperBound += item.getValue() * (capacityAvailable / item.getWeight());
+                break;
+            }
         }
+        return upperBound;
+    }
+
+    private static final class SearchState {
+        private double bestValue;
+        private List<KnapsackItem> bestSelectedItems = new ArrayList<>();
     }
 }
