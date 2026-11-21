@@ -1,4 +1,4 @@
-﻿Data: 2026-11-06 17:02:57
+﻿Data: 2026-11-21 18:25:11
 SO: Microsoft Windows 11 Home (versao 10.0.26300, build 26300)
 CPU: AMD Ryzen 7 5700X 8-Core Processor (8 nucleos / 16 threads)
 RAM: 23,9 GB

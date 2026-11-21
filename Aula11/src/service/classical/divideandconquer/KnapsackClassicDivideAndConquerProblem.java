@@ -26,6 +26,7 @@ public class KnapsackClassicDivideAndConquerProblem implements KnapsackProblem {
         }
 
         List<KnapsackItem> orderedItems = new ArrayList<>(items);
+        //ordenação por valor/peso
         orderedItems.sort(Comparator.comparingDouble(
                 (KnapsackItem item) -> item.getValue() / item.getWeight()).reversed());
 
@@ -39,11 +40,13 @@ public class KnapsackClassicDivideAndConquerProblem implements KnapsackProblem {
                         List<KnapsackItem> currentSelectedItems,
                         SearchState searchState) {
 
+        //atualização da melhor solução
         if (currentValue > searchState.bestValue) {
             searchState.bestValue = currentValue;
             searchState.bestSelectedItems = new ArrayList<>(currentSelectedItems);
         }
 
+        //caso base / poda
         boolean allItemsHaveBeenConsidered = itemIndex >= items.size();
         double maximumReachableValue = calculateUpperBound(items, itemIndex, remainingCapacity, currentValue);
         boolean upperBoundCannotImproveBestSolution = maximumReachableValue <= searchState.bestValue;

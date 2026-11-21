@@ -1,0 +1,14 @@
+# Divisão e conquista (mochila 0/1): contadores da recursão
+
+Versão do projeto (KnapsackClassicDivideAndConquerProblem, com poda por limite superior).
+Divisão = chamada que gera subproblemas; poda = ramo descartado pelo limite superior;
+profundidade = maior número de chamadas empilhadas abaixo da raiz.
+
+| instância | n | W | valor | valor da classe original | chamadas | divisões | ramos "levar" | podas | profundidade máx. | chamadas da versão pura (sem poda) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| pequena | 5 | 10 | 49 | 49 | 7 | 3 | 3 | 4 | 3 | 53 |
+| média | 100 | 100 | 1812 | 1812 | 161 | 125 | 35 | 36 | 50 | inviável (até 2^101 - 1) |
+| grande | 2000 | 500 | 54061 | 54061 | 315 | 157 | 157 | 158 | 157 | inviável (até 2^2001 - 1) |
+
+Versão pura = recursão levar/não levar sem poda e sem ordenação (primeira versão do código),
+executada só até 25 itens; acima disso faria até 2^(n+1) - 1 chamadas.
