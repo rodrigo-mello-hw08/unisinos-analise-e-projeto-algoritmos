@@ -16,10 +16,11 @@
 \usepackage{graphicx,url}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[brazil]{babel}
+\usepackage[brazilian]{babel}
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{xcolor}
+\usepackage{placeins}
 
 \graphicspath{{figuras/}}
 
@@ -28,15 +29,13 @@
 
 \sloppy
 
-% MATERIAL: P13 — título ajustado para N rainhas + TSP (sem mochila).
-\title{\lacuna{Título definitivo}}
+\title{Análise do Impacto das Estratégias de Poda no Desempenho de Algoritmos de Busca: Um Estudo sobre os Problemas do Caixeiro Viajante e das N Rainhas}
 
-% MATERIAL: P7 — confirmar integrantes e e-mails institucionais.
-\author{\lacuna{Nome 1}\inst{1}, \lacuna{Nome 2}\inst{1}}
+\author{Rodrigo Mello\inst{1}, Vinicius de Avila Bezerra\inst{1}}
 
 \address{Escola Politécnica -- Universidade do Vale do Rio dos Sinos (Unisinos)\\
   São Leopoldo -- RS -- Brasil
-  \email{\lacuna{e-mails}}
+  \email{RodrigoMello2@edu.unisinos.br, BezerraVinicius@edu.unisinos.br}
 }
 
 \begin{document}
@@ -56,61 +55,39 @@
 
 % =====================================================================
 \section{Introdução}
-% MATERIAL:
-%  - Objetivo geral e 5 específicos no rascunho do Rodrigo (docs/rascunho-rodrigo.md);
-%    trocar "mochila" por TSP.
-%  - Perguntas do experimento: fim de ../planos/plano-inicial.md.
-%  - Fechar com a organização do artigo (seções 2 a 7).
+Problemas combinatórios frequentemente possuem um espaço de busca que cresce com o tamanho da entrada. Em muitos casos, encontrar uma solução exige considerar diferentes combinações de escolhas, o que pode tornar a enumeração completa computacionalmente custosa. Algoritmos de busca podem reduzir esse esforço por meio de estratégias de poda, que interrompem a exploração de estados inviáveis ou que não podem conduzir a uma solução melhor. Entretanto, identificar esses estados também exige operações adicionais; assim, uma poda pode reduzir o número de nós visitados sem necessariamente diminuir o tempo de execução.
 
-\lacuna{Contexto, problema, justificativa, questão de investigação, objetivos, organização do artigo}
+Este trabalho examina esse equilíbrio em dois problemas com objetivos distintos. No problema das N rainhas, busca-se posicionar N peças em um tabuleiro sem que duas compartilhem a mesma coluna ou diagonal. Essas restrições permitem descartar posicionamentos parciais que já violem as condições do problema. No Problema do Caixeiro-Viajante (TSP), busca-se uma rota de menor custo que visite cada cidade uma única vez e retorne à origem; nesse caso, um limite inferior para o custo de uma rota parcial pode indicar que ela não levará a uma solução melhor que a já encontrada. A comparação permite observar como a natureza do problema influencia a estratégia de poda e seu custo.
 
+A questão de pesquisa é: como diferentes estratégias de poda influenciam o desempenho computacional de algoritmos de busca aplicados a problemas combinatórios? O objetivo geral é analisar esse impacto considerando tanto a redução do espaço de busca quanto o custo das verificações realizadas. Para isso, são comparadas versões de força bruta, \textit{Backtracking} e \textit{Branch and Bound} aplicadas aos dois problemas. O desempenho é avaliado pelo tempo de execução, pelo número de nós explorados e pela quantidade de podas, e os resultados são relacionados à análise teórica da complexidade dos algoritmos.
+
+O restante do artigo está organizado da seguinte forma: a Seção 2 apresenta os conceitos necessários e os problemas estudados; a Seção 3 descreve os algoritmos e o procedimento experimental; a Seção 4 analisa a complexidade; a Seção 5 apresenta os resultados; a Seção 6 discute sua relação com a análise teórica; e a Seção 7 conclui o trabalho, indicando limitações e possibilidades de continuidade.
 % =====================================================================
 \section{Fundamentação Teórica}
-% MATERIAL: fontes aprovadas e páginas IMPRESSAS no roteiro (§2, tabelas de citação).
-%  CPH: busca completa p. 47; subconjuntos/permutações p. 47--49; backtracking p. 50;
-%       N rainhas p. 50--51; poda p. 51, 54; MST p. 141; Prim p. 147--148;
-%       caminho hamiltoniano p. 177--178; n! viável até n<=10 p. 14, 20, 21.
-%  Little et al.: B&B para TSP (resumo; p. 13); poda por limite (p. 6, 10, 22).
-%  Cormen: cap. 23 (MST/Prim), 34.5.4 (TSP NP-completo), 35.2 (MST <= circuito ótimo).
-%  Haralick & Elliott: forward checking (o "B&B" das rainhas, na prática).
-%  Exemplo de citação: \cite{laaksonen:2018}, \cite{little:1963},
-%  \cite{cormen:2012}, \cite{haralick:1980}.
 
 \subsection{Espaço de busca e busca exaustiva}
 
-\lacuna{texto do grupo}
+O espaço de busca reúne os estados que podem ser considerados na procura por soluções. Ele pode ser representado por uma árvore, na qual cada nó corresponde a um estado parcial e cada aresta, a uma decisão. A busca exaustiva percorre as alternativas possíveis até encontrar as soluções ou avaliar todo o espaço. Embora simples e útil como referência, pode se tornar custosa à medida que cresce o número de combinações. A enumeração de permutações, por exemplo, apresenta crescimento fatorial; já a atribuição de um entre n valores a cada uma de n posições gera $n^n$ possibilidades \cite{laaksonen:2018}.
 
 \subsection{Backtracking e poda por restrição}
 
-\lacuna{texto do grupo}
+Backtracking constrói soluções de forma incremental e verifica, após cada escolha, se o estado parcial ainda pode ser estendido para uma solução válida. Se uma restrição já foi violada, a busca retrocede e deixa de explorar os estados descendentes. Por exemplo, nas N rainhas, uma escolha que viole as restrições do problema pode ser podada antes de completar o tabuleiro. Em problemas de satisfação de restrições, o \emph{forward checking} também verifica se as variáveis ainda não atribuídas mantêm valores compatíveis com as escolhas feitas \cite{haralick:1980}.
 
 \subsection{Branch and Bound e poda por limite}
+
 % MATERIAL: não dizer que Little et al. "cunharam" o termo. O B&B deles é
 % "menor limite primeiro"; o nosso é em profundidade e sem solução inicial.
-
-\lacuna{texto do grupo}
+Branch and Bound é uma estratégia para problemas de otimização que divide o espaço em subproblemas e calcula um limite para a melhor solução que cada um pode conter. Em uma minimização, um subproblema pode ser podado quando seu limite não permite superar a melhor solução completa conhecida. Para preservar a correção, o limite deve ser otimista e não excluir soluções melhores. Na formulação de Little et al., os limites inferiores também orientam a ordem de exploração dos subproblemas \cite{little:1963}. Neste trabalho, a busca percorre a árvore em profundidade e usa um limite baseado em árvore geradora mínima, diferindo da exploração por menor limite primeiro descrita por esses autores.
 
 \subsection{Problemas estudados}
-% MATERIAL: N rainhas = satisfação de restrições (contar soluções, sem função
-% objetivo). TSP = minimização; (n-1)!/2 rotas no caso simétrico.
 
-\lacuna{texto do grupo: N rainhas; Problema do Caixeiro-Viajante}
+O problema das N rainhas consiste em posicionar N rainhas em um tabuleiro N por N sem que duas se ataquem. Colocando uma rainha por linha, as escolhas podem ser verificadas quanto às restrições de coluna e diagonal. O estudo busca e conta configurações válidas, sem minimizar uma função de custo. O Problema do Caixeiro-Viajante (TSP), por sua vez, busca um ciclo de menor custo que visite cada cidade uma vez e retorne à origem. No caso simétrico, fixada a cidade inicial, percorrer o ciclo em sentidos opostos representa a mesma rota, resultando em (n-1)!/2 ciclos distintos. Uma árvore geradora mínima das cidades ainda não visitadas pode contribuir para um limite inferior do custo necessário para completar uma rota parcial; árvores geradoras mínimas e o algoritmo de Prim são tratados por Cormen et al. \cite{cormen:2012}.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.6\linewidth]{solucoes-rainhas-4.pdf}
-\caption{\lacuna{legenda: as 2 soluções das N rainhas para N=4}}
-\label{fig:solucoes4}
-\end{figure}
+
 
 % MATERIAL: 17 nós, 2 soluções (borda verde), 4 nós sem continuação (laranja);
 % c/d = podas por coluna/diagonal. Força bruta: 341 nós em N=4.
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{arvore-rainhas-4.pdf}
-\caption{\lacuna{legenda: árvore de estados do backtracking, N=4}}
-\label{fig:arvore4}
-\end{figure}
+
 
 % =====================================================================
 \section{Metodologia}
@@ -123,14 +100,18 @@
 %  - Tamanhos: N = 4..8; n = 2, 4, 6, 8, 10. TSP: semente 20261110 + n, pesos em [1, 100].
 %  - Fig. 3: n=6, rota 0-1-4-2-3-5-0, custo 138.
 
-\lacuna{Algoritmos, linguagem, ambiente, instâncias e tamanhos, métricas, procedimento de medição}
+O estudo compara, em Java, três algoritmos para cada problema: força bruta, Backtracking e Branch and Bound. Para as N Rainhas, são avaliados tabuleiros de tamanho N=4 a 8. A força bruta enumera as $N^N$ atribuições de colunas e valida as configurações completas; o Backtracking verifica incrementalmente as restrições de coluna e diagonal; e o Branch and Bound acrescenta um limite superior otimista para o número de linhas restantes que ainda podem receber uma rainha. Para o TSP, são usadas instâncias simétricas com n=2, 4, 6, 8 e 10 cidades. Os pesos inteiros das arestas variam de 1 a 100 e são gerados de forma determinística com a semente 20261110+n, permitindo que os três algoritmos recebam a mesma instância para cada tamanho. A força bruta enumera as rotas, o Backtracking evita estender prefixos com cidades já visitadas e o Branch and Bound poda rotas cujo limite inferior, calculado com uma árvore geradora mínima das cidades restantes e os custos de conexão, não pode melhorar a melhor rota completa encontrada. Nos três algoritmos do TSP, considera-se apenas uma das duas orientações equivalentes de cada ciclo.
 
-\textbf{Ambiente:} OpenJDK 21.0.10 (Microsoft Build); notebook com Intel Core
-i7-10510U (1,80~GHz, 4 núcleos/8 \emph{threads}), 15,8~GB de RAM (2.133~MT/s),
-Windows 11 Enterprise 10.0.26200 (64 bits), ligado na tomada, plano de energia
-``Equilibrado''. Código-fonte:
+O desempenho é avaliado pelo tempo de execução e por contadores de busca: nós explorados, tentativas de posicionamento ou inclusão de cidade, soluções completas avaliadas e podas discriminadas por causa. Também são contabilizadas as avaliações do limite e, nas N Rainhas, as configurações completas inválidas. O tempo é medido em nanossegundos com \texttt{System.nanoTime()}. Para cada tamanho e algoritmo, executa-se primeiro uma rodada de aquecimento; em seguida, são realizadas cinco execuções medidas, e a mediana dos tempos é registrada. O tempo da primeira execução medida após o aquecimento é armazenado separadamente para comparação com a mediana. As execuções repetidas são verificadas quanto à consistência do número de soluções ou do custo ótimo; no TSP, também se valida que a rota visita cada cidade uma vez e retorna à origem. A instância ilustrada para n=6 possui rota ótima 0--1--4--2--3--5--0, de custo 138.
+
+Os experimentos foram executados em um notebook com processador Intel Core i7-10510U
+(1,80~GHz, 4 núcleos e 8 \emph{threads}), 15,8~GB de memória RAM (2.133~MT/s) e
+Windows 11 Enterprise 10.0.26200 (64 bits). O equipamento permaneceu conectado à
+energia, com o plano ``Equilibrado''. Foi utilizado o OpenJDK 21.0.10 (Microsoft Build).
+
+% TODO: Corrigir link
+O código-fonte do projeto está disponível no repositório:
 \url{https://github.com/rodrigo-mello-hw08/unisinos-analise-e-projeto-algoritmos/tree/main/Artigo}.
-
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{tsp-instancia-6.pdf}
@@ -139,6 +120,24 @@ Windows 11 Enterprise 10.0.26200 (64 bits), ligado na tomada, plano de energia
 \end{figure}
 
 % =====================================================================
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.6\linewidth]{solucoes-rainhas-4.pdf}
+\caption{\lacuna{legenda: as 2 soluções das N rainhas para N=4}}
+\label{fig:solucoes4}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{arvore-rainhas-4.pdf}
+\caption{\lacuna{legenda: árvore de estados do backtracking, N=4}}
+\label{fig:arvore4}
+\end{figure}
+
+\FloatBarrier
+
 \section{Análise Teórica dos Algoritmos}
 % MATERIAL (enunciado: contagem de operações, somatórios, recorrências):
 %  Rainhas FB: nós = soma_{k=0..N} N^k = (N^{N+1}-1)/(N-1) (confere: 341, 3906,
