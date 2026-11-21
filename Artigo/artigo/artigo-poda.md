@@ -170,6 +170,15 @@
 >   | n!; O(n!) só é viável para n ≤ 10 (tabela de 1 s) | ✅ sustenta | 14, 20, 21 | 1, 3 |
 >
 >   - A contagem (n−1)!/2 de rotas não está no CPH. Ela sai do raciocínio, ou do Cormen se ele trouxer.
+>   - **Releitura para a §2.1 (21/11, texto extraído do PDF):**
+>     - p. 47: busca completa = gerar todas as soluções por força bruta e depois escolher a melhor ou contar as soluções. Vale quando há tempo para percorrer tudo, porque é fácil de implementar e sempre dá a resposta correta. Se for lenta demais, é preciso outra técnica (o livro cita guloso e PD, não poda).
+>     - p. 47–48: subconjuntos gerados por recursão; o livro desenha a árvore de chamadas para n=3, em que cada nível decide um elemento e as folhas são os subconjuntos. Serve de base para "árvore de estados".
+>     - p. 49: permutações geradas por recursão com um vetor `chosen` que pula elementos já usados. É exatamente o esquema da força bruta do TSP no código, o que ajuda a justificar a P12 (b).
+>     - p. 20: O(2ⁿ) costuma indicar percorrer todos os subconjuntos e O(n!) todas as permutações; esses dois são os únicos não polinomiais da lista. Problemas NP-difíceis não têm algoritmo polinomial conhecido.
+>     - p. 21: tabela para 1 s de tempo: O(n!) só para n ≤ 10, O(2ⁿ) para n ≤ 20. Avisa que a complexidade esconde constantes, o que é útil na §6 (menos nós ≠ menos tempo).
+>     - p. 14: definição de n!.
+> - **Little et al. para a §2.1** (working paper, conferido em 21/11): a Introdução (p. 1, sem número) define o TSP, diz que a dificuldade é toda computacional, porque a solução sempre existe, e que há (n−1)! rotas possíveis. A p. 2 mostra o tempo de métodos exatos (PD) crescendo exponencialmente com o número de cidades. Não citar Held e Karp a partir daqui: eles aparecem só como trabalho citado pelo Little.
+> - **Haralick e Cormen: sem PDF local (21/11).** Páginas impressas ainda não conferidas. Para a §2.1 não são essenciais; o Haralick vai para a §2.2, e o Cormen (§34.5.4, TSP NP-completo) para a §2.4.
 > - **Citações no Little et al. 1963** (`buscador-citacoes`, 16/11; *working paper*). As páginas são as **impressas** no cabeçalho de cada página. O deslocamento em relação ao PDF não é constante, porque há páginas inseridas (4a, 5a, 9a, 25a, 26a). Conferi no PDF os trechos das p. 1, 4 e 13 e o do resumo.
 >
 >   | Afirmação | Veredito | Pág. | Seção |
