@@ -178,6 +178,11 @@
 >     - p. 21: tabela para 1 s de tempo: O(n!) só para n ≤ 10, O(2ⁿ) para n ≤ 20. Avisa que a complexidade esconde constantes, o que é útil na §6 (menos nós ≠ menos tempo).
 >     - p. 14: definição de n!.
 > - **Little et al. para a §2.1** (working paper, conferido em 21/11): a Introdução (p. 1, sem número) define o TSP, diz que a dificuldade é toda computacional, porque a solução sempre existe, e que há (n−1)! rotas possíveis. A p. 2 mostra o tempo de métodos exatos (PD) crescendo exponencialmente com o número de cidades. Não citar Held e Karp a partir daqui: eles aparecem só como trabalho citado pelo Little.
+> - **Definição de "espaço de busca" (21/11):** nenhuma das fontes lidas usa o termo como definição. O CPH só fala em *search tree* (p. 51) e cita *search space* de passagem. O mais próximo é o Little:
+>   - p. 12: T = conjunto de todas as rotas; o problema é escolher t ∈ T que minimize z(t).
+>   - p. 13: generaliza para o conjunto de todas as soluções viáveis, dividido em subconjuntos disjuntos e visualizado como árvore (nós = subconjuntos, folhas = coleção atual).
+>   - p. 5: a união dos nós terminais é sempre o conjunto de todas as rotas.
+>   - Haralick (sem PDF local) pode ter uma definição de árvore de busca para satisfação de restrições: falta conferir.
 > - **Haralick e Cormen: sem PDF local (21/11).** Páginas impressas ainda não conferidas. Para a §2.1 não são essenciais; o Haralick vai para a §2.2, e o Cormen (§34.5.4, TSP NP-completo) para a §2.4.
 > - **Citações no Little et al. 1963** (`buscador-citacoes`, 16/11; *working paper*). As páginas são as **impressas** no cabeçalho de cada página. O deslocamento em relação ao PDF não é constante, porque há páginas inseridas (4a, 5a, 9a, 25a, 26a). Conferi no PDF os trechos das p. 1, 4 e 13 e o do resumo.
 >
