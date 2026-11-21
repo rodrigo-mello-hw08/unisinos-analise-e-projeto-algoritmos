@@ -69,6 +69,11 @@
 >
 >   Sugestão: (a) se o Rodrigo topar; senão, (b). **Vini (14/11): fica pendente.**
 >
+>   **Verificado em 21/11:** o Vini esperava que o Rodrigo tivesse corrigido, mas o pull não trouxe nada. O último commit em `Artigo/src/tsp` é o `6041c18`, de 16/11. Os commits de 17/11 só mexem em `Aula11/`. O CSV de n=10 continua com FB = BT = 986.410 nós e 181.440 rotas. **Vini (21/11): continua pendente.** Escrever primeiro as partes que não dependem dela.
+>   - **Dependem da P12:** §3 (a frase que descreve o backtracking do TSP), §4.2 (complexidade do BT), §5 (texto das Tabelas 3, 4 e 6, Fig. 6 e 8), §6 (comparação no TSP), §7 e Resumo.
+>   - **Não dependem:** §2 inteira, §4.1, §3 (exceto aquela frase), §5 das rainhas (Tabelas 1, 2 e 5, Fig. 4, 5 e 7) e quase toda a §1.
+>   - Se a correção (a) chegar, será preciso regerar os CSVs do TSP, as Tabelas 3, 4 e 6 e as figuras (`figuras_dados.py`), no `.md` e no Overleaf.
+>
 > ### ✅ Fechadas
 >
 > - ~~P1~~ Problemas: **N rainhas + TSP**; mochila fora (Vini, 14/11).
